@@ -74,8 +74,7 @@ void MainWindow::setupMapPlot()
     panner = new QwtPlotPanner( MPlot->canvas() );
     panner->setAxisEnabled( MPlot->yRight, false );
 
-    //picker = new MyPicker( MPlot->canvas() );
-    //picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
 
 }
 //---------------------------------------------------------------------------
@@ -133,8 +132,8 @@ void MainWindow::showBaseMap()
     bpalette1 = new colorMapGray();
 
     double res = fillDrawMapData(baseRMap, RDb, 0, &MinV1, &MaxV1);
-    if (res == -1e20)
-        return;
+//    if (res == -1e20)
+//        return;
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);

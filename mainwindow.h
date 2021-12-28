@@ -31,7 +31,7 @@
 
 
 #include "ui_mainwindow.h"
-//#include "LisUImapplot.h"
+#include "LisUImapplot.h"
 #include "CsfMap.h"
 #include "io.h"
 #include "error.h"
@@ -77,14 +77,13 @@ public:
     QwtLinearColorMap *bpalette, *bpalette1;
     QwtLinearColorMap *dpalette, *dpalette1;
 
- //   QVector<double> mapData;
     QwtInterval legend;
     QwtScaleWidget *rightAxis;
     QwtPlotRescaler *mapRescaler;
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
     QwtPlotZoomer* zoomer;
-  //  MyPicker *picker;
+    MyPicker *picker;
 
     double _dx, _nrRows, _nrCols;
 
@@ -94,8 +93,6 @@ public:
     QStringList PathNames;
 
     double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop;
-//    int _nrRows;
-//    int _nrCols;
 
 public slots:
     void openMapFile();
@@ -122,10 +119,6 @@ private:
 //   QAction *aboutAct;
 //   QAction *aboutActI;
 
-
-//   QAction *fontAct;
-//   QAction *fontIncreaseAct;
-//   QAction *fontDecreaseAct;
 };
 
 #endif // MAINWINDOW_H

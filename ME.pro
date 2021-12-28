@@ -109,7 +109,8 @@ HEADERS  += mainwindow.h\
     include/csfimpl.h\
     include/csftypes.h\
     include/CsfMap.h\
-    include/CsfRGBMap.h
+    include/CsfRGBMap.h\
+    include/LisUImapplot.h
 
 
 FORMS    += mainwindow.ui

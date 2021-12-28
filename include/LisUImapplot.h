@@ -25,31 +25,24 @@ public:
     {
         QColor bg( Qt::white );
         bg.setAlpha( 100 );
-        QString txt = "";
-        QString unit = "";
+        QString v0txt = " [MV]";
+        QString v1txt = "MV";
 
         QwtPlotItemList list = plot()->itemList(QwtPlotItem::Rtti_PlotSpectrogram);
-        QwtPlotSpectrogram * sp = static_cast<QwtPlotSpectrogram *> (list.at(1));
-        QwtPlotSpectrogram * sp0 = static_cast<QwtPlotSpectrogram *> (list.at(list.count()-1));
-        // elevation info
+        QwtPlotSpectrogram * sp0 = static_cast<QwtPlotSpectrogram *> (list.at(0));
+        QwtPlotSpectrogram * sp1 = static_cast<QwtPlotSpectrogram *> (list.at(1));
+        if (sp0->data() == NULL || sp1->data() == NULL)
+            return QwtText("");
 
-        if (sp->data() == NULL)
-            return QwtText(txt);
-        double z = sp->data()->value(pos.x(), pos.y());
         double z0 = sp0->data()->value(pos.x(), pos.y());
+        double z1 = sp1->data()->value(pos.x(), pos.y());
 
-        if (z > -1e10)
-        {
-            if (sp->data()->value(0,0) == 1) txt = QString("%1 l/s[%3m]").arg(z,0,'f',1).arg(z0,0,'f',1);
-            if (sp->data()->value(0,0) == 2) txt = QString("%1 mm[%3m]").arg(z,0,'f',1).arg(z0,0,'f',1);
-            if (sp->data()->value(0,0) == 3)
-                txt = QString("%1 %2[%3m]").arg(z,0,'f',1).arg(unit).arg(z0,0,'f',1);
-            if (sp->data()->value(0,0) == 4) txt = QString("%1 m[%3m]").arg(z,0,'f',3).arg(z0,0,'f',1);
-            if (sp->data()->value(0,0) == 5) txt = QString("%1 m/s[%3m]").arg(z,0,'f',3).arg(z0,0,'f',1);
-            if (sp->data()->value(0,0) == 6) txt = QString("%1 mm[%3m]").arg(z,0,'f',3).arg(z0,0,'f',1);
-        }
+        if (z0 > -1e-19)
+            v0txt = QString(" [%1]").arg(z0,0,'f',1);
+        if (z1 > -1e-19)
+            v1txt = QString("[%1]").arg(z1,0,'f',1);
 
-        QwtText text = QwtText(txt);
+        QwtText text = QwtText(v1txt+v0txt);
         text.setColor(Qt::black);
         text.setBackgroundBrush( QBrush( bg ) );
         return text;

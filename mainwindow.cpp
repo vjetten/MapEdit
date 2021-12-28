@@ -81,22 +81,18 @@ void MainWindow::openMapFile()
                 this, QString("Select PCRaster Maps"),
                 currentDir,
                 filter);
-
-    if (files.count())
+    if (files.count() > 0)
     {
         currentDir = QFileInfo(files[0]).absoluteDir().absolutePath();
     }
 
-    if (files.count() ==0)
+    if (files.count() == 0)
         return;
 
     PathNames.clear();
     PathNames << files;
-qDebug() << PathNames;
-//    if (files.count() > 1)
-//        topRMap->PathName = files[1];
-//    else
-//        topRMap->PathName = files[0];
+   // qDebug() << files << currentDir;
+
 
     processMaps();
 }
@@ -106,16 +102,16 @@ cTMap *MainWindow::ReadMap(QString name)
 
     cTMap *_M = new cTMap(readRaster(name));
 
-    for (int r = 0; r < _nrRows; r++)
-        for (int c = 0; c < _nrCols; c++)
-            if (pcr::isMV(_M->Drc))
-            {
-                QString sr, sc;
-                sr.setNum(r); sc.setNum(c);
-                ErrorString = "Missing value at row="+sr+" and col="+sc+" in map: "+name+".\n \
-                        This is a cell with missing values where a flow network esists (either LDD, Channel LDD, tile drain LDD).";
-                        throw 1;
-            }
+//    for (int r = 0; r < _nrRows; r++)
+//        for (int c = 0; c < _nrCols; c++)
+//            if (pcr::isMV(_M->Drc))
+//            {
+//                QString sr, sc;
+//                sr.setNum(r); sc.setNum(c);
+//                ErrorString = "Missing value at row="+sr+" and col="+sc+" in map: "+name+".\n \
+//                        This is a cell with missing values where a flow network esists (either LDD, Channel LDD, tile drain LDD).";
+//                        throw 1;
+//            }
 
     return(_M);
 
