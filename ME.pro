@@ -15,6 +15,7 @@ DEFINES += _CRT_SECURE_NO_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    meEvents.cpp \
     mePlotMap.cpp \
     CsfMap.cpp \
     CsfRGBMap.cpp \

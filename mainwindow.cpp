@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     setupUi(this);
 
     currentDir = "";
+    eData.clear();
 
     getStorePath();
 
@@ -36,7 +37,6 @@ void MainWindow::SetToolBar()
     openAct->setStatusTip("Open a PCRaster map");
     connect(openAct, SIGNAL(triggered()), this, SLOT(openMapFile()));
     toolBar->addAction(openAct);
-
 
     //    saveAct = new QAction(QIcon(":/filesave.png"), "&Save...", this);
     //    saveAct->setShortcuts(QKeySequence::Save);

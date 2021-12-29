@@ -29,6 +29,8 @@ void MainWindow::setupMapPlot()
 //    MPlot->setAxisTitle(MPlot->xBottom, "m");
 //    MPlot->setAxisTitle(MPlot->yLeft, "m");
 
+    //MPlot->installEventFilter(this);
+
     // attach plot to widget in UI
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
@@ -71,10 +73,30 @@ void MainWindow::setupMapPlot()
     magnifier->setZoomInKey((int)Qt::Key_Plus, Qt::NoModifier );
     magnifier->setZoomOutKey((int)Qt::Key_Minus, Qt::NoModifier );
 
-    panner = new QwtPlotPanner( MPlot->canvas() );
-    panner->setAxisEnabled( MPlot->yRight, false );
+//    panner = new QwtPlotPanner( MPlot->canvas() );
+//    panner->setAxisEnabled( MPlot->yRight, false );
 
-    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+//    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+//    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
+//    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
+
+
+//    picker->setStateMachine(new QwtPickerDragRectMachine);
+//    picker->setTrackerMode(QwtPicker::AlwaysOn);
+//    picker->setRubberBand(QwtPicker::RectRubberBand);
+
+ //   mpicker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+    picker = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
+        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
+        MPlot->canvas() );
+
+    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
+    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
+
+//    picker->setStateMachine(new QwtPickerDragRectMachine);
+ //   mpicker->setTrackerMode(QwtPicker::AlwaysOn);
+//    picker->setRubberBand(QwtPicker::RectRubberBand);
+
 
 }
 //---------------------------------------------------------------------------
@@ -231,4 +253,41 @@ void MainWindow::initTopMap()
     drawMap->setAlpha(255);
 }
 //---------------------------------------------------------------------------
-
+/*
+bool MainWindow::event(QEvent* event)
+{
+    switch(event->type())
+    {
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonRelease:
+    case QEvent::MouseMove:
+        {
+            QMouseEvent* me = (QMouseEvent*)event;
+            bool ok = event->type() == QEvent::MouseMove ? ((me->buttons() & Qt::LeftButton) != 0) : (me->button() == Qt::LeftButton);
+            if(ok)
+            {
+                float x = float(me->x())/width();
+                float y = float(me->y())/height();
+                OnTouch(x, y, event->type() != QEvent::MouseButtonRelease, 0);
+                return true;
+            }
+        }
+        return true;
+    case QEvent::TouchBegin:
+    case QEvent::TouchUpdate:
+    case QEvent::TouchEnd:
+        {
+            QTouchEvent* te = (QTouchEvent*)event;
+            foreach(const QTouchEvent::TouchPoint& p, te->touchPoints())
+            {
+                float x = p.pos().x()/width();
+                float y = p.pos().x()/height();
+                OnTouch(x, y, p.state() != Qt::TouchPointReleased, p.id());
+            }
+        }
+        return true;
+    default:
+        return QWidget::event(event);
+    }
+}
+*/

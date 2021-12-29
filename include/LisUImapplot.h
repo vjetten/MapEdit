@@ -18,8 +18,12 @@ public:
     MyPicker( QwtPlotCanvas *canvas ):
         QwtPlotPicker( canvas )
     {
-        setTrackerMode( AlwaysOn );
+//        setTrackerMode( AlwaysOn );
     }
+
+    QPointF currentPos;
+    qreal x_;
+    qreal y_;
 
     virtual QwtText trackerTextF( const QPointF &pos ) const
     {
@@ -36,6 +40,11 @@ public:
 
         double z0 = sp0->data()->value(pos.x(), pos.y());
         double z1 = sp1->data()->value(pos.x(), pos.y());
+
+//        x_ = pos.x();
+//        y_ = pos.x();
+        //currentPos.setX(x_);
+        //currentPos.setY(y_);
 
         if (z0 > -1e-19)
             v0txt = QString(" [%1]").arg(z0,0,'f',1);

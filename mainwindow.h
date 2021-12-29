@@ -26,8 +26,7 @@
 #include <qwt_plot_rescaler.h>
 #include <qwt_scale_engine.h>
 #include <qwt_plot_zoomer.h>
-#include <qwt_picker.h>
-#include <qwt_wheel.h>
+#include <qwt_picker_machine.h>
 
 
 #include "ui_mainwindow.h"
@@ -41,14 +40,32 @@
     for (int c = 0; c < _nrCols; c++)\
     if(!pcr::isMV(topRMap->data[r][c]))
 
+
+//class KeyPressEater : public QObject
+//{
+//    Q_OBJECT
+
+//protected:
+//    bool eventFilter(QObject *obj, QEvent *event);
+//};
+
+
+
+
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
+
 
 public:
 
     MainWindow(QWidget *parent = 0, bool doBatch = false, QString names = "");
     ~MainWindow();
+
+//private Q_SLOTS:
+//    void moved( const QPoint & );
+//    void selected( const QPolygon & );
+
 
     void setupMapPlot();
     double fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv);
@@ -83,7 +100,10 @@ public:
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
     QwtPlotZoomer* zoomer;
-    MyPicker *picker;
+    QwtPlotPicker* picker;
+    MyPicker *mpicker;
+
+    QVector <QPointF> eData;
 
     double _dx, _nrRows, _nrCols;
 
@@ -93,6 +113,8 @@ public:
     QStringList PathNames;
 
     double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop;
+protected:
+  //  bool eventFilter(QObject *obj, QEvent *event) override;
 
 public slots:
     void openMapFile();
@@ -100,13 +122,17 @@ public slots:
  //   void savefileas();
     void ssetAlpha(int v);
     void setMinTopMap();
-
+    void moved( const QPoint & );
+    void selected( const QPolygon & );
 
 private slots:
 
     void on_toolButtonResetMin_clicked();
 
     void on_toolButtonResetMax_clicked();
+
+ //   void moved( const QPoint &pos );
+ //   void selected( const QPolygon & );
 
 private:
    //toolbar actions
@@ -118,7 +144,6 @@ private:
 //   QAction *shootMscreenAct;
 //   QAction *aboutAct;
 //   QAction *aboutActI;
-
 };
 
 #endif // MAINWINDOW_H
