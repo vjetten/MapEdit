@@ -52,8 +52,8 @@ void MainWindow::setupMapPlot()
     rightAxis = MPlot->axisWidget( MPlot->yRight );
     rightAxis->setColorBarEnabled( true );
     rightAxis->setColorBarWidth( 24 );
-   // rightAxis->setMargin(8);
-   // rightAxis->setBorderDist(64, 64);
+    rightAxis->setMargin(8);
+    rightAxis->setBorderDist(64, 64);
     // legend to the right of the plot
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
@@ -67,8 +67,9 @@ void MainWindow::setupMapPlot()
     magnifier->setZoomInKey((int)Qt::Key_Plus, Qt::NoModifier );
     magnifier->setZoomOutKey((int)Qt::Key_Minus, Qt::NoModifier );
 
-//    panner = new QwtPlotPanner( MPlot->canvas() );
-//    panner->setAxisEnabled( MPlot->yRight, false );
+    panner = new QwtPlotPanner( MPlot->canvas() );
+    panner->setAxisEnabled( QwtAxis::yRight, false );
+    panner->setMouseButton( Qt::MidButton );
 
     picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
 
@@ -78,9 +79,9 @@ void MainWindow::setupMapPlot()
 //    picker->setTrackerMode(QwtPicker::AlwaysOn);
 //    picker->setRubberBand(QwtPicker::RectRubberBand);
 
-    picker = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
-        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
-        MPlot->canvas() );
+//    picker = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
+//        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
+//        MPlot->canvas() );
 
 //    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
 //    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
@@ -89,9 +90,11 @@ void MainWindow::setupMapPlot()
  //   mpicker->setTrackerMode(QwtPicker::AlwaysOn);
 //    picker->setRubberBand(QwtPicker::RectRubberBand);
 
-    ScalePicker *scalePicker = new ScalePicker( MPlot);//this );
-    connect( scalePicker, SIGNAL( clicked( int, double ) ),
-        this, SLOT( updateMarker( int, double ) ) );
+//    ScalePicker *scalePicker = new ScalePicker( MPlot);//this );
+//    connect( scalePicker, SIGNAL( clicked( int, double ) ),
+//        this, SLOT( updateMarker( int, double ) ) );
+
+    cpicker = new CanvasPicker( MPlot );
 }
 //---------------------------------------------------------------------------
 // fill the current raster data structure with new data, called each run step
@@ -151,26 +154,29 @@ void MainWindow::showBaseMap()
 //    if (res == -1e20)
 //        return;
 
+    cpicker->setRowCol(_nrRows,_nrCols,_dx);
+
+
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1-0.01, MaxV1+0.01));
     baseMap->setData(RDb);
     // setdata sets a pointer to DRb to the private QWT d_data Qvector
 
-    double nrCols = _nrCols*_dx;
-    double nrRows = _nrRows*_dx;
-    double dx = qMax(nrCols,nrRows)/20;
+//    double nrCols = _nrCols*_dx;
+//    double nrRows = _nrRows*_dx;
+//    double dx = qMax(nrCols,nrRows)/20;
     // reset the axes to the correct rows/cols,
     // do only once because resets zooming and panning
 
-    MPlot->setAxisAutoScale(MPlot->yRight, false);
-    MPlot->setAxisAutoScale(MPlot->xBottom, false);
-    MPlot->setAxisAutoScale(MPlot->yLeft, false);
+//    MPlot->setAxisAutoScale(MPlot->yRight, true);
+//    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+//    MPlot->setAxisAutoScale(MPlot->yLeft, true);
 
-    MPlot->setAxisScale( MPlot->xBottom, 0.0, nrCols, dx);
-    MPlot->setAxisMaxMinor( MPlot->xBottom, 0 );
-    MPlot->setAxisScale( MPlot->yLeft, 0.0, nrRows, dx);
-    MPlot->setAxisMaxMinor( MPlot->yLeft, 0 );
+//    MPlot->setAxisScale( MPlot->xBottom, 0.0, nrCols, 1);
+//    MPlot->setAxisMaxMinor( MPlot->xBottom, 0 );
+//    MPlot->setAxisScale( MPlot->yLeft, 0.0, nrRows, 1);
+//    MPlot->setAxisMaxMinor( MPlot->yLeft, 0 );
 
     rightAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
 
@@ -197,20 +203,20 @@ void MainWindow::showTopMap()
     drawMap->setData(RD);
     // setdata sets a pointer to DRb to the private QWT d_data Qvector
 
-    double nrCols = _nrCols*_dx;
-    double nrRows = _nrRows*_dx;
-    double dx = qMax(nrCols,nrRows)/20;
+//    double nrCols = _nrCols*_dx;
+//    double nrRows = _nrRows*_dx;
+//    double dx = qMax(nrCols,nrRows)/20;
     // reset the axes to the correct rows/cols,
     // do only once because resets zooming and panning
 
     MPlot->setAxisAutoScale(MPlot->yRight, false);
-    MPlot->setAxisAutoScale(MPlot->xBottom, false);
-    MPlot->setAxisAutoScale(MPlot->yLeft, false);
+    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+    MPlot->setAxisAutoScale(MPlot->yLeft, true);
 
-    MPlot->setAxisScale( MPlot->xBottom, 0.0, nrCols, dx);
-    MPlot->setAxisMaxMinor( MPlot->xBottom, 0 );
-    MPlot->setAxisScale( MPlot->yLeft, 0.0, nrRows, dx);
-    MPlot->setAxisMaxMinor( MPlot->yLeft, 0 );
+//    MPlot->setAxisScale( MPlot->xBottom, 0.0, nrCols, dx);
+//    MPlot->setAxisMaxMinor( MPlot->xBottom, 0 );
+//    MPlot->setAxisScale( MPlot->yLeft, 0.0, nrRows, dx);
+//    MPlot->setAxisMaxMinor( MPlot->yLeft, 0 );
 
     rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
 

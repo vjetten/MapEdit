@@ -2,18 +2,17 @@
  * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
  * This file may be used under the terms of the 3-clause BSD License
  *****************************************************************************/
-
+#include "mainwindow.h"
 #include "canvaspicker.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
+//#include <qwt_plot.h>
+//#include <qwt_plot_curve.h>
 
-#include <qevent.h>
+//#include <qevent.h>
 
-CanvasPicker::CanvasPicker( bool sortedX, QwtPlot *plot ):
+CanvasPicker::CanvasPicker(QwtPlot *plot ):
     QObject( plot ),
-    d_selectedPoint( -1 ),
-    d_sortedX( sortedX )
+    d_selectedPoint( -1 )
 {
     plot->canvas()->installEventFilter( this );
 }
@@ -38,7 +37,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         case QEvent::MouseButtonPress:
         {
             const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
-            select( mouseEvent->pos() );
+            select( mouseEvent->pos() );            
             return true;
         }
         case QEvent::MouseMove:
@@ -57,46 +56,59 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 // Select the point at a position. If there is no point
 // deselect the selected point
 
+void CanvasPicker::setRowCol(int nrr, int nrc, double dx)
+{
+    nrR = nrr;
+    nrC = nrc;
+    _dx = dx;
+}
+
+
 void CanvasPicker::select( const QPoint &pos )
 {
-    QwtPlotCurve *curve = NULL;
-    double dist = 10e10;
-    int index = -1;
+    QRect rect = plot()->canvas()->rect();
+//    double cf = (double)pos.x()/(double)rect.width() * nrC;
+//    double rf = (1-(double)pos.y()/(double)rect.height()) * nrR;
+//    int c = qFloor(cf) + 1;
+//    int r = qFloor(rf) + 1;
+    double dxf = (double)(rect.width()-16)/(double)(nrC*_dx);
 
-    const QwtPlotItemList& itmList = plot()->itemList();
-    for ( QwtPlotItemIterator it = itmList.begin();
-        it != itmList.end(); ++it )
-    {
-        if ( ( *it )->rtti() == QwtPlotItem::Rtti_PlotCurve )
-        {
-            QwtPlotCurve *c = static_cast<QwtPlotCurve *>( *it );
-            if ( c->isVisible() )
-            {
-                double d;
-                int idx = c->closestPoint( pos, &d );
-                if ( d < dist )
-                {
-                    curve = c;
-                    index = idx;
-                    dist = d;
-                }
-            }
-        }
-    }
+    double cf = plot()->invTransform(QwtPlot::xBottom,(double) pos.x()); //<= map coord
+    double rf = plot()->invTransform(QwtPlot::yLeft,(double) pos.y());
+//    double ct = plot()->transform(QwtPlot::yLeft,cf);
+//    double rt = plot()->transform(QwtPlot::yLeft,rf);
+    double ct = plot()->transform(QwtPlot::xBottom,nrC);
+    double rt = plot()->transform(QwtPlot::yLeft,nrR);
+    double c0 = plot()->transform(QwtPlot::xBottom,10.0);
+    double r0 = plot()->transform(QwtPlot::yLeft,0.0);
+    double r1 = plot()->transform(QwtPlot::yLeft,(double)nrR);
+   // QPointF cr = plot()->invTransform(pos);
 
-    d_selectedCurve = NULL;
-    d_selectedPoint = -1;
+//    int r = (int)qFloor(pos.y()/dxf);
+//    int c = (int)qFloor(pos.x()/dxf);
 
-    if ( curve && dist < 10 ) // 10 pixels tolerance
-    {
-        d_selectedCurve = curve;
-        d_selectedPoint = index;
-    }
+//    qDebug() << "yes" << pos.x() << pos.y()  << rf << r << cf << c;
+    qDebug() << nrC << nrR<< pos.x() << pos.y() << cf << rf;// r0 << r1;//c0 << rt << ct;// << cr.y() << cr.x();
+
+
+
+    QwtPlotItemList list = plot()->itemList(QwtPlotItem::Rtti_PlotSpectrogram);
+    QwtPlotSpectrogram * sp0 = static_cast<QwtPlotSpectrogram *> (list.at(0));
+    QwtPlotSpectrogram * sp1 = static_cast<QwtPlotSpectrogram *> (list.at(1));
+    double z0 = 0, z1 = 0;
+    if (sp0->data() != NULL)
+        z0 = sp0->data()->value(pos.x(), pos.y());
+    if (sp1->data() != NULL)
+        z1 = sp1->data()->value(pos.x(), pos.y());
+
+   //qDebug() << "yes" << pos.x() << pos.y() << z0 << z1;
+
 }
 
 // Move the selected point
 void CanvasPicker::move( const QPoint &pos )
 {
+    /*
     if ( d_selectedCurve == 0 || d_selectedPoint < 0  )
         return;
 
@@ -175,7 +187,7 @@ void CanvasPicker::move( const QPoint &pos )
         }
         curve->setSamples( xData, yData );
     }
-
+*/
     plot()->replot();
 }
 

@@ -91,6 +91,7 @@ public:
     QwtPlotZoomer* zoomer;
     QwtPlotPicker* picker;
     MyPicker *mpicker;
+    CanvasPicker *cpicker;
 
     QVector <QPointF> eData;
 

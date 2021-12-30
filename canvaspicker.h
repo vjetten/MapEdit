@@ -17,10 +17,16 @@ class CanvasPicker: public QObject
 {
     Q_OBJECT
 public:
-    CanvasPicker( bool sortedX, QwtPlot *plot );
+    CanvasPicker(QwtPlot *plot );
     virtual bool eventFilter( QObject *, QEvent * ) QWT_OVERRIDE;
 
+    void setRowCol(int nrr, int nrc, double dx);
+
 private:
+    int nrR;
+    int nrC;
+    double _dx;
+
     void select( const QPoint & );
     void move( const QPoint & );
     void moveBy( int dx, int dy );
@@ -29,9 +35,10 @@ private:
     QwtPlot *plot();
     const QwtPlot *plot() const;
 
+
     QwtPlotCurve *d_selectedCurve;
     int d_selectedPoint;
-    const bool d_sortedX;
+ //   const bool d_sortedX;
 };
 
 #endif
