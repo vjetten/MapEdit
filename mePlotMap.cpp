@@ -13,8 +13,6 @@ void MainWindow::ssetAlpha(int v)
 //----------------------------------------------------------------------------------------
 void MainWindow::setupMapPlot()
 {
-//    baseRMap = new cTMap();
-//    topRMap = new cTMap();
 //    editRMap = new cTMap();
 
 //    FOR_ROW_COL_MV {
@@ -59,14 +57,10 @@ void MainWindow::setupMapPlot()
     // legend to the right of the plot
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
-   // mapRescaler->setReferenceAxis( QwtPlot::yLeft );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
     mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
     mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
- //   mapRescaler->setRescalePolicy( QwtPlotRescaler::Fitting );
     mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
- //   mapRescaler->setEnabled( true );
-    // rescaling fixed to avoid deformation
 
     magnifier = new QwtPlotMagnifier( MPlot->canvas() );
     magnifier->setAxisEnabled( MPlot->yRight, false );
@@ -76,28 +70,28 @@ void MainWindow::setupMapPlot()
 //    panner = new QwtPlotPanner( MPlot->canvas() );
 //    panner->setAxisEnabled( MPlot->yRight, false );
 
-//    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+
 //    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
 //    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
-
-
 //    picker->setStateMachine(new QwtPickerDragRectMachine);
 //    picker->setTrackerMode(QwtPicker::AlwaysOn);
 //    picker->setRubberBand(QwtPicker::RectRubberBand);
 
- //   mpicker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
     picker = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
         QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
         MPlot->canvas() );
 
-    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
-    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
+//    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
+//    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
 
 //    picker->setStateMachine(new QwtPickerDragRectMachine);
  //   mpicker->setTrackerMode(QwtPicker::AlwaysOn);
 //    picker->setRubberBand(QwtPicker::RectRubberBand);
 
-
+    ScalePicker *scalePicker = new ScalePicker( MPlot);//this );
+    connect( scalePicker, SIGNAL( clicked( int, double ) ),
+        this, SLOT( updateMarker( int, double ) ) );
 }
 //---------------------------------------------------------------------------
 // fill the current raster data structure with new data, called each run step

@@ -6,7 +6,9 @@
 #include <QtWidgets>
 #include <QApplication>
 #include <QMainWindow>
-//#include <QFileDialog>
+#include <qobject.h>
+#include <qrect.h>
+
 //QWT library files
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
@@ -34,21 +36,13 @@
 #include "CsfMap.h"
 #include "io.h"
 #include "error.h"
+#include "scalepicker.h"
+#include "canvaspicker.h"
 
 #define Drc     data[r][c]
 #define FOR_ROW_COL_MV for(int r = 0; r < _nrRows; r++)\
     for (int c = 0; c < _nrCols; c++)\
     if(!pcr::isMV(topRMap->data[r][c]))
-
-
-//class KeyPressEater : public QObject
-//{
-//    Q_OBJECT
-
-//protected:
-//    bool eventFilter(QObject *obj, QEvent *event);
-//};
-
 
 
 
@@ -61,11 +55,6 @@ public:
 
     MainWindow(QWidget *parent = 0, bool doBatch = false, QString names = "");
     ~MainWindow();
-
-//private Q_SLOTS:
-//    void moved( const QPoint & );
-//    void selected( const QPolygon & );
-
 
     void setupMapPlot();
     double fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv);

@@ -18,7 +18,7 @@ public:
     MyPicker( QwtPlotCanvas *canvas ):
         QwtPlotPicker( canvas )
     {
-//        setTrackerMode( AlwaysOn );
+        setTrackerMode( AlwaysOn );
     }
 
     QPointF currentPos;
