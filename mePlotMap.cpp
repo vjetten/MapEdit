@@ -1,7 +1,25 @@
 #include "mainwindow.h"
 #include "LisUImapplot.h"
 
+class MyZoomer: public QwtPlotZoomer
+{
+public:
+    MyZoomer( QWidget *canvas ):
+        QwtPlotZoomer( canvas )
+    {
+        setTrackerMode( AlwaysOn );
+    }
 
+    virtual QwtText trackerTextF( const QPointF &pos ) const QWT_OVERRIDE
+    {
+        QColor bg( Qt::white );
+        bg.setAlpha( 200 );
+
+        QwtText text = QwtPlotZoomer::trackerTextF( pos );
+        text.setBackgroundBrush( QBrush( bg ) );
+        return text;
+    }
+};
 
 //---------------------------------------------------------------------------
 void MainWindow::ssetAlpha(int v)
@@ -24,10 +42,6 @@ void MainWindow::setupMapPlot()
     layout_Map->insertWidget(1, MPlot, 0);
     // put it on screen
     MPlot->enableAxis( MPlot->yRight );
-//    MPlot->setAxisTitle(MPlot->xBottom, "m");
-//    MPlot->setAxisTitle(MPlot->yLeft, "m");
-
-    //MPlot->installEventFilter(this);
 
     // attach plot to widget in UI
     QwtPlotGrid *grid = new QwtPlotGrid();
@@ -56,32 +70,53 @@ void MainWindow::setupMapPlot()
     rightAxis->setBorderDist(64, 64);
     // legend to the right of the plot
 
-    mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
-    mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
-    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
-    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
-    mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
 
-    magnifier = new QwtPlotMagnifier( MPlot->canvas() );
-    magnifier->setAxisEnabled( MPlot->yRight, false );
-    magnifier->setZoomInKey((int)Qt::Key_Plus, Qt::NoModifier );
-    magnifier->setZoomOutKey((int)Qt::Key_Minus, Qt::NoModifier );
+//   QwtPlotZoomer* zoomer = new MyZoomer( MPlot->canvas() );
+//    zoomer->setMousePattern( QwtEventPattern::MouseSelect2,
+//        Qt::RightButton, Qt::ControlModifier );
+//    zoomer->setMousePattern( QwtEventPattern::MouseSelect3,
+//        Qt::RightButton );
 
-    panner = new QwtPlotPanner( MPlot->canvas() );
-    panner->setAxisEnabled( QwtAxis::yRight, false );
-    panner->setMouseButton( Qt::MidButton );
 
-    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
 
+//    magnifier = new QwtPlotMagnifier( MPlot->canvas() );
+//    magnifier->setAxisEnabled( MPlot->yRight, false );
+//    // exclude right axis legend from rescaling
+//    magnifier->setZoomInKey((int)Qt::Key_Plus, Qt::NoModifier );//Qt::ShiftModifier);
+//    magnifier->setZoomOutKey((int)Qt::Key_Minus, Qt::NoModifier );
+
+//    panner = new QwtPlotPanner( MPlot->canvas() );
+//    panner->setAxisEnabled( MPlot->yRight, false );
+//    // exclude right axis legend from panning
+
+//    mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
+//    mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
+//    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
+//    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
+//    mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
+
+//    pick = new QwtPlotPicker((QwtPlotCanvas *) MPlot->canvas());
+//
+//    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
+//    pick = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
+//        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
+//        MPlot->canvas() );
+//
+
+    pick = new QwtPlotPicker( MPlot->canvas());
+    pick->setStateMachine(new QwtPickerDragRectMachine);
+    pick->setTrackerMode(QwtPicker::ActiveOnly);
+    pick->setRubberBand(QwtPicker::RectRubberBand);
+    connect(pick, SIGNAL(selected(const QPointF &)), SLOT(select(const QPointF &)));
+    pick->setEnabled(true);
+/*
 //    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
 //    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
 //    picker->setStateMachine(new QwtPickerDragRectMachine);
 //    picker->setTrackerMode(QwtPicker::AlwaysOn);
 //    picker->setRubberBand(QwtPicker::RectRubberBand);
 
-//    picker = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
-//        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
-//        MPlot->canvas() );
+
 
 //    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
 //    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
@@ -95,8 +130,15 @@ void MainWindow::setupMapPlot()
 //        this, SLOT( updateMarker( int, double ) ) );
 
     cpicker = new CanvasPicker( MPlot );
+*/
 }
 //---------------------------------------------------------------------------
+void MainWindow::doselect(const QPointF &pos)
+{
+   qDebug() << pos.y() << pos.x() << pos.y()/_dx << pos.x()/_dx;
+}
+
+
 // fill the current raster data structure with new data, called each run step
 double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv)
 {
@@ -154,7 +196,7 @@ void MainWindow::showBaseMap()
 //    if (res == -1e20)
 //        return;
 
-    cpicker->setRowCol(_nrRows,_nrCols,_dx);
+  //  cpicker->setRowCol(_nrRows,_nrCols,_dx);
 
 
     baseMap->setAlpha(255);

@@ -23,7 +23,6 @@ SOURCES += main.cpp\
     io.cpp\
     error.cpp\
     operation.cpp\
-    scalepicker.cpp\
     canvaspicker.cpp\
     PCRlib/_getcell.c\
     PCRlib/_getrow.c\
@@ -98,7 +97,6 @@ SOURCES += main.cpp\
     PCRlib/wattrblk.c
 
 HEADERS  += mainwindow.h\
-    scalepicker.h\
     canvaspicker.h\
     include/array.h\
     include/error.h\

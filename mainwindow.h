@@ -28,15 +28,14 @@
 #include <qwt_plot_rescaler.h>
 #include <qwt_scale_engine.h>
 #include <qwt_plot_zoomer.h>
+#include <qwt_picker.h>
 #include <qwt_picker_machine.h>
-
 
 #include "ui_mainwindow.h"
 #include "LisUImapplot.h"
 #include "CsfMap.h"
 #include "io.h"
 #include "error.h"
-#include "scalepicker.h"
 #include "canvaspicker.h"
 
 #define Drc     data[r][c]
@@ -89,7 +88,8 @@ public:
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
     QwtPlotZoomer* zoomer;
-    QwtPlotPicker* picker;
+    QwtPlotPicker* pick;
+
     MyPicker *mpicker;
     CanvasPicker *cpicker;
 
@@ -114,6 +114,7 @@ public slots:
     void setMinTopMap();
     void moved( const QPoint & );
     void selected( const QPolygon & );
+    void doselect( const QPointF &pos );
 
 private slots:
 

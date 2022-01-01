@@ -34,11 +34,12 @@ public:
         if (sp0->data() == NULL || sp1->data() == NULL)
             return QwtText("");
 
+        //QRectF rr = sp0->data()->pixelHint();
         double z0 = sp0->data()->value(pos.x(), pos.y());
         double z1 = sp1->data()->value(pos.x(), pos.y());
 
-        int r = (int)qFloor(pos.y());
-        int c = (int)qFloor(pos.x());
+        int r = (int)qFloor(pos.y()/200);
+        int c = (int)qFloor(pos.x()/200);
 
         if (z0 > -1e-19)
             v0txt = QString(" [%1]").arg(z0,0,'f',1);

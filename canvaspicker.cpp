@@ -71,24 +71,23 @@ void CanvasPicker::select( const QPoint &pos )
 //    double rf = (1-(double)pos.y()/(double)rect.height()) * nrR;
 //    int c = qFloor(cf) + 1;
 //    int r = qFloor(rf) + 1;
-    double dxf = (double)(rect.width()-16)/(double)(nrC*_dx);
+ //   double dxf = (double)(rect.width()-16)/(double)(nrC*_dx);
 
-    double cf = plot()->invTransform(QwtPlot::xBottom,(double) pos.x()); //<= map coord
-    double rf = plot()->invTransform(QwtPlot::yLeft,(double) pos.y());
+    //double cf = plot()->invTransform(QwtPlot::xBottom,(double) pos.x()); //<= map coord
+    //double rf = plot()->invTransform(QwtPlot::yLeft,(double) pos.y());
 //    double ct = plot()->transform(QwtPlot::yLeft,cf);
 //    double rt = plot()->transform(QwtPlot::yLeft,rf);
-    double ct = plot()->transform(QwtPlot::xBottom,nrC);
-    double rt = plot()->transform(QwtPlot::yLeft,nrR);
-    double c0 = plot()->transform(QwtPlot::xBottom,10.0);
-    double r0 = plot()->transform(QwtPlot::yLeft,0.0);
-    double r1 = plot()->transform(QwtPlot::yLeft,(double)nrR);
+//    double ct = plot()->transform(QwtPlot::xBottom,nrC);
+//    double rt = plot()->transform(QwtPlot::yLeft,nrR);
+//    double c0 = plot()->transform(QwtPlot::xBottom,10.0);
+//    double r0 = plot()->transform(QwtPlot::yLeft,0.0);
+//    double r1 = plot()->transform(QwtPlot::yLeft,(double)nrR);
    // QPointF cr = plot()->invTransform(pos);
 
-//    int r = (int)qFloor(pos.y()/dxf);
-//    int c = (int)qFloor(pos.x()/dxf);
+    int r = (int)qFloor(pos.y()/_dx);
+    int c = (int)qFloor(pos.x()/_dx);
 
-//    qDebug() << "yes" << pos.x() << pos.y()  << rf << r << cf << c;
-    qDebug() << nrC << nrR<< pos.x() << pos.y() << cf << rf;// r0 << r1;//c0 << rt << ct;// << cr.y() << cr.x();
+//    qDebug() << nrC << nrR<< pos.x() << pos.y() << c << r;// r0 << r1;//c0 << rt << ct;// << cr.y() << cr.x();
 
 
 
@@ -101,7 +100,7 @@ void CanvasPicker::select( const QPoint &pos )
     if (sp1->data() != NULL)
         z1 = sp1->data()->value(pos.x(), pos.y());
 
-   //qDebug() << "yes" << pos.x() << pos.y() << z0 << z1;
+   qDebug() << "yes" << r << c << pos.y() << pos.x() << z0 << z1;
 
 }
 

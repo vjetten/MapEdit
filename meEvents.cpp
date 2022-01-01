@@ -18,6 +18,12 @@ void MainWindow::selected( const QPolygon & )
    // showInfo();
 }
 
+
+//void MainWindow::eventFilter(QObject *obj, QEvent *event)
+//{
+
+//}
+//{
 //bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 //{
 
@@ -30,7 +36,7 @@ void MainWindow::selected( const QPolygon & )
 //        QMouseEvent* me = (QMouseEvent*)event;
 //        if (me->buttons() & Qt::LeftButton != 0) {
 //          qDebug() <<"left";
-////            eData <<
+//            eData <<
 //        }
 
 //    }
