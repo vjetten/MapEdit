@@ -2,21 +2,21 @@
 
 //---------------------------------------------------------------
 
-void MainWindow::moved( const QPoint &pos )
-{
-    QString info( "Freq=%1, Ampl=%2, Phase=%3" );
-    info = info.arg( MPlot->invTransform( QwtPlot::xBottom, pos.x() ) );
-    info = info.arg( MPlot->invTransform( QwtPlot::yLeft, pos.y() ) );
-    info = info.arg( MPlot->invTransform( QwtPlot::yRight, pos.y() ) );
+//void MainWindow::moved( const QPoint &pos )
+//{
+//    QString info( "Freq=%1, Ampl=%2, Phase=%3" );
+//    info = info.arg( MPlot->invTransform( QwtPlot::xBottom, pos.x() ) );
+//    info = info.arg( MPlot->invTransform( QwtPlot::yLeft, pos.y() ) );
+//    info = info.arg( MPlot->invTransform( QwtPlot::yRight, pos.y() ) );
 
-   qDebug() << info ;
-}
+//   qDebug() << info ;
+//}
 
-void MainWindow::selected( const QPolygon & )
-{
-    qDebug() << "oei";
-   // showInfo();
-}
+//void MainWindow::selected( const QPolygon & )
+//{
+//    qDebug() << "oei";
+//   // showInfo();
+//}
 
 
 //void MainWindow::eventFilter(QObject *obj, QEvent *event)

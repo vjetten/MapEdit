@@ -30,6 +30,7 @@
 #include <qwt_plot_zoomer.h>
 #include <qwt_picker.h>
 #include <qwt_picker_machine.h>
+#include <qwt_symbol.h>
 
 #include "ui_mainwindow.h"
 #include "LisUImapplot.h"
@@ -37,13 +38,12 @@
 #include "io.h"
 #include "error.h"
 #include "canvaspicker.h"
+#include "MEoutput.h"
 
 #define Drc     data[r][c]
 #define FOR_ROW_COL_MV for(int r = 0; r < _nrRows; r++)\
     for (int c = 0; c < _nrCols; c++)\
     if(!pcr::isMV(topRMap->data[r][c]))
-
-
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -64,6 +64,7 @@ public:
     void processMaps();
     cTMap *ReadMap(QString name);
 
+    void initOP();
     void SetToolBar();
     void setStorePath();
     void getStorePath();
@@ -87,13 +88,7 @@ public:
     QwtPlotRescaler *mapRescaler;
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
-    QwtPlotZoomer* zoomer;
-    QwtPlotPicker* pick;
-
-    MyPicker *mpicker;
     CanvasPicker *cpicker;
-
-    QVector <QPointF> eData;
 
     double _dx, _nrRows, _nrCols;
 
@@ -102,7 +97,21 @@ public:
     cTMap *editRMap;
     QStringList PathNames;
 
+    bool editCell;
+    bool editRectangle;
+    bool editLine;
+    bool editPolygon;
+
     double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop;
+
+
+    QwtPlotCurve *cur;
+    QVector <double> vx;
+    QVector <double> vy;
+
+    void drawSelectionCell();
+    void drawSelectionPolygon();
+
 protected:
   //  bool eventFilter(QObject *obj, QEvent *event) override;
 
@@ -112,9 +121,8 @@ public slots:
  //   void savefileas();
     void ssetAlpha(int v);
     void setMinTopMap();
-    void moved( const QPoint & );
-    void selected( const QPolygon & );
-    void doselect( const QPointF &pos );
+    void Show(const QString &results);
+    void drawSelection();
 
 private slots:
 
@@ -122,8 +130,9 @@ private slots:
 
     void on_toolButtonResetMax_clicked();
 
- //   void moved( const QPoint &pos );
- //   void selected( const QPolygon & );
+    void on_toolButton_editCell_clicked(bool checked);
+
+    void on_toolButton_editPolygon_clicked(bool checked);
 
 private:
    //toolbar actions

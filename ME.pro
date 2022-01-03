@@ -15,14 +15,12 @@ DEFINES += _CRT_SECURE_NO_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    meEvents.cpp \
     mePlotMap.cpp \
     CsfMap.cpp \
     CsfRGBMap.cpp \
     fixture.cpp\
     io.cpp\
     error.cpp\
-    operation.cpp\
     canvaspicker.cpp\
     PCRlib/_getcell.c\
     PCRlib/_getrow.c\
@@ -98,13 +96,14 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h\
     canvaspicker.h\
+    MEoutput.h\
+    global.h\
     include/array.h\
     include/error.h\
     include/fixture.h\
     include/io.h\
     include/masked_raster.h\
     include/mmath.h\
-    include/operation.h\
     include/raster.h\
     include/pcrtypes.h\
     include/csf.h\

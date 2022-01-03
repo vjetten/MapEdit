@@ -8,10 +8,19 @@
 
 #include <qwt_global.h>
 #include <qobject.h>
+#include <QString>
+#include "CsfMap.h"
 
 class QPoint;
 class QwtPlot;
 class QwtPlotCurve;
+
+
+//typedef struct xyzLIST {
+//    int r;
+//    int c;
+//    double v;
+//} xyzLIST;
 
 class CanvasPicker: public QObject
 {
@@ -20,25 +29,25 @@ public:
     CanvasPicker(QwtPlot *plot );
     virtual bool eventFilter( QObject *, QEvent * ) QWT_OVERRIDE;
 
-    void setRowCol(int nrr, int nrc, double dx);
+    void setRowCol(int nrr, int nrc, double dx, cTMap *Map);
+    void showinfo(int r, int c, int r1, int c1);
+
+signals:
+    void show(const QString &results);
+    void draw();
 
 private:
-    int nrR;
-    int nrC;
-    double _dx;
 
     void select( const QPoint & );
     void move( const QPoint & );
     void moveBy( int dx, int dy );
     void release();
 
+    void drawSelection();
+
     QwtPlot *plot();
     const QwtPlot *plot() const;
 
-
-    QwtPlotCurve *d_selectedCurve;
-    int d_selectedPoint;
- //   const bool d_sortedX;
 };
 
 #endif

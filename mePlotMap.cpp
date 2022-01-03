@@ -1,25 +1,17 @@
 #include "mainwindow.h"
-#include "LisUImapplot.h"
+#include "global.h"
 
-class MyZoomer: public QwtPlotZoomer
+
+
+void MainWindow::drawSelection()
 {
-public:
-    MyZoomer( QWidget *canvas ):
-        QwtPlotZoomer( canvas )
-    {
-        setTrackerMode( AlwaysOn );
-    }
+  if (op.editCell)
+      drawSelectionCell();
+  if (op.editPolygon)
+      drawSelectionPolygon();
 
-    virtual QwtText trackerTextF( const QPointF &pos ) const QWT_OVERRIDE
-    {
-        QColor bg( Qt::white );
-        bg.setAlpha( 200 );
-
-        QwtText text = QwtPlotZoomer::trackerTextF( pos );
-        text.setBackgroundBrush( QBrush( bg ) );
-        return text;
-    }
-};
+  MPlot->replot();
+}
 
 //---------------------------------------------------------------------------
 void MainWindow::ssetAlpha(int v)
@@ -31,12 +23,6 @@ void MainWindow::ssetAlpha(int v)
 //----------------------------------------------------------------------------------------
 void MainWindow::setupMapPlot()
 {
-//    editRMap = new cTMap();
-
-//    FOR_ROW_COL_MV {
-//        editRMap->Drc = 0;
-//    }
-
     MPlot = new QwtPlot(title, this);
     // make the plot window
     layout_Map->insertWidget(1, MPlot, 0);
@@ -70,74 +56,34 @@ void MainWindow::setupMapPlot()
     rightAxis->setBorderDist(64, 64);
     // legend to the right of the plot
 
+    magnifier = new QwtPlotMagnifier( MPlot->canvas() );
+    magnifier->setAxisEnabled( MPlot->yRight, false );
+    magnifier->setMouseButton( Qt::NoButton );
+    // exclude right axis legend from rescaling
+    magnifier->setZoomInKey(Qt::Key_Plus, Qt::ShiftModifier);
+    magnifier->setZoomOutKey(Qt::Key_Minus, Qt::NoModifier );
+    magnifier->setZoomInKey(Qt::Key_Plus, Qt::KeypadModifier);
+    magnifier->setZoomOutKey(Qt::Key_Minus, Qt::KeypadModifier);
 
-//   QwtPlotZoomer* zoomer = new MyZoomer( MPlot->canvas() );
-//    zoomer->setMousePattern( QwtEventPattern::MouseSelect2,
-//        Qt::RightButton, Qt::ControlModifier );
-//    zoomer->setMousePattern( QwtEventPattern::MouseSelect3,
-//        Qt::RightButton );
+    panner = new QwtPlotPanner( MPlot->canvas() );
+    panner->setAxisEnabled( MPlot->yRight, false );
+    panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
+    // exclude right axis legend from panning
 
-
-
-//    magnifier = new QwtPlotMagnifier( MPlot->canvas() );
-//    magnifier->setAxisEnabled( MPlot->yRight, false );
-//    // exclude right axis legend from rescaling
-//    magnifier->setZoomInKey((int)Qt::Key_Plus, Qt::NoModifier );//Qt::ShiftModifier);
-//    magnifier->setZoomOutKey((int)Qt::Key_Minus, Qt::NoModifier );
-
-//    panner = new QwtPlotPanner( MPlot->canvas() );
-//    panner->setAxisEnabled( MPlot->yRight, false );
-//    // exclude right axis legend from panning
-
-//    mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
-//    mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
-//    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
-//    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
-//    mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
-
-//    pick = new QwtPlotPicker((QwtPlotCanvas *) MPlot->canvas());
-//
-//    picker = new MyPicker( (QwtPlotCanvas *) MPlot->canvas() );
-//    pick = new QwtPlotPicker( QwtAxis::xBottom, QwtAxis::yLeft,
-//        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
-//        MPlot->canvas() );
-//
-
-    pick = new QwtPlotPicker( MPlot->canvas());
-    pick->setStateMachine(new QwtPickerDragRectMachine);
-    pick->setTrackerMode(QwtPicker::ActiveOnly);
-    pick->setRubberBand(QwtPicker::RectRubberBand);
-    connect(pick, SIGNAL(selected(const QPointF &)), SLOT(select(const QPointF &)));
-    pick->setEnabled(true);
-/*
-//    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
-//    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
-//    picker->setStateMachine(new QwtPickerDragRectMachine);
-//    picker->setTrackerMode(QwtPicker::AlwaysOn);
-//    picker->setRubberBand(QwtPicker::RectRubberBand);
-
-
-
-//    connect(picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
-//    connect(picker, SIGNAL( selected( const QPolygon & ) ), SLOT( selected( const QPolygon & ) ) );
-
-//    picker->setStateMachine(new QwtPickerDragRectMachine);
- //   mpicker->setTrackerMode(QwtPicker::AlwaysOn);
-//    picker->setRubberBand(QwtPicker::RectRubberBand);
-
-//    ScalePicker *scalePicker = new ScalePicker( MPlot);//this );
-//    connect( scalePicker, SIGNAL( clicked( int, double ) ),
-//        this, SLOT( updateMarker( int, double ) ) );
+    // correct square aspect ratio
+    mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
+    mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
+    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
+    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
+    mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
 
     cpicker = new CanvasPicker( MPlot );
-*/
+
+    connect(cpicker, SIGNAL(show(QString)),this, SLOT(Show(QString)));
+    connect(cpicker, SIGNAL(draw()),this, SLOT(drawSelection()));
+
 }
 //---------------------------------------------------------------------------
-void MainWindow::doselect(const QPointF &pos)
-{
-   qDebug() << pos.y() << pos.x() << pos.y()/_dx << pos.x()/_dx;
-}
-
 
 // fill the current raster data structure with new data, called each run step
 double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv)
@@ -163,25 +109,26 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double t
             else
                 mapData << (double)-1e20;
         }
-
-    //    mapData.replace(0, (double)type);
-    // highjack position 0,0 with flag to get the variable unit in the cursor in trackerTextF
-
     *maxv = maxV;
     *minv = minV;
 
     _RD->setValueMatrix( mapData, _nrCols );
     // set column number to divide vector into rows
 
-    _RD->setInterval( Qt::XAxis, QwtInterval( 0, (double)_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+
+    double cy = _M->north();
+    double cx = _M->west();
+
+//     _RD->setInterval( Qt::XAxis, QwtInterval( cx,cx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+ //   _RD->setInterval( Qt::YAxis, QwtInterval( cy,cy+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
+
+
+   _RD->setInterval( Qt::XAxis, QwtInterval( 0, (double)_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
     _RD->setInterval( Qt::YAxis, QwtInterval( 0, (double)_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
     // set x/y axis intervals
     return maxV;
 }
 //---------------------------------------------------------------------------
-// show the maps on screen
-// the order of showing layers is determined by the order in how they are added to MPlot,
-// not how they are done here!
 void MainWindow::showMap()
 {
     MPlot->replot();
@@ -196,29 +143,11 @@ void MainWindow::showBaseMap()
 //    if (res == -1e20)
 //        return;
 
-  //  cpicker->setRowCol(_nrRows,_nrCols,_dx);
-
-
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1-0.01, MaxV1+0.01));
     baseMap->setData(RDb);
     // setdata sets a pointer to DRb to the private QWT d_data Qvector
-
-//    double nrCols = _nrCols*_dx;
-//    double nrRows = _nrRows*_dx;
-//    double dx = qMax(nrCols,nrRows)/20;
-    // reset the axes to the correct rows/cols,
-    // do only once because resets zooming and panning
-
-//    MPlot->setAxisAutoScale(MPlot->yRight, true);
-//    MPlot->setAxisAutoScale(MPlot->xBottom, true);
-//    MPlot->setAxisAutoScale(MPlot->yLeft, true);
-
-//    MPlot->setAxisScale( MPlot->xBottom, 0.0, nrCols, 1);
-//    MPlot->setAxisMaxMinor( MPlot->xBottom, 0 );
-//    MPlot->setAxisScale( MPlot->yLeft, 0.0, nrRows, 1);
-//    MPlot->setAxisMaxMinor( MPlot->yLeft, 0 );
 
     rightAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
 
@@ -233,6 +162,7 @@ void MainWindow::setMinTopMap()
     if (MinV2 == 0) MinV2 = MinTop;
     if (MaxV2 == 0) MaxV2 = MaxTop;
 
+
     showTopMap();
 
     MPlot->replot();
@@ -245,21 +175,6 @@ void MainWindow::showTopMap()
     drawMap->setData(RD);
     // setdata sets a pointer to DRb to the private QWT d_data Qvector
 
-//    double nrCols = _nrCols*_dx;
-//    double nrRows = _nrRows*_dx;
-//    double dx = qMax(nrCols,nrRows)/20;
-    // reset the axes to the correct rows/cols,
-    // do only once because resets zooming and panning
-
-    MPlot->setAxisAutoScale(MPlot->yRight, false);
-    MPlot->setAxisAutoScale(MPlot->xBottom, true);
-    MPlot->setAxisAutoScale(MPlot->yLeft, true);
-
-//    MPlot->setAxisScale( MPlot->xBottom, 0.0, nrCols, dx);
-//    MPlot->setAxisMaxMinor( MPlot->xBottom, 0 );
-//    MPlot->setAxisScale( MPlot->yLeft, 0.0, nrRows, dx);
-//    MPlot->setAxisMaxMinor( MPlot->yLeft, 0 );
-
     rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
 
     MPlot->setAxisScale( MPlot->yRight, MinV2, MaxV2);
@@ -269,12 +184,23 @@ void MainWindow::showTopMap()
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
 {
+    op.nrC = _nrCols;
+    op.nrR = _nrRows;
+    op._dx = _dx;
+    op._M = topRMap;
+
     dpalette = new colorMapRainbow();
     dpalette1 = new colorMapRainbow();
 
     double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
     if (res == -1e20)
         return;
+
+    MPlot->setAxisAutoScale(MPlot->yRight, true);
+    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+    MPlot->setAxisAutoScale(MPlot->yLeft, true);
+//    MPlot->setAxisScale( MPlot->xBottom, 0.0, _nrCols*_dx, _dx*10);
+//    MPlot->setAxisScale( MPlot->yLeft, 0.0, _nrRows*_dx, _dx*10);
 
     MinTop = MinV2;
     MaxTop = MaxV2;
@@ -294,42 +220,80 @@ void MainWindow::initTopMap()
     }
     drawMap->setAlpha(255);
 }
-//---------------------------------------------------------------------------
-/*
-bool MainWindow::event(QEvent* event)
+//--------------------------------------------------------------------------
+void MainWindow::drawSelectionCell()
 {
-    switch(event->type())
-    {
-    case QEvent::MouseButtonPress:
-    case QEvent::MouseButtonRelease:
-    case QEvent::MouseMove:
-        {
-            QMouseEvent* me = (QMouseEvent*)event;
-            bool ok = event->type() == QEvent::MouseMove ? ((me->buttons() & Qt::LeftButton) != 0) : (me->button() == Qt::LeftButton);
-            if(ok)
-            {
-                float x = float(me->x())/width();
-                float y = float(me->y())/height();
-                OnTouch(x, y, event->type() != QEvent::MouseButtonRelease, 0);
-                return true;
-            }
-        }
-        return true;
-    case QEvent::TouchBegin:
-    case QEvent::TouchUpdate:
-    case QEvent::TouchEnd:
-        {
-            QTouchEvent* te = (QTouchEvent*)event;
-            foreach(const QTouchEvent::TouchPoint& p, te->touchPoints())
-            {
-                float x = p.pos().x()/width();
-                float y = p.pos().x()/height();
-                OnTouch(x, y, p.state() != Qt::TouchPointReleased, p.id());
-            }
-        }
-        return true;
-    default:
-        return QWidget::event(event);
+    double dx[5] = {-0.5,+0.5,+0.5,-0.5, -0.5};
+    double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
+
+  //  if (op.clicks == 1) {
+        cur = new QwtPlotCurve();
+        QBrush b;
+        QColor col(Qt::magenta);
+        col.setAlpha(96);
+        b.setColor(col);
+        b.setStyle(Qt::SolidPattern);//Dense7Pattern);
+
+        cur->setPen( Qt::magenta );
+        cur->setStyle( QwtPlotCurve::Lines );
+        cur->setBrush(b);
+        cur->attach( MPlot );
+        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+//    }
+    vx.clear();
+    vy.clear();
+
+
+    int l = op.eData.size()-1;
+
+    for (int i = 0; i < 5; i++) {
+        vx << op.eData[l].cx+dx[i]*_dx;
+        vy << op.eData[l].cy+dy[i]*_dx;
     }
+
+    cur->setSamples(vx,vy);
+   // free(cur);
 }
-*/
+//--------------------------------------------------------------------------
+void MainWindow::drawSelectionPolygon()
+{
+    double dx[5] = {-0.5,+0.5,+0.5,-0.5, -0.5};
+    double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
+    vx.clear();
+    vy.clear();
+qDebug() << op.clicks << op.polystart << op.eData.size();
+    if (op.polystart == op.eData.size()-1) {
+        cur = new QwtPlotCurve();
+        QBrush b;
+        QColor col(Qt::magenta);
+        col.setAlpha(96);
+        b.setColor(col);
+        b.setStyle(Qt::SolidPattern);//Dense7Pattern);
+
+        cur->setPen( Qt::magenta );
+        cur->setStyle( QwtPlotCurve::Lines );
+        cur->setBrush(b);
+        cur->attach( MPlot );
+        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+
+        vx << op.eData[op.polystart].cx;
+        vy << op.eData[op.polystart].cy;
+    }
+//    vx << op.eData[op.polystart].cx;
+//    vy << op.eData[op.polystart].cy;
+
+    for (int i = op.polystart; i < op.eData.size(); i++) {
+        vx << op.eData[i].cx;
+        vy << op.eData[i].cy;
+    }
+
+    vx << op.eData[op.polystart].cx;
+    vy << op.eData[op.polystart].cy;
+
+    cur->setSamples(vx,vy);
+
+}
+
+
+
+

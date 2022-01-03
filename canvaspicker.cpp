@@ -3,16 +3,10 @@
  * This file may be used under the terms of the 3-clause BSD License
  *****************************************************************************/
 #include "mainwindow.h"
-#include "canvaspicker.h"
-
-//#include <qwt_plot.h>
-//#include <qwt_plot_curve.h>
-
-//#include <qevent.h>
+#include "global.h"
 
 CanvasPicker::CanvasPicker(QwtPlot *plot ):
-    QObject( plot ),
-    d_selectedPoint( -1 )
+    QObject( plot )
 {
     plot->canvas()->installEventFilter( this );
 }
@@ -32,76 +26,102 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
     if ( plot() == NULL || object != plot()->canvas() )
         return false;
 
-    switch( event->type() )
+//    if (event->type() == QEvent::KeyPress) {
+//        QKeyEvent *keyEvent = static_cast<QKeyEvent *>( event );
+//        qDebug() << keyEvent;
+//    }
+
+    if (event->type() == QEvent::MouseButtonPress)
     {
-        case QEvent::MouseButtonPress:
-        {
-            const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
-            select( mouseEvent->pos() );            
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
+
+        if (QGuiApplication::queryKeyboardModifiers() == Qt::ControlModifier)
+            return QObject::eventFilter( object, event );
+        // if ctrl mouse is pressed give it back for panning
+
+        if (mouseEvent->button() == Qt::LeftButton) {
+            if (op.clicks == 0) {
+                op.polystart = 0;
+            }
+            if(op.editStop) {
+                op.polystart = op.clicks;
+                op.editStop = false;
+            }
+            select( mouseEvent->pos() );
             return true;
         }
-        case QEvent::MouseMove:
-        {
-            const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
-            move( mouseEvent->pos() );
+        if (mouseEvent->button() == Qt::RightButton) {
+            op.editStop = true;
+//            op.polystart = op.clicks;//op.eData.size();
             return true;
         }
-        default:
-            break;
+
     }
 
     return QObject::eventFilter( object, event );
 }
 
-// Select the point at a position. If there is no point
-// deselect the selected point
-
-void CanvasPicker::setRowCol(int nrr, int nrc, double dx)
-{
-    nrR = nrr;
-    nrC = nrc;
-    _dx = dx;
-}
-
 
 void CanvasPicker::select( const QPoint &pos )
 {
-    QRect rect = plot()->canvas()->rect();
-//    double cf = (double)pos.x()/(double)rect.width() * nrC;
-//    double rf = (1-(double)pos.y()/(double)rect.height()) * nrR;
-//    int c = qFloor(cf) + 1;
-//    int r = qFloor(rf) + 1;
- //   double dxf = (double)(rect.width()-16)/(double)(nrC*_dx);
+    //double cy = _M->north();
+    //double cx = _M->west();
+    op.clicks++;
 
-    //double cf = plot()->invTransform(QwtPlot::xBottom,(double) pos.x()); //<= map coord
-    //double rf = plot()->invTransform(QwtPlot::yLeft,(double) pos.y());
-//    double ct = plot()->transform(QwtPlot::yLeft,cf);
-//    double rt = plot()->transform(QwtPlot::yLeft,rf);
-//    double ct = plot()->transform(QwtPlot::xBottom,nrC);
-//    double rt = plot()->transform(QwtPlot::yLeft,nrR);
-//    double c0 = plot()->transform(QwtPlot::xBottom,10.0);
-//    double r0 = plot()->transform(QwtPlot::yLeft,0.0);
-//    double r1 = plot()->transform(QwtPlot::yLeft,(double)nrR);
-   // QPointF cr = plot()->invTransform(pos);
+    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y());
+    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x());
 
-    int r = (int)qFloor(pos.y()/_dx);
-    int c = (int)qFloor(pos.x()/_dx);
+    int r = op.nrR - qFloor(ri/op._dx) - 1 ;
+    int c = qFloor(ci/op._dx);
 
-//    qDebug() << nrC << nrR<< pos.x() << pos.y() << c << r;// r0 << r1;//c0 << rt << ct;// << cr.y() << cr.x();
+    showinfo(r,c,ri,ci);
+    //emit signal
+
+  //  qDebug() << pos.y() << pos.x() << r << c  << r2 << c2;
 
 
+    if (op.editCell) {
+        if (!op.editStop) {
+            if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
+                xyzLIST cr;
+                cr.cy = (op.nrR-r-1)*op._dx + 0.5*op._dx;
+                cr.cx = c*op._dx + 0.5*op._dx;
+                cr.r = r;
+                cr.c = c;
+                cr.v = op._M->data[r][c];
+                op.eData << cr;
 
-    QwtPlotItemList list = plot()->itemList(QwtPlotItem::Rtti_PlotSpectrogram);
-    QwtPlotSpectrogram * sp0 = static_cast<QwtPlotSpectrogram *> (list.at(0));
-    QwtPlotSpectrogram * sp1 = static_cast<QwtPlotSpectrogram *> (list.at(1));
-    double z0 = 0, z1 = 0;
-    if (sp0->data() != NULL)
-        z0 = sp0->data()->value(pos.x(), pos.y());
-    if (sp1->data() != NULL)
-        z1 = sp1->data()->value(pos.x(), pos.y());
+                emit draw();
+            }
+        }
+    }
+    if (op.editPolygon) {
+        if (!op.editStop) {
+            if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
+                xyzLIST cr;
+                cr.cy = (op.nrR-r-1)*op._dx + 0.5*op._dx;
+                cr.cx = c*op._dx + 0.5*op._dx;
+                cr.r = r;
+                cr.c = c;
+                cr.v = op._M->data[r][c];
+                op.eData << cr;
 
-   qDebug() << "yes" << r << c << pos.y() << pos.x() << z0 << z1;
+                emit draw();
+            }
+        }
+    }
+    if (op.editStop)
+        emit draw();
+}
 
+void CanvasPicker::showinfo(int r, int c, int r1, int c1)
+{
+    QString txt = "[ 000, 000]=MV=[ 000000.00, 000000.00]";
+    if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
+        txt = QString("[%1,%2]=%3").arg(r,4,10,0,' ').arg(c,4,10,0,' ').arg(op._M->data[r][c]);
+        txt = txt + QString("=[%1,%2]").arg(r1,9,'f',2,' ').arg(c1,9,'f',2,' ');//pos.y()).arg(pos.x());
+    }
+    emit show(txt);
 }
 
 // Move the selected point
@@ -189,5 +209,7 @@ void CanvasPicker::move( const QPoint &pos )
 */
     plot()->replot();
 }
+
+
 
 #include "moc_canvaspicker.cpp"

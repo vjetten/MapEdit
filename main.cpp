@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QtGui>
 #include "fixture.h"
+#include "global.h"
 
 int main(int argc, char *argv[])
 {

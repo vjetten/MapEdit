@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+#include "global.h"
+
+output op;
 
 //----------------------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
@@ -7,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     setupUi(this);
 
     currentDir = "";
-    eData.clear();
+
+    initOP();
 
     getStorePath();
 
@@ -29,7 +33,25 @@ MainWindow::~MainWindow()
     setStorePath();
 }
 
-//----------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+void MainWindow::initOP()
+{
+    op.editCell = false;
+    op.editRectangle= false;
+    op.editLine= false;
+    op.editPolygon= false;
+    op.editStart= false;
+    op.editStop= false;
+    op.clicks = 0;
+
+    op._M = NULL;
+    op.nrC = 0;
+    op.nrR = 0;
+    op._dx = 0;;
+
+    op.eData.clear();
+}
+//---------------------------------------------------------------------------------------
 void MainWindow::SetToolBar()
 {
     openAct = new QAction(QIcon(":/fileopen.png"), "&Open...", this);
@@ -99,22 +121,9 @@ void MainWindow::openMapFile()
 //--------------------------------------------------------------------
 cTMap *MainWindow::ReadMap(QString name)
 {
-
     cTMap *_M = new cTMap(readRaster(name));
 
-//    for (int r = 0; r < _nrRows; r++)
-//        for (int c = 0; c < _nrCols; c++)
-//            if (pcr::isMV(_M->Drc))
-//            {
-//                QString sr, sc;
-//                sr.setNum(r); sc.setNum(c);
-//                ErrorString = "Missing value at row="+sr+" and col="+sc+" in map: "+name+".\n \
-//                        This is a cell with missing values where a flow network esists (either LDD, Channel LDD, tile drain LDD).";
-//                        throw 1;
-//            }
-
     return(_M);
-
 }
 //--------------------------------------------------------------------
 void MainWindow::processMaps()
@@ -126,6 +135,12 @@ void MainWindow::processMaps()
         baseRMap = ReadMap(PathNames[0]);
         topRMap = ReadMap(PathNames[0]);
     }
+//    editRMap = new cTMap();
+//    FOR_ROW_COL_MV {
+//        editRMap->Drc = 0;
+//    }
+
+
     _dx = baseRMap->cellSize()*1.0000000;
     _nrRows = topRMap->nrRows();
     _nrCols = topRMap->nrCols();
@@ -135,7 +150,6 @@ void MainWindow::processMaps()
     initTopMap();
 
     showTopMap();
-
 }
 //--------------------------------------------------------------------
 void MainWindow::saveMapfile(QString name)
@@ -203,3 +217,35 @@ void MainWindow::on_toolButtonResetMax_clicked()
     spinMaxV->setValue(MaxTop);
 }
 
+void MainWindow::on_toolButton_editCell_clicked(bool checked)
+{
+    // if map loaded!
+    op.editCell = true;
+    op.editRectangle = false;
+    op.editLine = false;
+    op.editPolygon = false;
+    op.editStart = true;
+    op.editStop = false;
+    op.clicks = 0;
+    toolButton_editPolygon->setChecked(false);
+}
+
+void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
+{
+    op.editCell = false;
+    op.editRectangle = false;
+    op.editLine = false;
+    op.editPolygon = true;
+    op.editStart = true;
+    op.editStop = false;
+    op.clicks = 0;
+    toolButton_editCell->setChecked(false);
+}
+//--------------------------------------------------------------------------
+void MainWindow::Show(const QString &results)
+{
+    QStringList s = results.split('=');
+    label_rowcol->setText(s[0]);
+    label_value->setText(s[1]);
+    label_coor->setText(s[2]);
+}
