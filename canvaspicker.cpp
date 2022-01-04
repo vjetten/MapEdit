@@ -52,7 +52,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         }
         if (mouseEvent->button() == Qt::RightButton) {
             op.editStop = true;
-//            op.polystart = op.clicks;//op.eData.size();
+            emit get();
             return true;
         }
 
@@ -95,7 +95,7 @@ void CanvasPicker::select( const QPoint &pos )
             }
         }
     }
-    if (op.editPolygon) {
+    if (op.editPolygon || op.editLine) {
         if (!op.editStop) {
             if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
                 xyzLIST cr;
@@ -109,9 +109,9 @@ void CanvasPicker::select( const QPoint &pos )
                 emit draw();
             }
         }
+        if (op.editStop)
+            emit get();
     }
-    if (op.editStop)
-        emit draw();
 }
 
 void CanvasPicker::showinfo(int r, int c, int r1, int c1)

@@ -9,6 +9,8 @@ void MainWindow::drawSelection()
       drawSelectionCell();
   if (op.editPolygon)
       drawSelectionPolygon();
+  if (op.editLine)
+      drawSelectionLine();
 
   MPlot->replot();
 }
@@ -81,6 +83,7 @@ void MainWindow::setupMapPlot()
 
     connect(cpicker, SIGNAL(show(QString)),this, SLOT(Show(QString)));
     connect(cpicker, SIGNAL(draw()),this, SLOT(drawSelection()));
+    connect(cpicker, SIGNAL(get()),this, SLOT(getCells()));
 
 }
 //---------------------------------------------------------------------------
@@ -234,7 +237,7 @@ void MainWindow::drawSelectionCell()
         b.setColor(col);
         b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
-        cur->setPen( Qt::magenta );
+        cur->setPen( Qt::magenta, 2 );
         cur->setStyle( QwtPlotCurve::Lines );
         cur->setBrush(b);
         cur->attach( MPlot );
@@ -257,11 +260,9 @@ void MainWindow::drawSelectionCell()
 //--------------------------------------------------------------------------
 void MainWindow::drawSelectionPolygon()
 {
-    double dx[5] = {-0.5,+0.5,+0.5,-0.5, -0.5};
-    double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
     vx.clear();
     vy.clear();
-qDebug() << op.clicks << op.polystart << op.eData.size();
+//qDebug() << op.clicks << op.polystart << op.eData.size();
     if (op.polystart == op.eData.size()-1) {
         cur = new QwtPlotCurve();
         QBrush b;
@@ -270,7 +271,10 @@ qDebug() << op.clicks << op.polystart << op.eData.size();
         b.setColor(col);
         b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
-        cur->setPen( Qt::magenta );
+        QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
+        cur->setSymbol(whitedot);
+
+        cur->setPen( Qt::magenta, 2);
         cur->setStyle( QwtPlotCurve::Lines );
         cur->setBrush(b);
         cur->attach( MPlot );
@@ -279,8 +283,6 @@ qDebug() << op.clicks << op.polystart << op.eData.size();
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
     }
-//    vx << op.eData[op.polystart].cx;
-//    vy << op.eData[op.polystart].cy;
 
     for (int i = op.polystart; i < op.eData.size(); i++) {
         vx << op.eData[i].cx;
@@ -293,7 +295,92 @@ qDebug() << op.clicks << op.polystart << op.eData.size();
     cur->setSamples(vx,vy);
 
 }
+//--------------------------------------------------------------------------
+void MainWindow::drawSelectionLine()
+{
+    vx.clear();
+    vy.clear();
 
+    if (op.polystart == op.eData.size()-1) {
+        cur = new QwtPlotCurve();
+        QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
+        cur->setSymbol(whitedot);
+
+        cur->setPen( Qt::magenta, 2 );
+        cur->setStyle( QwtPlotCurve::Lines );
+
+        cur->attach( MPlot );
+        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+
+        vx << op.eData[op.polystart].cx;
+        vy << op.eData[op.polystart].cy;
+    }
+
+    for (int i = op.polystart; i < op.eData.size(); i++) {
+        vx << op.eData[i].cx;
+        vy << op.eData[i].cy;
+    }
+
+    cur->setSamples(vx,vy);
+
+}
+//--------------------------------------------------------------------------
+void MainWindow::getCells()
+{
+    editValue = 1;
+    if (op.editCell) {
+       for (int i = 0; i < op.eData.size(); i++) {
+
+           int r = _nrRows-1 - (op.eData[i].cy - 0.5*_dx)/_dx;
+           int c = (op.eData[i].cx - 0.5*_dx)/_dx;
+
+           topRMap->data[r][c] = editValue;
+
+       }
+    }
+
+    if (op.editPolygon) {
+        int n = vx.size();
+        FOR_ROW_COL_MV {
+            double cy = (_nrRows-r-1)*_dx + 0.5*_dx;
+            double cx = c*_dx + 0.5*_dx;
+
+            int res = 0;
+            int i, j;
+            for (i = 0, j = n-1; i < n; j = i++) {
+              if ( ((vy[i]>cy) != (vy[j]>cy)) &&
+               (cx < (vx[j]-vx[i]) * (cy-vy[i]) / (vy[j]-vy[i]) + vx[i]) )
+                 res = !res;
+            }
+
+            if (res == 1)
+                topRMap->data[r][c] = editValue;
+        }
+    }
+
+    //QVector <double> nx;
+    vx.clear();
+    vy.clear();
+    cur->setSamples(vx, vy);
+
+    double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
+    showTopMap();
+    MPlot->replot();
+
+}
+
+
+int MainWindow::pnpoly(double testx, double testy)
+{
+  int i, j, res = 0;
+  int n = vx.size();
+  for (i = 0, j = n-1; i < n; j = i++) {
+    if ( ((vy[i]>testy) != (vy[j]>testy)) &&
+     (testx < (vx[j]-vx[i]) * (testy-vy[i]) / (vy[j]-vy[i]) + vx[i]) )
+       res = !res;
+  }
+  return res;
+}
 
 
 

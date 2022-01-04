@@ -80,6 +80,8 @@ public:
     QwtMatrixRasterData *RD;
     QwtMatrixRasterData *RDb;
 
+    QLabel statusLabel;
+
     QwtLinearColorMap *bpalette, *bpalette1;
     QwtLinearColorMap *dpalette, *dpalette1;
 
@@ -97,13 +99,9 @@ public:
     cTMap *editRMap;
     QStringList PathNames;
 
-    bool editCell;
-    bool editRectangle;
-    bool editLine;
-    bool editPolygon;
-
     double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop;
 
+    double editValue;
 
     QwtPlotCurve *cur;
     QVector <double> vx;
@@ -111,6 +109,12 @@ public:
 
     void drawSelectionCell();
     void drawSelectionPolygon();
+    void drawSelectionLine();
+
+   // void drawSelectionRectangle();
+
+    int pnpoly(double testx, double testy);
+
 
 protected:
   //  bool eventFilter(QObject *obj, QEvent *event) override;
@@ -123,6 +127,7 @@ public slots:
     void setMinTopMap();
     void Show(const QString &results);
     void drawSelection();
+    void getCells();
 
 private slots:
 
@@ -133,6 +138,10 @@ private slots:
     void on_toolButton_editCell_clicked(bool checked);
 
     void on_toolButton_editPolygon_clicked(bool checked);
+
+    void on_toolButton_editLine_clicked(bool checked);
+
+    void on_toolButton_editRactangle_clicked(bool checked);
 
 private:
    //toolbar actions

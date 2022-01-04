@@ -35,6 +35,7 @@ public:
 signals:
     void show(const QString &results);
     void draw();
+    void get();
 
 private:
 

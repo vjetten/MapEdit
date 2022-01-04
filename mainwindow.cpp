@@ -89,6 +89,8 @@ void MainWindow::SetToolBar()
     //    toolBar_2->setMovable( false);
     //    toolBar->setMovable( false);
 
+    statusLabel.setText("[row,col]  [y,x]");
+    statusBar()->addWidget(&statusLabel);
 
     connect(transparency, SIGNAL(sliderMoved(int)), this, SLOT(ssetAlpha(int)));
     connect(spinMinV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
@@ -202,6 +204,16 @@ void MainWindow::setStorePath()
 
     fff.close();
 }
+
+//--------------------------------------------------------------------------
+void MainWindow::Show(const QString &results)
+{
+    QStringList s = results.split('=');
+//    label_rowcol->setText(s[0]);
+//    label_value->setText(s[1]);
+//    label_coor->setText(s[2]);
+    statusLabel.setText(QString("row,col:%1 Coordinates:%2 Value:%3").arg(s[0]).arg(s[2]).arg(s[1]));
+}
 //---------------------------------------------------------------------------
 
 void MainWindow::on_toolButtonResetMin_clicked()
@@ -227,7 +239,11 @@ void MainWindow::on_toolButton_editCell_clicked(bool checked)
     op.editStart = true;
     op.editStop = false;
     op.clicks = 0;
+    op.eData.clear();
+
     toolButton_editPolygon->setChecked(false);
+    toolButton_editLine->setChecked(false);
+    toolButton_editRectangle->setChecked(false);
 }
 
 void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
@@ -239,13 +255,44 @@ void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
     op.editStart = true;
     op.editStop = false;
     op.clicks = 0;
+    op.eData.clear();
+
     toolButton_editCell->setChecked(false);
+    toolButton_editLine->setChecked(false);
+    toolButton_editRectangle->setChecked(false);
+
 }
-//--------------------------------------------------------------------------
-void MainWindow::Show(const QString &results)
+
+void MainWindow::on_toolButton_editLine_clicked(bool checked)
 {
-    QStringList s = results.split('=');
-    label_rowcol->setText(s[0]);
-    label_value->setText(s[1]);
-    label_coor->setText(s[2]);
+    op.editCell = false;
+    op.editRectangle = false;
+    op.editLine = true;
+    op.editPolygon = false;
+    op.editStart = true;
+    op.editStop = false;
+    op.clicks = 0;
+    op.eData.clear();
+
+    toolButton_editCell->setChecked(false);
+    toolButton_editPolygon->setChecked(false);
+    toolButton_editRectangle->setChecked(false);
 }
+
+
+void MainWindow::on_toolButton_editRactangle_clicked(bool checked)
+{
+    op.editCell = false;
+    op.editRectangle = true;
+    op.editLine = false;
+    op.editPolygon = false;
+    op.editStart = true;
+    op.editStop = false;
+    op.clicks = 0;
+    op.eData.clear();
+
+    toolButton_editCell->setChecked(false);
+    toolButton_editPolygon->setChecked(false);
+    toolButton_editLine->setChecked(false);
+}
+
