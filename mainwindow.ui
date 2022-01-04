@@ -30,23 +30,6 @@
        <enum>QFrame::Plain</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QToolButton" name="toolButton_editCell">
-         <property name="text">
-          <string>C</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Edit single cell</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QToolButton" name="toolButton_editLine">
          <property name="text">
@@ -57,61 +40,30 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QLabel" name="label_4">
+       <item row="8" column="2">
+        <widget class="QToolButton" name="toolButtonResetMin">
          <property name="text">
-          <string>Edit line</string>
+          <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QToolButton" name="toolButton_editRectangle">
-         <property name="text">
-          <string>R</string>
+       <item row="4" column="0" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_Value">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="checkable">
-          <bool>true</bool>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string>0</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Edit rectangle</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QToolButton" name="toolButton_editPolygon">
-         <property name="text">
-          <string>P</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1" colspan="2">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Edit polygon</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="5" column="0" colspan="3">
+       <item row="6" column="0" colspan="3">
         <widget class="QSlider" name="transparency">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -133,47 +85,31 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="3">
+       <item row="0" column="0">
+        <widget class="QToolButton" name="toolButton_editCell">
+         <property name="text">
+          <string>C</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="3">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Min Value:</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QDoubleSpinBox" name="spinMinV">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <double>-1000000000.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>1000000000.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QToolButton" name="toolButtonResetMin">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="3">
+       <item row="9" column="0" colspan="3">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Max value:</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
+       <item row="10" column="0" colspan="2">
         <widget class="QDoubleSpinBox" name="spinMaxV">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -192,10 +128,104 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="2">
+       <item row="10" column="2">
         <widget class="QToolButton" name="toolButtonResetMax">
          <property name="text">
           <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QToolButton" name="toolButton">
+         <property name="text">
+          <string>V</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="QDoubleSpinBox" name="spinMinV">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <double>-1000000000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>1000000000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QToolButton" name="toolButton_editPolygon">
+         <property name="text">
+          <string>P</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QToolButton" name="toolButton_editRectangle">
+         <property name="text">
+          <string>R</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QToolButton" name="toolButton_2">
+         <property name="text">
+          <string>C</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="3">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Edit polygon</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="3">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Edit rectangle</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="3">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Edit line</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="3">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Edit single cell</string>
          </property>
         </widget>
        </item>

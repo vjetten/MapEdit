@@ -51,6 +51,8 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
             return true;
         }
         if (mouseEvent->button() == Qt::RightButton) {
+            if (!op.editStart)
+                return QObject::eventFilter( object, event );
             op.editStop = true;
             emit get();
             return true;
@@ -64,6 +66,9 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 
 void CanvasPicker::select( const QPoint &pos )
 {
+    if (op._M == NULL)
+        return;
+
     //double cy = _M->north();
     //double cx = _M->west();
     op.clicks++;
@@ -124,91 +129,7 @@ void CanvasPicker::showinfo(int r, int c, int r1, int c1)
     emit show(txt);
 }
 
-// Move the selected point
-void CanvasPicker::move( const QPoint &pos )
-{
-    /*
-    if ( d_selectedCurve == 0 || d_selectedPoint < 0  )
-        return;
 
-    QVector<double> xData( d_selectedCurve->dataSize() );
-    QVector<double> yData( d_selectedCurve->dataSize() );
-
-    double dx = 0.0;
-    double dy = 0.0;
-
-    int numPoints = static_cast<int>( d_selectedCurve->dataSize() );
-    for ( int i = 0; i < numPoints; i++ )
-    {
-        const QPointF sample = d_selectedCurve->sample( i );
-
-        if ( i == d_selectedPoint )
-        {
-            double x = plot()->invTransform(
-                d_selectedCurve->xAxis(), pos.x() );
-            double y = plot()->invTransform(
-                d_selectedCurve->yAxis(), pos.y() );
-
-            if ( d_sortedX )
-            {
-                if ( i > 0 )
-                {
-                    const double xMin = d_selectedCurve->sample( i - 1 ).x();
-                    if ( x <= xMin )
-                        x = xMin + 1;
-                }
-
-                if ( i < numPoints - 1 )
-                {
-                    const double xMax = d_selectedCurve->sample( i + 1 ).x();
-                    if ( x >= xMax )
-                        x = xMax - 1;
-                }
-            }
-
-            xData[i] = x;
-            yData[i] = y;
-
-            dx = x - sample.x();
-            dy = y - sample.y();
-        }
-        else
-        {
-            xData[i] = sample.x();
-            yData[i] = sample.y();
-        }
-    }
-    d_selectedCurve->setSamples( xData, yData );
-
-    QwtPlotItemList curves = plot()->itemList( QwtPlotItem::Rtti_PlotCurve );
-    for ( int i = 0; i < curves.size(); i++ )
-    {
-        QwtPlotCurve *curve = static_cast<QwtPlotCurve *>( curves[i] );
-        if ( curve == d_selectedCurve )
-            continue;
-
-        xData.resize( curve->dataSize() );
-        yData.resize( curve->dataSize() );
-
-        numPoints = static_cast<int>( curve->dataSize() );
-        for ( int j = 0; j < numPoints; j++ )
-        {
-            const QPointF sample = curve->sample( j );
-
-            xData[j] = sample.x();
-            yData[j] = sample.y();
-
-            if ( j == d_selectedPoint )
-            {
-                xData[j] += dx;
-                yData[j] += dy;
-            }
-        }
-        curve->setSamples( xData, yData );
-    }
-*/
-    plot()->replot();
-}
 
 
 

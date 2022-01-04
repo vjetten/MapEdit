@@ -325,18 +325,104 @@ void MainWindow::drawSelectionLine()
 
 }
 //--------------------------------------------------------------------------
+void MainWindow::drawSelectionRectangle()
+{
+    vx.clear();
+    vy.clear();
+
+    if (op.polystart == op.eData.size()-1) {
+        cur = new QwtPlotCurve();
+      //  QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
+      //  cur->setSymbol(whitedot);
+
+        cur->setPen( Qt::magenta, 2 );
+        cur->setStyle( QwtPlotCurve::steps );
+
+        cur->attach( MPlot );
+        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+
+        vx << op.eData[op.polystart].cx;
+        vy << op.eData[op.polystart].cy;
+    }
+
+    for (int i = op.polystart; i < op.eData.size(); i++) {
+        vx << op.eData[i].cx;
+        vy << op.eData[i].cy;
+    }
+
+    cur->setSamples(vx,vy);
+
+}
+//--------------------------------------------------------------------------
 void MainWindow::getCells()
 {
     editValue = 1;
     if (op.editCell) {
        for (int i = 0; i < op.eData.size(); i++) {
 
-           int r = _nrRows-1 - (op.eData[i].cy - 0.5*_dx)/_dx;
-           int c = (op.eData[i].cx - 0.5*_dx)/_dx;
+           int r = op.eData[i].r;
+           int c = op.eData[i].c;
 
            topRMap->data[r][c] = editValue;
 
        }
+    }
+
+    if (op.editLine) {
+
+        for (int j = op.polystart; j < op.eData.size()-1; j++)  {
+
+          int rb = op.eData[j].r;
+          int re = op.eData[j+1].r;
+          int cb = op.eData[j].c;
+          int ce = op.eData[j+1].c;
+
+          if (rb == re) {
+              if (cb > ce) {int tmp = cb; cb = ce; ce = tmp;}
+              for(int c = cb; c <= ce; c++)
+                    topRMap->data[rb][c] = editValue;
+          } else
+              if (cb == ce) {
+                  if (rb > re) {int tmp = rb; rb = re; re = tmp;}
+                  for(int r = rb; r <= re; r++)
+                        topRMap->data[r][cb] = editValue;
+              } else {
+                  double r0 = op.eData[j].cy;
+                  double c0 = op.eData[j].cx;
+                  double rn = op.eData[j+1].cy;
+                  double cn = op.eData[j+1].cx;
+                  double dx = cn-c0;
+                  double dy = rn-r0;
+                 // qDebug() << r0<<rn<<c0<<cn<<dy<<dx;
+                  if (r0 > rn) {
+                      double begin = std::min(c0,cn);
+                      double end = std::max(c0,cn);
+                      for(double _c = begin; _c <= end; _c+=_dx*0.1)
+                      {
+                          double _r = r0 + dy*(_c - c0)/dx;
+                          int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
+                          int c = int((_c - 0.5*_dx)/_dx);
+                         // qDebug() << _r << _c << r << c;
+
+                          topRMap->data[r][c] = editValue;
+
+                      }
+                  } else {
+                      double begin = std::min(c0,cn);
+                      double end = std::max(c0,cn);
+                          for(double _c = begin; _c <= end; _c+=_dx*0.1)
+                          {
+                              double _r = r0 + dy*(_c - c0)/dx;
+                              int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
+                              int c = int((_c - 0.5*_dx)/_dx);
+                              qDebug() << _r << _c << r << c;
+
+                              topRMap->data[r][c] = editValue;
+
+                          }
+                   }
+            }
+      }
     }
 
     if (op.editPolygon) {
@@ -369,18 +455,6 @@ void MainWindow::getCells()
 
 }
 
-
-int MainWindow::pnpoly(double testx, double testy)
-{
-  int i, j, res = 0;
-  int n = vx.size();
-  for (i = 0, j = n-1; i < n; j = i++) {
-    if ( ((vy[i]>testy) != (vy[j]>testy)) &&
-     (testx < (vx[j]-vx[i]) * (testy-vy[i]) / (vy[j]-vy[i]) + vx[i]) )
-       res = !res;
-  }
-  return res;
-}
 
 
 

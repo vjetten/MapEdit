@@ -110,10 +110,8 @@ public:
     void drawSelectionCell();
     void drawSelectionPolygon();
     void drawSelectionLine();
+    void drawSelectionRectangle();
 
-   // void drawSelectionRectangle();
-
-    int pnpoly(double testx, double testy);
 
 
 protected:
