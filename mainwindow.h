@@ -105,9 +105,14 @@ public:
 
     double editValue;
 
-    QList <QwtPlotCurve> curves;
+    QList <QwtPlotCurve*> curves;
+
+    QVector <int> selections;
+    QwtPlotCurve *cur;
     QVector <double> vx;
     QVector <double> vy;
+    QVector <int> cx;
+    QVector <int> ry;
 
     void drawSelectionCell();
     void drawSelectionPolygon();

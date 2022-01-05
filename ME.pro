@@ -15,6 +15,7 @@ DEFINES += _CRT_SECURE_NO_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    meEditMap.cpp \
     mePlotMap.cpp \
     CsfMap.cpp \
     CsfRGBMap.cpp \
@@ -103,7 +104,6 @@ HEADERS  += mainwindow.h\
     include/fixture.h\
     include/io.h\
     include/masked_raster.h\
-    include/mmath.h\
     include/raster.h\
     include/pcrtypes.h\
     include/csf.h\

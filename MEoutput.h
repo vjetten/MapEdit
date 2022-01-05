@@ -30,7 +30,12 @@ struct output{
     double _dx;
 
     QVector <xyzLIST> eData;
-	
+
+    QList <QVector<double>> vvx;
+    QList <QVector<double>> vvy;
+    QList <QVector<int>> ccx;
+    QList <QVector<int>> rry;
+
 };
 
 

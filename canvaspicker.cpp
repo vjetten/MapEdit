@@ -25,6 +25,8 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 {
     if ( plot() == NULL || object != plot()->canvas() )
         return false;
+    if (op._M == NULL)
+        return false;
 
 //    if (event->type() == QEvent::KeyPress) {
 //        QKeyEvent *keyEvent = static_cast<QKeyEvent *>( event );
@@ -54,7 +56,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
             if (!op.editStart)
                 return QObject::eventFilter( object, event );
             op.editStop = true;
-            //emit get();
+
             return true;
         }
 
@@ -80,9 +82,6 @@ void CanvasPicker::select( const QPoint &pos )
     int c = qFloor(ci/op._dx);
 
     showinfo(r,c,ri,ci);
-
-  //  qDebug() << pos.y() << pos.x() << r << c  << r2 << c2;
-
 
     if (op.editCell) {
         if (!op.editStop) {
