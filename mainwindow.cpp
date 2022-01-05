@@ -126,6 +126,7 @@ void MainWindow::processMaps()
 
     showTopMap();
 
+    MPlot->replot();
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::NewMap(double value)
@@ -185,14 +186,14 @@ void MainWindow::Show(const QString &results)
 
 void MainWindow::on_toolButtonResetMin_clicked()
 {
-    MinV2 = MinTop;
+    MinV1 = MinTop;
     spinMinV->setValue(MinTop);
 }
 
 
 void MainWindow::on_toolButtonResetMax_clicked()
 {
-    MaxV2 = MaxTop;
+    MaxV1 = MaxTop;
     spinMaxV->setValue(MaxTop);
 }
 

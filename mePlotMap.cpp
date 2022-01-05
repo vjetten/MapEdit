@@ -72,6 +72,12 @@ void MainWindow::setupMapPlot()
     connect(cpicker, SIGNAL(draw()),this, SLOT(drawSelection()));
     connect(cpicker, SIGNAL(get()),this, SLOT(getCells()));
 
+    MPlot->setAxisAutoScale(MPlot->yRight, true);
+    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+    MPlot->setAxisAutoScale(MPlot->yLeft, true);
+//    MPlot->setAxisScale( MPlot->xBottom, 0.0, _nrCols*_dx, _dx*10);
+//    MPlot->setAxisScale( MPlot->yLeft, 0.0, _nrRows*_dx, _dx*10);
+
 }
 //---------------------------------------------------------------------------
 
@@ -141,16 +147,39 @@ void MainWindow::showBaseMap()
 
     MPlot->setAxisScale( MPlot->yRight, MinV1, MaxV1);
     MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
+
+
+    MPlot->setAxisAutoScale(MPlot->yRight, true);
+    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+    MPlot->setAxisAutoScale(MPlot->yLeft, true);
+
+    MinTop = MinV1;
+    MaxTop = MaxV1;
+
+//    spinMinV->setMinimum(MinTop);
+//    spinMinV->setMaximum(MaxTop);
+//    spinMaxV->setMinimum(MinTop);
+//    spinMaxV->setMaximum(MaxTop);
+//    spinMinV->setValue(MinTop);
+//    spinMaxV->setValue(MaxTop);
+//    if ((MaxTop-MinTop) < 10)
+//    {
+//        spinMinV->setDecimals(3);
+//        spinMaxV->setDecimals(3);
+//        spinMinV->setSingleStep(0.001);
+//        spinMaxV->setSingleStep(0.001);
+//    }
+
 }
 //---------------------------------------------------------------------------
 void MainWindow::setMinTopMap()
 {
-    MinV2 = spinMinV->value();
-    MaxV2 = spinMaxV->value();
-    if (MinV2 == 0) MinV2 = MinTop;
-    if (MaxV2 == 0) MaxV2 = MaxTop;
+    MinV1 = spinMinV->value();
+    MaxV1 = spinMaxV->value();
+    if (MinV1 == 0) MinV1 = MinTop;
+    if (MaxV1 == 0) MaxV1 = MaxTop;
 
-    showTopMap();
+    //showTopMap();
 
     MPlot->replot();
 }
@@ -183,27 +212,23 @@ void MainWindow::initTopMap()
     if (res == -1e20)
         return;
 
-    MPlot->setAxisAutoScale(MPlot->yRight, true);
-    MPlot->setAxisAutoScale(MPlot->xBottom, true);
-    MPlot->setAxisAutoScale(MPlot->yLeft, true);
-//    MPlot->setAxisScale( MPlot->xBottom, 0.0, _nrCols*_dx, _dx*10);
-//    MPlot->setAxisScale( MPlot->yLeft, 0.0, _nrRows*_dx, _dx*10);
 
-    MinTop = MinV2;
-    MaxTop = MaxV2;
 
-    spinMinV->setMinimum(MinTop);
-    spinMinV->setMaximum(MaxTop);
-    spinMaxV->setMinimum(MinTop);
-    spinMaxV->setMaximum(MaxTop);
-    spinMinV->setValue(MinTop);
-    spinMaxV->setValue(MaxTop);
-    if ((MaxTop-MinTop) < 10)
-    {
-        spinMinV->setDecimals(3);
-        spinMaxV->setDecimals(3);
-        spinMinV->setSingleStep(0.001);
-        spinMaxV->setSingleStep(0.001);
-    }
+//    MinTop = MinV2;
+//    MaxTop = MaxV2;
+
+//    spinMinV->setMinimum(MinTop);
+//    spinMinV->setMaximum(MaxTop);
+//    spinMaxV->setMinimum(MinTop);
+//    spinMaxV->setMaximum(MaxTop);
+//    spinMinV->setValue(MinTop);
+//    spinMaxV->setValue(MaxTop);
+//    if ((MaxTop-MinTop) < 10)
+//    {
+//        spinMinV->setDecimals(3);
+//        spinMaxV->setDecimals(3);
+//        spinMinV->setSingleStep(0.001);
+//        spinMaxV->setSingleStep(0.001);
+//    }
     drawMap->setAlpha(255);
 }
