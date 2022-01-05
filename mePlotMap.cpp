@@ -129,7 +129,7 @@ void MainWindow::showBaseMap()
     bpalette = new colorMapGray();
     bpalette1 = new colorMapGray();
 
-    double res = fillDrawMapData(baseRMap, RDb, 0, &MinV1, &MaxV1);
+    double res = fillDrawMapData(editRMap, RDb, 0, &MinV1, &MaxV1);
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);

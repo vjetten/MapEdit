@@ -110,13 +110,13 @@ void MainWindow::processMaps()
     topRMap = ReadMap(PathNames[1]);
     editRMap = NewMap(0);
 
-    FOR_ROW_COL_MV {
-        editRMap->Drc = topRMap->Drc;
-    }
-
     _dx = baseRMap->cellSize()*1.0000000;
     _nrRows = topRMap->nrRows();
     _nrCols = topRMap->nrCols();
+
+    FOR_ROW_COL_MV {
+        editRMap->Drc = topRMap->Drc;
+    }
 
     showBaseMap();
 

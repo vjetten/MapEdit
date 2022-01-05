@@ -107,7 +107,6 @@ public:
 
     QList <QwtPlotCurve*> curves;
 
-    QVector <int> selections;
     QwtPlotCurve *cur;
     QVector <double> vx;
     QVector <double> vy;
