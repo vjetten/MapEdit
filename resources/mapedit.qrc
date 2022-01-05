@@ -1,25 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>start1.png</file>
-        <file>onewfile.png</file>
-        <file>filesave.png</file>
-        <file>filesaveas.png</file>
-        <file>fileopen.png</file>
-        <file>openLisem.png</file>
-        <file>openLisem25.png</file>
-        <file>diropen.png</file>
-        <file>screenshots.png</file>
-        <file>Info.png</file>
-        <file>pause2.png</file>
-        <file>Undo-icon.png</file>
-        <file>stop1.png</file>
-        <file>stop120.png</file>
-        <file>Mscreenshots.png</file>
-        <file>deletereport4.png</file>
-        <file>refresh_24.png</file>
-        <file>vsplitter.png</file>
-        <file>fontbigger.png</file>
-        <file>fontselect.png</file>
-        <file>fontsmaller.png</file>
+        <file>filesave2X.png</file>
+        <file>filesaveas2X.png</file>
+        <file>Folder-icon.png</file>
+        <file>Folder-Open-icon.png</file>
+        <file>Folder-Open-icon1.png</file>
+        <file>information_42X.png</file>
+        <file>question-mark-button2x.png</file>
+        <file>reset.png</file>
     </qresource>
 </RCC>

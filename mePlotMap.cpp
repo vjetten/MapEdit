@@ -230,7 +230,8 @@ void MainWindow::drawSelectionCell()
     double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
 
   //  if (op.clicks == 1) {
-        cur = new QwtPlotCurve();
+        QwtPlotCurve cur;// = new QwtPlotCurve();
+        curves << cur;
         QBrush b;
         QColor col(Qt::magenta);
         col.setAlpha(96);
@@ -264,7 +265,8 @@ void MainWindow::drawSelectionPolygon()
     vy.clear();
 //qDebug() << op.clicks << op.polystart << op.eData.size();
     if (op.polystart == op.eData.size()-1) {
-        cur = new QwtPlotCurve();
+        QwtPlotCurve *cur = new QwtPlotCurve();
+        curves << cur;
         QBrush b;
         QColor col(Qt::magenta);
         col.setAlpha(96);
@@ -302,7 +304,8 @@ void MainWindow::drawSelectionLine()
     vy.clear();
 
     if (op.polystart == op.eData.size()-1) {
-        cur = new QwtPlotCurve();
+        QwtPlotCurve *cur = new QwtPlotCurve();
+        curves << cur;
         QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
         cur->setSymbol(whitedot);
 
@@ -331,12 +334,13 @@ void MainWindow::drawSelectionRectangle()
     vy.clear();
 
     if (op.polystart == op.eData.size()-1) {
-        cur = new QwtPlotCurve();
+        QwtPlotCurve *cur = new QwtPlotCurve();
+        curves << cur;
       //  QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
       //  cur->setSymbol(whitedot);
 
         cur->setPen( Qt::magenta, 2 );
-        cur->setStyle( QwtPlotCurve::steps );
+        cur->setStyle( QwtPlotCurve::Lines );
 
         cur->attach( MPlot );
         cur->setAxes(MPlot->xBottom, MPlot->yLeft);
@@ -356,7 +360,7 @@ void MainWindow::drawSelectionRectangle()
 //--------------------------------------------------------------------------
 void MainWindow::getCells()
 {
-    editValue = 1;
+    editValue = lineEdit_Value->text().toDouble();
     if (op.editCell) {
        for (int i = 0; i < op.eData.size(); i++) {
 
@@ -444,7 +448,6 @@ void MainWindow::getCells()
         }
     }
 
-    //QVector <double> nx;
     vx.clear();
     vy.clear();
     cur->setSamples(vx, vy);
@@ -453,6 +456,21 @@ void MainWindow::getCells()
     showTopMap();
     MPlot->replot();
 
+}
+//--------------------------------------------------------------------------
+void MainWindow::restoreCells()
+{
+    vx.clear();
+    vy.clear();
+    cur->setSamples(vx, vy);
+
+    FOR_ROW_COL_MV {
+        topRMap->Drc = editRMap->Drc;
+    }
+
+    double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
+    showTopMap();
+    MPlot->replot();
 }
 
 

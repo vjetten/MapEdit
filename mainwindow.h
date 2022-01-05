@@ -63,6 +63,8 @@ public:
     void showMap();
     void processMaps();
     cTMap *ReadMap(QString name);
+    void WriteMap(QString name);
+    cTMap *NewMap(double value);
 
     void initOP();
     void SetToolBar();
@@ -103,7 +105,7 @@ public:
 
     double editValue;
 
-    QwtPlotCurve *cur;
+    QList <QwtPlotCurve> curves;
     QVector <double> vx;
     QVector <double> vy;
 
@@ -112,20 +114,16 @@ public:
     void drawSelectionLine();
     void drawSelectionRectangle();
 
-
-
-protected:
-  //  bool eventFilter(QObject *obj, QEvent *event) override;
-
 public slots:
     void openMapFile();
-    void saveMapfile(QString name);
- //   void savefileas();
+    void saveMapFile();
+    void saveMapFileas();
     void ssetAlpha(int v);
     void setMinTopMap();
     void Show(const QString &results);
     void drawSelection();
     void getCells();
+    void restoreCells();
 
 private slots:
 
@@ -141,11 +139,21 @@ private slots:
 
     void on_toolButton_editRactangle_clicked(bool checked);
 
+    void on_toolButton_3_clicked();
+
+    void on_toolButton_4_clicked();
+
+    void on_toolButton_5_clicked();
+
+    void on_toolButton_doEdit_clicked();
+
+    void on_toolButton_restoreEdit_clicked();
+
 private:
    //toolbar actions
    QAction *openAct;
-//   QAction *saveAct;
-//   QAction *saveasAct;
+   QAction *saveAct;
+   QAction *saveasAct;
 
 //   QAction *shootscreenAct;
 //   QAction *shootMscreenAct;

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "global.h"
+#include "io.h"
 
 output op;
 
@@ -54,24 +55,28 @@ void MainWindow::initOP()
 //---------------------------------------------------------------------------------------
 void MainWindow::SetToolBar()
 {
-    openAct = new QAction(QIcon(":/fileopen.png"), "&Open...", this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip("Open a PCRaster map");
+    toolBar->setIconSize(QSize(24,24));
+
+    openAct = new QAction(QIcon(":/Folder-Open-icon1.png"), "&Open...", this);
+  //  openAct->setShortcuts(QKeySequence::Open);
+ //   openAct->setStatusTip("Open a PCRaster map");
     connect(openAct, SIGNAL(triggered()), this, SLOT(openMapFile()));
     toolBar->addAction(openAct);
 
-    //    saveAct = new QAction(QIcon(":/filesave.png"), "&Save...", this);
-    //    saveAct->setShortcuts(QKeySequence::Save);
-    //    saveAct->setStatusTip("Save ...");
-    //    connect(saveAct, SIGNAL(triggered()), this, SLOT(saveMapFile()));
-    //    toolBar->addAction(saveAct);
+    saveAct = new QAction(QIcon(":/filesave2X.png"), "&Save...", this);
+ //   saveAct->setShortcuts(QKeySequence::Save);
+  //  saveAct->setStatusTip("Save ...");
+    connect(saveAct, SIGNAL(triggered()), this, SLOT(saveMapFile()));
+    toolBar->addAction(saveAct);
 
-    //    saveasAct = new QAction(QIcon(":/filesaveas.png"), "Save &As...", this);
-    //    saveasAct->setShortcuts(QKeySequence::SaveAs);
-    //    saveasAct->setStatusTip("Save as ...");
-    //    connect(saveasAct, SIGNAL(triggered()), this, SLOT(savefileas()));
-    //    toolBar->addAction(saveasAct);
-    //    toolBar->addSeparator();
+    saveasAct = new QAction(QIcon(":/filesaveas2X.png"), "Save &As...", this);
+//    saveasAct->setShortcuts(QKeySequence::SaveAs);
+ //   saveasAct->setStatusTip("Save as ...");
+    connect(saveasAct, SIGNAL(triggered()), this, SLOT(saveMapFileas()));
+    toolBar->addAction(saveasAct);
+
+
+   // toolBar->addSeparator();
 
     //    shootscreenAct = new QAction(QIcon(":/screenshots.png"), "make a screendump of the current page", this);
     //    connect(shootscreenAct, SIGNAL(triggered()), this, SLOT(shootScreen()));
@@ -97,51 +102,17 @@ void MainWindow::SetToolBar()
     connect(spinMaxV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
 
 }
-//--------------------------------------------------------------------
-void MainWindow::openMapFile()
-{
-    QString filter = "PCR (*.map);;PCR (*.map *.0* *.1* *.2*);;all (*.*)";
-    QStringList files = QFileDialog::getOpenFileNames(
-                this, QString("Select PCRaster Maps"),
-                currentDir,
-                filter);
-    if (files.count() > 0)
-    {
-        currentDir = QFileInfo(files[0]).absoluteDir().absolutePath();
-    }
 
-    if (files.count() == 0)
-        return;
-
-    PathNames.clear();
-    PathNames << files;
-   // qDebug() << files << currentDir;
-
-
-    processMaps();
-}
-//--------------------------------------------------------------------
-cTMap *MainWindow::ReadMap(QString name)
-{
-    cTMap *_M = new cTMap(readRaster(name));
-
-    return(_M);
-}
 //--------------------------------------------------------------------
 void MainWindow::processMaps()
 {
-    if (PathNames.size() > 1) {
-        baseRMap = ReadMap(PathNames[0]);
-        topRMap = ReadMap(PathNames[1]);
-    } else {
-        baseRMap = ReadMap(PathNames[0]);
-        topRMap = ReadMap(PathNames[0]);
-    }
-//    editRMap = new cTMap();
-//    FOR_ROW_COL_MV {
-//        editRMap->Drc = 0;
-//    }
+    baseRMap = ReadMap(PathNames[0]);
+    topRMap = ReadMap(PathNames[1]);
+    editRMap = NewMap(0);
 
+    FOR_ROW_COL_MV {
+        editRMap->Drc = topRMap->Drc;
+    }
 
     _dx = baseRMap->cellSize()*1.0000000;
     _nrRows = topRMap->nrRows();
@@ -152,19 +123,16 @@ void MainWindow::processMaps()
     initTopMap();
 
     showTopMap();
+
 }
 //--------------------------------------------------------------------
-void MainWindow::saveMapfile(QString name)
+cTMap *MainWindow::NewMap(double value)
 {
+    cTMap *_M = new cTMap();
 
-    QFile fp(name);
-    if (!fp.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        QMessageBox::warning(this, QString("MapEdit"),
-                             QString("Cannot write file %1:\n%2.").arg(name).arg(fp.errorString()));
-        return;
-    }
-    fp.close();
+    _M->MakeMap(topRMap, value);
+
+    return(_M);
 }
 //--------------------------------------------------------------------
 void MainWindow::getStorePath()
@@ -209,9 +177,6 @@ void MainWindow::setStorePath()
 void MainWindow::Show(const QString &results)
 {
     QStringList s = results.split('=');
-//    label_rowcol->setText(s[0]);
-//    label_value->setText(s[1]);
-//    label_coor->setText(s[2]);
     statusLabel.setText(QString("row,col:%1 Coordinates:%2 Value:%3").arg(s[0]).arg(s[2]).arg(s[1]));
 }
 //---------------------------------------------------------------------------
@@ -294,5 +259,82 @@ void MainWindow::on_toolButton_editRactangle_clicked(bool checked)
     toolButton_editCell->setChecked(false);
     toolButton_editPolygon->setChecked(false);
     toolButton_editLine->setChecked(false);
+}
+//--------------------------------------------------------------------
+void MainWindow::saveMapFile()
+{
+    writeRaster(*topRMap, PathNames[1],"PCRaster");
+}
+//--------------------------------------------------------------------
+void MainWindow::saveMapFileas()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File as map",
+                           currentDir,
+                           "*.map");
+    if (!fileName.isEmpty()) {
+        writeRaster(*topRMap, fileName,"PCRaster");
+    }
+}
+//--------------------------------------------------------------------
+void MainWindow::openMapFile()
+{
+    QString filter = "PCR (*.map);;PCR (*.map *.0* *.1* *.2*);;all (*.*)";
+    QStringList files = QFileDialog::getOpenFileNames(
+                this, QString("Select PCRaster Maps"),
+                currentDir,
+                filter);
+    if (files.count() > 0)
+    {
+        currentDir = QFileInfo(files[0]).absoluteDir().absolutePath();
+    }
+
+    if (files.count() == 0)
+        return;
+
+    PathNames.clear();
+    PathNames << files;
+    if (PathNames.size() == 1) {
+        PathNames << files;
+    }
+
+//    qDebug() << files << currentDir;
+
+    processMaps();
+}
+//--------------------------------------------------------------------
+cTMap *MainWindow::ReadMap(QString name)
+{
+    cTMap *_M = new cTMap(readRaster(name));
+
+    return(_M);
+}
+
+void MainWindow::on_toolButton_3_clicked()
+{
+    openMapFile();
+}
+
+
+void MainWindow::on_toolButton_4_clicked()
+{
+    saveMapFile();
+}
+
+
+void MainWindow::on_toolButton_5_clicked()
+{
+    saveMapFileas();
+}
+
+
+void MainWindow::on_toolButton_doEdit_clicked()
+{
+    getCells();
+}
+
+
+void MainWindow::on_toolButton_restoreEdit_clicked()
+{
+    restoreCells();
 }
 
