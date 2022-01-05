@@ -317,7 +317,7 @@ void MainWindow::restoreCells()
     }
 
     FOR_ROW_COL_MV {
-        topRMap->Drc = editRMap->Drc;
+        topRMap->Drc = bakRMap->Drc;
     }
 
     double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);

@@ -90,7 +90,7 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double t
     for(int r = _nrRows-1; r >= 0; r--)
         for(int c=0; c < _nrCols; c++)
         {
-            if(!IS_MV_REAL8(&_M->Drc))
+            if(!IS_MV_REAL8(&_M->Drc) || _M->Drc <=-1e20)
             {
                 mapData << _M->Drc;
                 maxV = qMax(maxV, _M->Drc);
@@ -126,10 +126,12 @@ void MainWindow::showMap()
 //---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
 {
-    bpalette = new colorMapGray();
-    bpalette1 = new colorMapGray();
+//    bpalette = new colorMapGray();
+//    bpalette1 = new colorMapGray();
+    bpalette = new colorMapRainbow();
+    bpalette1 = new colorMapRainbow();
 
-    double res = fillDrawMapData(editRMap, RDb, 0, &MinV1, &MaxV1);
+    double res = fillDrawMapData(baseRMap, RDb, 0, &MinV1, &MaxV1);
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
@@ -180,8 +182,8 @@ void MainWindow::initTopMap()
     dpalette1 = new colorMapRainbow();
 
     double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
-    if (res == -1e20)
-        return;
+//    if (res == -1e20)
+//        return;
 
     MPlot->setAxisAutoScale(MPlot->yRight, true);
     MPlot->setAxisAutoScale(MPlot->xBottom, true);
@@ -205,5 +207,5 @@ void MainWindow::initTopMap()
         spinMinV->setSingleStep(0.001);
         spinMaxV->setSingleStep(0.001);
     }
-    drawMap->setAlpha(255);
+    drawMap->setAlpha(128);
 }

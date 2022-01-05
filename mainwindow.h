@@ -99,6 +99,7 @@ public:
     cTMap *baseRMap;
     cTMap *topRMap;
     cTMap *editRMap;
+    cTMap *bakRMap;
     QStringList PathNames;
 
     double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop;

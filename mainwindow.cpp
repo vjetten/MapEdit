@@ -107,15 +107,19 @@ void MainWindow::SetToolBar()
 void MainWindow::processMaps()
 {
     baseRMap = ReadMap(PathNames[0]);
-    topRMap = ReadMap(PathNames[1]);
-    editRMap = NewMap(0);
-
     _dx = baseRMap->cellSize()*1.0000000;
-    _nrRows = topRMap->nrRows();
-    _nrCols = topRMap->nrCols();
+    _nrRows = baseRMap->nrRows();
+    _nrCols = baseRMap->nrCols();
 
+    if (PathNames.size() > 1)
+        topRMap = ReadMap(PathNames[1]);
+    else
+        topRMap = NewMap(-1e20 - 1);
+
+    editRMap = NewMap(0);
+    bakRMap = NewMap(0);
     FOR_ROW_COL_MV {
-        editRMap->Drc = topRMap->Drc;
+        bakRMap->Drc = topRMap->Drc;
     }
 
     showBaseMap();
@@ -130,7 +134,7 @@ cTMap *MainWindow::NewMap(double value)
 {
     cTMap *_M = new cTMap();
 
-    _M->MakeMap(topRMap, value);
+    _M->MakeMap(baseRMap, value);
 
     return(_M);
 }
@@ -293,11 +297,11 @@ void MainWindow::openMapFile()
 
     PathNames.clear();
     PathNames << files;
-    if (PathNames.size() == 1) {
-        PathNames << files;
-    }
+//    if (PathNames.size() == 1) {
+//        PathNames << (currentDir+"/new.map");
+//    }
 
-//    qDebug() << files << currentDir;
+    qDebug() << files << currentDir;
 
     processMaps();
 }

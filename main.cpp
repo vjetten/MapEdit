@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setStyle(QStyleFactory::create("Fusion"));
 
-    Fixture fixture;
+    Fixture fixture; // for gdal
 
 
     if (argc <= 1)
