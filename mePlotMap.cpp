@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 void MainWindow::ssetAlpha(int v)
 {
-    drawMap->setAlpha(v);
+    //drawMap->setAlpha(v);
 
     MPlot->replot();
 }
@@ -30,7 +30,7 @@ void MainWindow::setupMapPlot()
 
     drawMap = new QwtPlotSpectrogram();
     drawMap->setRenderThreadCount( 0 );
-    drawMap->attach( MPlot );
+ //   drawMap->attach( MPlot );
     // NOTE the order in which these are attached is the order displayed.
 
     RD = new QwtMatrixRasterData();
@@ -81,7 +81,7 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double t
     double maxV = -1e20;
     double minV = 1e20;
     QVector<double> mapData;
-    mapData.clear();  //QVector double
+    mapData.clear();
 
     if (_M == NULL)
         return (maxV);
@@ -105,26 +105,21 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double t
     _RD->setValueMatrix( mapData, _nrCols );
     // set column number to divide vector into rows
 
-
-    double cy = _M->north();
-    double cx = _M->west();
+//    double cy = _M->north();
+//    double cx = _M->west();
 
 //     _RD->setInterval( Qt::XAxis, QwtInterval( cx,cx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
  //   _RD->setInterval( Qt::YAxis, QwtInterval( cy,cy+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
 
 
-   _RD->setInterval( Qt::XAxis, QwtInterval( 0, (double)_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
-    _RD->setInterval( Qt::YAxis, QwtInterval( 0, (double)_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::XAxis, QwtInterval( 0, _nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::YAxis, QwtInterval( 0, _nrRows*_dx, QwtInterval::ExcludeMaximum ) );
     // set x/y axis intervals
     return maxV;
 }
+
 //---------------------------------------------------------------------------
-void MainWindow::showMap()
-{
-    MPlot->replot();
-}
-//---------------------------------------------------------------------------
-void MainWindow::showBaseMap()
+void MainWindow::initBaseMap()
 {
 //    bpalette = new colorMapGray();
 //    bpalette1 = new colorMapGray();
@@ -135,77 +130,84 @@ void MainWindow::showBaseMap()
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
-    RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1-0.01, MaxV1+0.01));
+    RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
     // setdata sets a pointer to DRb to the private QWT d_data Qvector
 
-    rightAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
+    rightAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette);
 
+    MPlot->setAxisScale( MPlot->yRight, MinV1, MaxV1);
+    MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
+
+    // set spins
+//    MinTop = MinV1;
+//    MaxTop = MaxV1;
+
+//    spinMinV->setMinimum(MinTop);
+//    spinMinV->setMaximum(MaxTop);
+//    spinMaxV->setMinimum(MinTop);
+//    spinMaxV->setMaximum(MaxTop);
+//    spinMinV->setValue(MinTop);
+//    spinMaxV->setValue(MaxTop);
+//    if ((MaxTop-MinTop) < 10)
+//    {
+//        spinMinV->setDecimals(3);
+//        spinMaxV->setDecimals(3);
+//        spinMinV->setSingleStep(0.001);
+//        spinMaxV->setSingleStep(0.001);
+//    }
+}
+//---------------------------------------------------------------------------
+void MainWindow::showBaseMap()
+{
+    baseMap->setAlpha(255);
+    baseMap->setColorMap(bpalette);
+    RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
+    baseMap->setData(RDb);
+
+    rightAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette);
     MPlot->setAxisScale( MPlot->yRight, MinV1, MaxV1);
     MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
 }
 //---------------------------------------------------------------------------
 void MainWindow::setMinTopMap()
 {
-    MinV2 = spinMinV->value();
-    MaxV2 = spinMaxV->value();
-    if (MinV2 == 0) MinV2 = MinTop;
-    if (MaxV2 == 0) MaxV2 = MaxTop;
+    MinV1 = spinMinV->value();
+    MaxV1 = spinMaxV->value();
+    if (MinV1 == 0) MinV1 = MinTop;
+    if (MaxV1 == 0) MaxV1 = MaxTop;
 
-    showTopMap();
+    showBaseMap();
+//    showTopMap();
 
     MPlot->replot();
+}
+//---------------------------------------------------------------------------
+void MainWindow::initTopMap()
+{
+    dpalette = new colorMapRainbow();
+    dpalette1 = new colorMapRainbow();
+
+    double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
+    if (MinV2<=1e-20) MinV2 = 0;
+    if (MaxV2<=1e-20) MaxV2 = 1;
+
+    MPlot->setAxisAutoScale(MPlot->yRight, true);
+    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+    MPlot->setAxisAutoScale(MPlot->yLeft, true);
+
+    drawMap->setAlpha(128);
 }
 //---------------------------------------------------------------------------
 void MainWindow::showTopMap()
 {
     drawMap->setColorMap(dpalette);
     RD->setInterval( Qt::ZAxis, QwtInterval( MinV2, MaxV2));
+
     drawMap->setData(RD);
-    // setdata sets a pointer to DRb to the private QWT d_data Qvector
 
     rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
-
     MPlot->setAxisScale( MPlot->yRight, MinV2, MaxV2);
     MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
 
-}
-//---------------------------------------------------------------------------
-void MainWindow::initTopMap()
-{
-    op.nrC = _nrCols;
-    op.nrR = _nrRows;
-    op._dx = _dx;
-    op._M = topRMap;
-
-    dpalette = new colorMapRainbow();
-    dpalette1 = new colorMapRainbow();
-
-    double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
-//    if (res == -1e20)
-//        return;
-
-    MPlot->setAxisAutoScale(MPlot->yRight, true);
-    MPlot->setAxisAutoScale(MPlot->xBottom, true);
-    MPlot->setAxisAutoScale(MPlot->yLeft, true);
-//    MPlot->setAxisScale( MPlot->xBottom, 0.0, _nrCols*_dx, _dx*10);
-//    MPlot->setAxisScale( MPlot->yLeft, 0.0, _nrRows*_dx, _dx*10);
-
-    MinTop = MinV2;
-    MaxTop = MaxV2;
-
-    spinMinV->setMinimum(MinTop);
-    spinMinV->setMaximum(MaxTop);
-    spinMaxV->setMinimum(MinTop);
-    spinMaxV->setMaximum(MaxTop);
-    spinMinV->setValue(MinTop);
-    spinMaxV->setValue(MaxTop);
-    if ((MaxTop-MinTop) < 10)
-    {
-        spinMinV->setDecimals(3);
-        spinMaxV->setDecimals(3);
-        spinMinV->setSingleStep(0.001);
-        spinMaxV->setSingleStep(0.001);
-    }
-    drawMap->setAlpha(128);
 }

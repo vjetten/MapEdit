@@ -57,10 +57,10 @@ public:
 
     void setupMapPlot();
     double fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv);
+    void initBaseMap();
     void showBaseMap();
     void initTopMap();
     void showTopMap();
-    void showMap();
     void processMaps();
     cTMap *ReadMap(QString name);
     void WriteMap(QString name);
@@ -142,13 +142,7 @@ private slots:
 
     void on_toolButton_editLine_clicked(bool checked);
 
-    void on_toolButton_editRactangle_clicked(bool checked);
-
-    void on_toolButton_3_clicked();
-
-    void on_toolButton_4_clicked();
-
-    void on_toolButton_5_clicked();
+    void on_toolButton_editRectangle_clicked(bool checked);
 
     void on_toolButton_doEdit_clicked();
 

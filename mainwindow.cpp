@@ -114,7 +114,7 @@ void MainWindow::processMaps()
     if (PathNames.size() > 1)
         topRMap = ReadMap(PathNames[1]);
     else
-        topRMap = NewMap(-1e20 - 1);
+        topRMap = NewMap(0);//-1e20 - 1);
 
     editRMap = NewMap(0);
     bakRMap = NewMap(0);
@@ -122,12 +122,18 @@ void MainWindow::processMaps()
         bakRMap->Drc = topRMap->Drc;
     }
 
-    showBaseMap();
+    initBaseMap();
 
-    initTopMap();
+ //   showBaseMap();
 
-    showTopMap();
+//    initTopMap();
 
+//    showTopMap();
+
+    op.nrC = _nrCols;
+    op.nrR = _nrRows;
+    op._dx = _dx;
+    op._M = topRMap;
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::NewMap(double value)
@@ -249,7 +255,7 @@ void MainWindow::on_toolButton_editLine_clicked(bool checked)
 }
 
 
-void MainWindow::on_toolButton_editRactangle_clicked(bool checked)
+void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 {
     op.editCell = false;
     op.editRectangle = true;
@@ -313,23 +319,6 @@ cTMap *MainWindow::ReadMap(QString name)
     return(_M);
 }
 
-void MainWindow::on_toolButton_3_clicked()
-{
-    openMapFile();
-}
-
-
-void MainWindow::on_toolButton_4_clicked()
-{
-    saveMapFile();
-}
-
-
-void MainWindow::on_toolButton_5_clicked()
-{
-    saveMapFileas();
-}
-
 
 void MainWindow::on_toolButton_doEdit_clicked()
 {
@@ -341,4 +330,7 @@ void MainWindow::on_toolButton_restoreEdit_clicked()
 {
     restoreCells();
 }
+
+
+
 
