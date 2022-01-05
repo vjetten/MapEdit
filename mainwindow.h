@@ -57,6 +57,7 @@ public:
 
     void setupMapPlot();
     double fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv);
+    void initBaseMap();
     void showBaseMap();
     void initTopMap();
     void showTopMap();

@@ -111,16 +111,24 @@ void MainWindow::processMaps()
     _nrRows = baseRMap->nrRows();
     _nrCols = baseRMap->nrCols();
 
+    op.nrC = _nrCols;
+    op.nrR = _nrRows;
+    op._dx = _dx;
 
 
-    topRMap = ReadMap(PathNames[0]);
+    //topRMap = ReadMap(PathNames[0]);
+    topRMap = NewMap(0);
+    op._M = topRMap;
+
+
     editRMap = NewMap(0);
-
     FOR_ROW_COL_MV {
         editRMap->Drc = topRMap->Drc;
     }
 
-    showBaseMap();
+    initBaseMap();
+
+    //showBaseMap();
 
     initTopMap();
 
