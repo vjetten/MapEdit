@@ -229,21 +229,20 @@ void MainWindow::drawSelectionCell()
     double dx[5] = {-0.5,+0.5,+0.5,-0.5, -0.5};
     double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
 
-  //  if (op.clicks == 1) {
-        QwtPlotCurve cur;// = new QwtPlotCurve();
-        curves << cur;
-        QBrush b;
-        QColor col(Qt::magenta);
-        col.setAlpha(96);
-        b.setColor(col);
-        b.setStyle(Qt::SolidPattern);//Dense7Pattern);
+    QwtPlotCurve cur;// = new QwtPlotCurve();
+    curves << cur;
+    QBrush b;
+    QColor col(Qt::magenta);
+    col.setAlpha(96);
+    b.setColor(col);
+    b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
-        cur->setPen( Qt::magenta, 2 );
-        cur->setStyle( QwtPlotCurve::Lines );
-        cur->setBrush(b);
-        cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
-//    }
+    cur.setPen( Qt::magenta, 2 );
+    cur.setStyle( QwtPlotCurve::Lines );
+    cur.setBrush(b);
+    cur.attach( MPlot );
+    cur.setAxes(MPlot->xBottom, MPlot->yLeft);
+
     vx.clear();
     vy.clear();
 
@@ -255,8 +254,7 @@ void MainWindow::drawSelectionCell()
         vy << op.eData[l].cy+dy[i]*_dx;
     }
 
-    cur->setSamples(vx,vy);
-   // free(cur);
+    cur.setSamples(vx,vy);
 }
 //--------------------------------------------------------------------------
 void MainWindow::drawSelectionPolygon()
@@ -265,7 +263,7 @@ void MainWindow::drawSelectionPolygon()
     vy.clear();
 //qDebug() << op.clicks << op.polystart << op.eData.size();
     if (op.polystart == op.eData.size()-1) {
-        QwtPlotCurve *cur = new QwtPlotCurve();
+        QwtPlotCurve cur;// = new QwtPlotCurve();
         curves << cur;
         QBrush b;
         QColor col(Qt::magenta);
@@ -274,13 +272,13 @@ void MainWindow::drawSelectionPolygon()
         b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
         QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
-        cur->setSymbol(whitedot);
+        cur.setSymbol(whitedot);
 
-        cur->setPen( Qt::magenta, 2);
-        cur->setStyle( QwtPlotCurve::Lines );
-        cur->setBrush(b);
-        cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+        cur.setPen( Qt::magenta, 2);
+        cur.setStyle( QwtPlotCurve::Lines );
+        cur.setBrush(b);
+        cur.attach( MPlot );
+        cur.setAxes(MPlot->xBottom, MPlot->yLeft);
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
@@ -294,7 +292,7 @@ void MainWindow::drawSelectionPolygon()
     vx << op.eData[op.polystart].cx;
     vy << op.eData[op.polystart].cy;
 
-    cur->setSamples(vx,vy);
+    curves.last().setSamples(vx,vy);
 
 }
 //--------------------------------------------------------------------------
@@ -304,16 +302,16 @@ void MainWindow::drawSelectionLine()
     vy.clear();
 
     if (op.polystart == op.eData.size()-1) {
-        QwtPlotCurve *cur = new QwtPlotCurve();
+        QwtPlotCurve cur;// = new QwtPlotCurve();
         curves << cur;
         QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
-        cur->setSymbol(whitedot);
+        cur.setSymbol(whitedot);
 
-        cur->setPen( Qt::magenta, 2 );
-        cur->setStyle( QwtPlotCurve::Lines );
+        cur.setPen( Qt::magenta, 2 );
+        cur.setStyle( QwtPlotCurve::Lines );
 
-        cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+        cur.attach( MPlot );
+        cur.setAxes(MPlot->xBottom, MPlot->yLeft);
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
@@ -324,7 +322,8 @@ void MainWindow::drawSelectionLine()
         vy << op.eData[i].cy;
     }
 
-    cur->setSamples(vx,vy);
+//    curves[curves.size()-1].setSamples(vx,vy);
+    curves.last().setSamples(vx,vy);
 
 }
 //--------------------------------------------------------------------------
@@ -334,16 +333,16 @@ void MainWindow::drawSelectionRectangle()
     vy.clear();
 
     if (op.polystart == op.eData.size()-1) {
-        QwtPlotCurve *cur = new QwtPlotCurve();
+        QwtPlotCurve cur;// = new QwtPlotCurve();
         curves << cur;
       //  QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
-      //  cur->setSymbol(whitedot);
+      //  cur.setSymbol(whitedot);
 
-        cur->setPen( Qt::magenta, 2 );
-        cur->setStyle( QwtPlotCurve::Lines );
+        cur.setPen( Qt::magenta, 2 );
+        cur.setStyle( QwtPlotCurve::Lines );
 
-        cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+        cur.attach( MPlot );
+        cur.setAxes(MPlot->xBottom, MPlot->yLeft);
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
@@ -354,8 +353,8 @@ void MainWindow::drawSelectionRectangle()
         vy << op.eData[i].cy;
     }
 
-    cur->setSamples(vx,vy);
-
+    //cur.setSamples(vx,vy);
+    curves.last().setSamples(vx,vy);
 }
 //--------------------------------------------------------------------------
 void MainWindow::getCells()
@@ -450,7 +449,10 @@ void MainWindow::getCells()
 
     vx.clear();
     vy.clear();
-    cur->setSamples(vx, vy);
+    //cur.setSamples(vx, vy);
+    for (int i = 0; i < curves.count(); i++) {
+        curves.at(i).setSamples(vx, vy);
+    }
 
     double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
     showTopMap();
@@ -462,7 +464,7 @@ void MainWindow::restoreCells()
 {
     vx.clear();
     vy.clear();
-    cur->setSamples(vx, vy);
+    curves.last().setSamples(vx, vy);
 
     FOR_ROW_COL_MV {
         topRMap->Drc = editRMap->Drc;
