@@ -141,13 +141,7 @@ private slots:
 
     void on_toolButton_editLine_clicked(bool checked);
 
-    void on_toolButton_editRactangle_clicked(bool checked);
-
-    void on_toolButton_3_clicked();
-
-    void on_toolButton_4_clicked();
-
-    void on_toolButton_5_clicked();
+    void on_toolButton_editRectangle_clicked(bool checked);
 
     void on_toolButton_doEdit_clicked();
 

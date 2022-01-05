@@ -107,12 +107,14 @@ void MainWindow::SetToolBar()
 void MainWindow::processMaps()
 {
     baseRMap = ReadMap(PathNames[0]);
-    topRMap = ReadMap(PathNames[1]);
-    editRMap = NewMap(0);
-
     _dx = baseRMap->cellSize()*1.0000000;
-    _nrRows = topRMap->nrRows();
-    _nrCols = topRMap->nrCols();
+    _nrRows = baseRMap->nrRows();
+    _nrCols = baseRMap->nrCols();
+
+
+
+    topRMap = ReadMap(PathNames[0]);
+    editRMap = NewMap(0);
 
     FOR_ROW_COL_MV {
         editRMap->Drc = topRMap->Drc;
@@ -130,7 +132,7 @@ cTMap *MainWindow::NewMap(double value)
 {
     cTMap *_M = new cTMap();
 
-    _M->MakeMap(topRMap, value);
+    _M->MakeMap(baseRMap, value);
 
     return(_M);
 }
@@ -245,7 +247,7 @@ void MainWindow::on_toolButton_editLine_clicked(bool checked)
 }
 
 
-void MainWindow::on_toolButton_editRactangle_clicked(bool checked)
+void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 {
     op.editCell = false;
     op.editRectangle = true;
@@ -293,11 +295,6 @@ void MainWindow::openMapFile()
 
     PathNames.clear();
     PathNames << files;
-    if (PathNames.size() == 1) {
-        PathNames << files;
-    }
-
-//    qDebug() << files << currentDir;
 
     processMaps();
 }
@@ -307,23 +304,6 @@ cTMap *MainWindow::ReadMap(QString name)
     cTMap *_M = new cTMap(readRaster(name));
 
     return(_M);
-}
-
-void MainWindow::on_toolButton_3_clicked()
-{
-    openMapFile();
-}
-
-
-void MainWindow::on_toolButton_4_clicked()
-{
-    saveMapFile();
-}
-
-
-void MainWindow::on_toolButton_5_clicked()
-{
-    saveMapFileas();
 }
 
 

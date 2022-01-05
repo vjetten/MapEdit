@@ -106,14 +106,14 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double t
     // set column number to divide vector into rows
 
 
-    double cy = _M->north();
-    double cx = _M->west();
+  //  double cy = _M->north();
+  //  double cx = _M->west();
 
 //     _RD->setInterval( Qt::XAxis, QwtInterval( cx,cx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
  //   _RD->setInterval( Qt::YAxis, QwtInterval( cy,cy+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
 
 
-   _RD->setInterval( Qt::XAxis, QwtInterval( 0, (double)_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::XAxis, QwtInterval( 0, (double)_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
     _RD->setInterval( Qt::YAxis, QwtInterval( 0, (double)_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
     // set x/y axis intervals
     return maxV;
@@ -129,11 +129,11 @@ void MainWindow::showBaseMap()
     bpalette = new colorMapGray();
     bpalette1 = new colorMapGray();
 
-    double res = fillDrawMapData(editRMap, RDb, 0, &MinV1, &MaxV1);
+    double res = fillDrawMapData(baseRMap, RDb, 0, &MinV1, &MaxV1);
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
-    RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1-0.01, MaxV1+0.01));
+    RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
     // setdata sets a pointer to DRb to the private QWT d_data Qvector
 
