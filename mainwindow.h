@@ -43,7 +43,7 @@
 #define Drc     data[r][c]
 #define FOR_ROW_COL_MV for(int r = 0; r < _nrRows; r++)\
     for (int c = 0; c < _nrCols; c++)\
-    if(!pcr::isMV(topRMap->data[r][c]))
+    if(!pcr::isMV(baseRMap->data[r][c]))
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -56,7 +56,7 @@ public:
     ~MainWindow();
 
     void setupMapPlot();
-    double fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double type, double *minv, double *maxv);
+    double fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *minv, double *maxv);
     void initBaseMap();
     void showBaseMap();
     void initTopMap();
@@ -67,7 +67,7 @@ public:
     void WriteMap(QString name);
     cTMap *NewMap(double value);
 
-    void initOP();
+    void initOP(bool doit);
     void SetToolBar();
     void setStorePath();
     void getStorePath();
@@ -89,7 +89,8 @@ public:
     QwtLinearColorMap *dpalette, *dpalette1;
 
     QwtInterval legend;
-    QwtScaleWidget *rightAxis;
+    QwtScaleWidget *rightAxisBase;
+    QwtScaleWidget *rightAxisTop;
     QwtPlotRescaler *mapRescaler;
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
@@ -113,6 +114,9 @@ public:
     QVector <double> vy;
     QVector <int> cx;
     QVector <int> ry;
+
+    QBrush b;
+    QwtSymbol *whitedot;
 
     void drawSelectionCell();
     void drawSelectionPolygon();

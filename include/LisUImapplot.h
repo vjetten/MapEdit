@@ -13,14 +13,39 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
+
+class colorMapMagenta: public QwtLinearColorMap
+{
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value < -1e19 )
+            return qRgba( 220,220,220,0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
+public:
+    colorMapMagenta():
+        QwtLinearColorMap( QColor(BGc),Qt::magenta  )
+    {
+        addColorStop(0, QColor("#ffffff"));
+    }
+};
 /// Gray scale legend for shaded relief map display
 class colorMapGray: public QwtLinearColorMap
 {
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value < -1e19 )
+            return qRgba( 220,220,220,0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
 public:
     colorMapGray():
-        QwtLinearColorMap( QColor(BGc),Qt::white  )
+        QwtLinearColorMap( QColor(BGc),Qt::black  )
     {
-        addColorStop(0, QColor("#111111"));
+        addColorStop(0, QColor("#ffffff"));
+        addColorStop(0.5, QColor("#888888"));
     }
 };
 //---------------------------------------------------------------------------

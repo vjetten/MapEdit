@@ -22,11 +22,6 @@ void MainWindow::drawSelectionCell()
 
     cur = new QwtPlotCurve();
     curves << cur;
-    QBrush b;
-    QColor col(Qt::magenta);
-    col.setAlpha(96);
-    b.setColor(col);
-    b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
     cur->setPen( Qt::magenta, 2 );
     cur->setStyle( QwtPlotCurve::Lines );
@@ -57,15 +52,8 @@ void MainWindow::drawSelectionPolygon()
     if (op.polystart == op.eData.size()-1) {
         cur = new QwtPlotCurve();
         curves << cur;
-        QBrush b;
-        QColor col(Qt::magenta);
-        col.setAlpha(96);
-        b.setColor(col);
-        b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
-        QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
         cur->setSymbol(whitedot);
-
         cur->setPen( Qt::magenta, 2);
         cur->setStyle( QwtPlotCurve::Lines );
         cur->setBrush(b);
@@ -106,9 +94,8 @@ void MainWindow::drawSelectionLine()
     if (op.polystart == op.eData.size()-1) {
         cur = new QwtPlotCurve();
         curves << cur;
-        QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
-        cur->setSymbol(whitedot);
 
+        cur->setSymbol(whitedot);
         cur->setPen( Qt::magenta, 2 );
         cur->setStyle( QwtPlotCurve::Lines );
 
@@ -150,12 +137,15 @@ void MainWindow::drawSelectionRectangle()
 {
     vx.clear();
     vy.clear();
+    cx.clear();
+    ry.clear();
+
     if (op.polystart == op.eData.size()-1) {
         cur = new QwtPlotCurve();
         curves << cur;
-      //  QwtSymbol *whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( 10,10 ));
-      //  cur->setSymbol(whitedot);
 
+        cur->setSymbol(whitedot);
+        cur->setBrush(b);
         cur->setPen( Qt::magenta, 2 );
         cur->setStyle( QwtPlotCurve::Lines );
 
@@ -164,14 +154,34 @@ void MainWindow::drawSelectionRectangle()
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
-
         op.vvx << vx;
         op.vvy << vy;
+
+        cx << op.eData[op.polystart].c;
+        ry << op.eData[op.polystart].r;
+        op.ccx << cx;
+        op.rry << ry;
     }
 
+    // fill rectangle vectors
     for (int i = op.polystart; i < op.eData.size(); i++) {
+        vx << op.eData[op.polystart].cx;
+        vy << op.eData[i].cy;
         vx << op.eData[i].cx;
         vy << op.eData[i].cy;
+        vx << op.eData[i].cx;
+        vy << op.eData[op.polystart].cy;
+        vx << op.eData[op.polystart].cx;
+        vy << op.eData[op.polystart].cy;
+
+        cx << op.eData[op.polystart].c;
+        ry << op.eData[i].r;
+        cx << op.eData[i].c;
+        ry << op.eData[i].r;
+        cx << op.eData[i].c;
+        ry << op.eData[op.polystart].r;
+        cx << op.eData[op.polystart].c;
+        ry << op.eData[op.polystart].r;
     }
 
     if (op.vvx.size() > 0) {
@@ -179,6 +189,10 @@ void MainWindow::drawSelectionRectangle()
         op.vvx << vx;
         op.vvy.removeLast();
         op.vvy << vy;
+        op.ccx.removeLast();
+        op.ccx << cx;
+        op.rry.removeLast();
+        op.rry << ry;
     }
 
     cur->setSamples(vx,vy);
@@ -187,6 +201,8 @@ void MainWindow::drawSelectionRectangle()
 void MainWindow::getCells()
 {
     editValue = lineEdit_Value->text().toDouble();
+    MinV2 =std::min(MinV2, editValue);
+    MaxV2 =std::max(MaxV2, editValue);
 
     if (op.editCell) {
        for (int i = 0; i < op.eData.size(); i++) {
@@ -266,6 +282,24 @@ void MainWindow::getCells()
         }
     }
 
+    if (op.editRectangle) {
+        for (int k = 0; k < op.ccx.count(); k++)  {
+            QVector <int> _cx;
+            QVector <int> _ry;
+            _cx << op.ccx[k];
+            _ry << op.rry[k];
+            qDebug() << _ry << _cx;
+
+            int r0 = *std::min_element(_ry.constBegin(), _ry.constEnd());
+            int rn = *std::max_element(_ry.constBegin(), _ry.constEnd());
+            int c0 = *std::min_element(_cx.constBegin(), _cx.constEnd());
+            int cn = *std::max_element(_cx.constBegin(), _cx.constEnd());
+            for (int r = r0 ; r <= rn; r++)
+                for (int c = c0 ; c <= cn; c++)
+                      topRMap->data[r][c] = editValue;
+        }
+    }
+
     if (op.editPolygon) {
         for (int k = 0; k < op.vvx.count(); k++)  {
             QVector <double> _vx;
@@ -274,7 +308,7 @@ void MainWindow::getCells()
             _vy << op.vvy[k];
 
             int n = _vx.size();
-            qDebug() << n;
+
             FOR_ROW_COL_MV {
                 double cy = (_nrRows-r-1)*_dx + 0.5*_dx;
                 double cx = c*_dx + 0.5*_dx;
@@ -302,9 +336,11 @@ void MainWindow::getCells()
         curves.at(i)->setSamples(vx, vy);
     }
 
-    double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
+    double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
     showTopMap();
     MPlot->replot();
+
+
 
 }
 //--------------------------------------------------------------------------
@@ -320,7 +356,7 @@ void MainWindow::restoreCells()
         topRMap->Drc = editRMap->Drc;
     }
 
-    double res = fillDrawMapData(topRMap, RD, 0, &MinV2, &MaxV2);
+    double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
     showTopMap();
     MPlot->replot();
 }

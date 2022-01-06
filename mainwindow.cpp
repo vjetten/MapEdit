@@ -12,7 +12,14 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 
     currentDir = "";
 
-    initOP();
+    initOP(true);
+
+    int size = qApp->font().pointSize()*0.8;
+    whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( size,size ));
+    QColor col(Qt::magenta);
+    col.setAlpha(96);
+    b.setColor(col);
+    b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 
     getStorePath();
 
@@ -35,7 +42,7 @@ MainWindow::~MainWindow()
 }
 
 //---------------------------------------------------------------------------------------
-void MainWindow::initOP()
+void MainWindow::initOP(bool doit)
 {
     op.editCell = false;
     op.editRectangle= false;
@@ -45,12 +52,19 @@ void MainWindow::initOP()
     op.editStop= false;
     op.clicks = 0;
 
-    op._M = NULL;
-    op.nrC = 0;
-    op.nrR = 0;
-    op._dx = 0;;
+    if (doit) {
+        op._M = nullptr;
+        op.nrC = 0;
+        op.nrR = 0;
+        op._dx = 0;
+    }
 
     op.eData.clear();
+
+    op.vvx.clear();
+    op.vvy.clear();
+    op.ccx.clear();
+    op.rry.clear();
 }
 //---------------------------------------------------------------------------------------
 void MainWindow::SetToolBar()
@@ -117,7 +131,7 @@ void MainWindow::processMaps()
 
 
     //topRMap = ReadMap(PathNames[0]);
-    topRMap = NewMap(0);
+    topRMap = NewMap(-1e20);
     op._M = topRMap;
 
 
@@ -128,11 +142,28 @@ void MainWindow::processMaps()
 
     initBaseMap();
 
-    //showBaseMap();
+    showBaseMap();
 
     initTopMap();
 
     showTopMap();
+
+    MinTop = MinV1;
+    MaxTop = MaxV1;
+
+    spinMinV->setMinimum(MinTop);
+    spinMinV->setMaximum(MaxTop);
+    spinMaxV->setMinimum(MinTop);
+    spinMaxV->setMaximum(MaxTop);
+    spinMinV->setValue(MinTop);
+    spinMaxV->setValue(MaxTop);
+    if ((MaxTop-MinTop) < 10)
+    {
+        spinMinV->setDecimals(3);
+        spinMaxV->setDecimals(3);
+        spinMinV->setSingleStep(0.001);
+        spinMaxV->setSingleStep(0.001);
+    }
 
     MPlot->replot();
 }
@@ -188,7 +219,7 @@ void MainWindow::setStorePath()
 void MainWindow::Show(const QString &results)
 {
     QStringList s = results.split('=');
-    statusLabel.setText(QString("row,col:%1 Coordinates:%2 Value:%3").arg(s[0]).arg(s[2]).arg(s[1]));
+    statusLabel.setText(QString("row,col:%1 Coordinates:%2 Value: %3").arg(s[0]).arg(s[2]).arg(s[1]));
 }
 //---------------------------------------------------------------------------
 
@@ -208,14 +239,18 @@ void MainWindow::on_toolButtonResetMax_clicked()
 void MainWindow::on_toolButton_editCell_clicked(bool checked)
 {
     // if map loaded!
+//    op.editCell = true;
+//    op.editRectangle = false;
+//    op.editLine = false;
+//    op.editPolygon = false;
+//    op.editStart = true;
+//    op.editStop = false;
+//    op.clicks = 0;
+//    op.eData.clear();
+
+    initOP(false);
     op.editCell = true;
-    op.editRectangle = false;
-    op.editLine = false;
-    op.editPolygon = false;
     op.editStart = true;
-    op.editStop = false;
-    op.clicks = 0;
-    op.eData.clear();
 
     toolButton_editPolygon->setChecked(false);
     toolButton_editLine->setChecked(false);
@@ -224,14 +259,16 @@ void MainWindow::on_toolButton_editCell_clicked(bool checked)
 
 void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
 {
-    op.editCell = false;
-    op.editRectangle = false;
-    op.editLine = false;
+//    op.editCell = false;
+//    op.editRectangle = false;
+//    op.editLine = false;
+//    op.editStop = false;
+//    op.clicks = 0;
+//    op.eData.clear();
+
+    initOP(false);
     op.editPolygon = true;
     op.editStart = true;
-    op.editStop = false;
-    op.clicks = 0;
-    op.eData.clear();
 
     toolButton_editCell->setChecked(false);
     toolButton_editLine->setChecked(false);
@@ -241,14 +278,18 @@ void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
 
 void MainWindow::on_toolButton_editLine_clicked(bool checked)
 {
-    op.editCell = false;
-    op.editRectangle = false;
+//    op.editCell = false;
+//    op.editRectangle = false;
+//    op.editLine = true;
+//    op.editPolygon = false;
+//    op.editStart = true;
+//    op.editStop = false;
+//    op.clicks = 0;
+//    op.eData.clear();
+
+    initOP(false);
     op.editLine = true;
-    op.editPolygon = false;
     op.editStart = true;
-    op.editStop = false;
-    op.clicks = 0;
-    op.eData.clear();
 
     toolButton_editCell->setChecked(false);
     toolButton_editPolygon->setChecked(false);
@@ -258,14 +299,19 @@ void MainWindow::on_toolButton_editLine_clicked(bool checked)
 
 void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 {
-    op.editCell = false;
+//    op.editCell = false;
+//    op.editRectangle = true;
+//    op.editLine = false;
+//    op.editPolygon = false;
+//    op.editStart = true;
+//    op.editStop = false;
+//    op.clicks = 0;
+//    op.eData.clear();
+
+
+    initOP(false);
     op.editRectangle = true;
-    op.editLine = false;
-    op.editPolygon = false;
     op.editStart = true;
-    op.editStop = false;
-    op.clicks = 0;
-    op.eData.clear();
 
     toolButton_editCell->setChecked(false);
     toolButton_editPolygon->setChecked(false);
@@ -274,11 +320,15 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 //--------------------------------------------------------------------
 void MainWindow::saveMapFile()
 {
+    if (PathNames.size() > 0)
     writeRaster(*topRMap, PathNames[1],"PCRaster");
 }
 //--------------------------------------------------------------------
 void MainWindow::saveMapFileas()
 {
+   if (PathNames.size() == 0)
+       return;
+
     QString fileName = QFileDialog::getSaveFileName(this, "Save File as map",
                            currentDir,
                            "*.map");
@@ -314,11 +364,17 @@ cTMap *MainWindow::ReadMap(QString name)
 
     return(_M);
 }
+//--------------------------------------------------------------------
 
 
 void MainWindow::on_toolButton_doEdit_clicked()
 {
     getCells();
+    initOP(false);
+    toolButton_editCell->setChecked(false);
+    toolButton_editPolygon->setChecked(false);
+    toolButton_editRectangle->setChecked(false);
+    toolButton_editLine->setChecked(false);
 }
 
 
