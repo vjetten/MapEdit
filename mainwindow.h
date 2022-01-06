@@ -61,7 +61,7 @@ public:
     void showBaseMap();
     void initTopMap();
     void showTopMap();
-    void showMap();
+
     void processMaps();
     cTMap *ReadMap(QString name);
     void WriteMap(QString name);
@@ -90,7 +90,7 @@ public:
 
     QwtInterval legend;
     QwtScaleWidget *rightAxisBase;
-    QwtScaleWidget *rightAxisTop;
+    QwtScaleWidget *leftAxisTop;
     QwtPlotRescaler *mapRescaler;
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;

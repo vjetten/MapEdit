@@ -97,7 +97,7 @@
           <string/>
          </property>
          <property name="text">
-          <string>0</string>
+          <string>1.0</string>
          </property>
         </widget>
        </item>

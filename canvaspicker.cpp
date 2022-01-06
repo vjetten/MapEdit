@@ -64,11 +64,10 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         }
 
     }
-    qDebug() << event->type();
+  //  qDebug() << event->type();
     if (event->type() == QEvent::MouseMove)
     {
         const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
-        qDebug() << mouseEvent->pos() ;
         move( mouseEvent->pos() );
         return true;
     }

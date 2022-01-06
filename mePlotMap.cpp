@@ -44,10 +44,10 @@ void MainWindow::setupMapPlot()
     rightAxisBase->setMargin(8);
     rightAxisBase->setBorderDist(64, 64);
     // legend to the right of the plot
-    rightAxisTop = new QwtScaleWidget();
-    rightAxisTop = MPlot->axisWidget( MPlot->yLeft );
-    rightAxisTop->setColorBarEnabled( true );
-    rightAxisTop->setColorBarWidth( 16 );
+    leftAxisTop = new QwtScaleWidget();
+    leftAxisTop = MPlot->axisWidget( MPlot->yLeft );
+    leftAxisTop->setColorBarEnabled( true );
+    leftAxisTop->setColorBarWidth( 16 );
   //  rightAxisTop->setMargin(8);
   //  rightAxisTop->setBorderDist(64,64);
     // legend to the right of the plot
@@ -127,21 +127,15 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
     return maxV;
 }
 //---------------------------------------------------------------------------
-void MainWindow::showMap()
-{
-    MPlot->replot();
-}
-//---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
 {
-    baseMap->setColorMap(bpalette);
+// show base map with new spin values
+
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
-
     rightAxisBase->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
-
     MPlot->setAxisScale( MPlot->yRight, MinV1, MaxV1);
-    MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
+    // adjust legend to new spin values
 }
 
 //---------------------------------------------------------------------------
@@ -164,9 +158,9 @@ void MainWindow::initBaseMap()
     MPlot->setAxisScale( MPlot->yRight, MinV1, MaxV1);
     MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
 
-    MPlot->setAxisAutoScale(MPlot->yRight, true);
+  //  MPlot->setAxisAutoScale(MPlot->yRight, true);
     MPlot->setAxisAutoScale(MPlot->xBottom, true);
-    MPlot->setAxisAutoScale(MPlot->yLeft, true);
+ //   MPlot->setAxisAutoScale(MPlot->yLeft, true);
 
 
 }
@@ -176,12 +170,12 @@ void MainWindow::showTopMap()
 {
     double mi = (MinV2 <= 1e-20 ? 0 : MinV2);
     double ma = (MaxV2 <= 1e-20 ? 0 : MaxV2);
-
+qDebug() << mi << ma << MinV2 << MaxV2;
     drawMap->setColorMap(dpalette);
-    RD->setInterval( Qt::ZAxis, QwtInterval( MinV2,MaxV2));
+    RD->setInterval( Qt::ZAxis, QwtInterval(mi,ma));// MinV2,MaxV2));
     drawMap->setData(RD);
 
-    rightAxisTop->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
+    leftAxisTop->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
 
     MPlot->setAxisScale( MPlot->yLeft, mi,ma);
     MPlot->setAxisScaleEngine( MPlot->yLeft, new QwtLinearScaleEngine() );
@@ -190,10 +184,10 @@ void MainWindow::showTopMap()
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
 {
-    dpalette = new colorMapGray();
-    dpalette1 = new colorMapGray();
-    //dpalette = new colorMapRainbow();
-    //dpalette1 = new colorMapRainbow();
+  //  dpalette = new colorMapGray();
+  //  dpalette1 = new colorMapGray();
+    dpalette = new colorMapRainbow();
+    dpalette1 = new colorMapRainbow();
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
 
