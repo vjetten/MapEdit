@@ -209,8 +209,7 @@ void MainWindow::getCells()
 
            int r = op.eData[i].r;
            int c = op.eData[i].c;
-
-           topRMap->data[r][c] = editValue;
+           topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
        }
     }
 
@@ -239,15 +238,17 @@ void MainWindow::getCells()
                     // vertical line
                     int st = std::min(cb,ce);
                     int en = std::max(cb,ce);
+                    int r = rb;
                     for(int c = st; c <= en; c++)
-                        topRMap->data[rb][c] = editValue;
+                        topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                 } else
                     if (cb == ce) {
                         //horizontal line
                         int st = std::min(rb,re);
                         int en = std::max(rb,re);
+                        int c = cb;
                         for(int r = st; r <= en; r++)
-                            topRMap->data[r][cb] = editValue;
+                            topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                     } else {
                         //diagonal lines
                         double dx = cn-c0;
@@ -261,7 +262,7 @@ void MainWindow::getCells()
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
 
-                                topRMap->data[r][c] = editValue;
+                                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
 
                             }
                         } else {
@@ -273,7 +274,7 @@ void MainWindow::getCells()
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
 
-                                topRMap->data[r][c] = editValue;
+                                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
 
                             }
                         }
@@ -288,7 +289,6 @@ void MainWindow::getCells()
             QVector <int> _ry;
             _cx << op.ccx[k];
             _ry << op.rry[k];
-            qDebug() << _ry << _cx;
 
             int r0 = *std::min_element(_ry.constBegin(), _ry.constEnd());
             int rn = *std::max_element(_ry.constBegin(), _ry.constEnd());
@@ -296,7 +296,7 @@ void MainWindow::getCells()
             int cn = *std::max_element(_cx.constBegin(), _cx.constEnd());
             for (int r = r0 ; r <= rn; r++)
                 for (int c = c0 ; c <= cn; c++)
-                      topRMap->data[r][c] = editValue;
+                      topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
         }
     }
 
@@ -324,7 +324,7 @@ void MainWindow::getCells()
                 }
 
                 if (res == 1) {
-                    topRMap->data[r][c] = editValue;
+                    topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                 }
             }
         }
@@ -337,8 +337,8 @@ void MainWindow::getCells()
     }
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
-qDebug() <<"e"<<MinV2 << MaxV2;
-   // initTopMap();
+
+
     showTopMap();
     MPlot->replot();
 

@@ -21,6 +21,7 @@ struct output{
     bool editPolygon;
 	bool editStart;
 	bool editStop;
+    bool editRestore;
     int clicks;
     int polystart;
 

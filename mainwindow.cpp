@@ -52,6 +52,7 @@ void MainWindow::initOP(bool doit)
     op.editPolygon= false;
     op.editStart= false;
     op.editStop= false;
+    op.editRestore= false;
     op.clicks = 0;
 
     if (doit) {
@@ -74,23 +75,24 @@ void MainWindow::SetToolBar()
     toolBar->setIconSize(QSize(24,24));
 
     openAct = new QAction(QIcon(":/Folder-Open-icon1.png"), "&Open...", this);
-  //  openAct->setShortcuts(QKeySequence::Open);
- //   openAct->setStatusTip("Open a PCRaster map");
     connect(openAct, SIGNAL(triggered()), this, SLOT(openMapFile()));
     toolBar->addAction(openAct);
 
     saveAct = new QAction(QIcon(":/filesave2X.png"), "&Save...", this);
- //   saveAct->setShortcuts(QKeySequence::Save);
-  //  saveAct->setStatusTip("Save ...");
     connect(saveAct, SIGNAL(triggered()), this, SLOT(saveMapFile()));
     toolBar->addAction(saveAct);
 
     saveasAct = new QAction(QIcon(":/filesaveas2X.png"), "Save &As...", this);
-//    saveasAct->setShortcuts(QKeySequence::SaveAs);
- //   saveasAct->setStatusTip("Save as ...");
     connect(saveasAct, SIGNAL(triggered()), this, SLOT(saveMapFileas()));
     toolBar->addAction(saveasAct);
 
+    PaletteBaseAct = new QAction(QIcon(":/palette1.png"), "Save &As...", this);
+    connect(PaletteBaseAct, SIGNAL(triggered()), this, SLOT(changePaletteBase()));
+    toolBar->addAction(PaletteBaseAct);
+
+    PaletteTopAct = new QAction(QIcon(":/palette2.png"), "Save &As...", this);
+    connect(PaletteTopAct, SIGNAL(triggered()), this, SLOT(changePaletteTop()));
+    toolBar->addAction(PaletteTopAct);
 
    // toolBar->addSeparator();
 
@@ -117,8 +119,23 @@ void MainWindow::SetToolBar()
     connect(spinMinV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
     connect(spinMaxV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
 
-}
+    label_white->setStyleSheet("background-color: white");
+    label_black->setStyleSheet("background-color: black");
 
+}
+void MainWindow::changePalette(int nr)
+{
+
+}
+//--------------------------------------------------------------------
+void MainWindow::changePaletteTop()
+{
+    changePalette(1);
+}
+void MainWindow::changePaletteBase()
+{
+    changePalette(0);
+}
 //--------------------------------------------------------------------
 void MainWindow::processMaps()
 {
@@ -151,7 +168,7 @@ void MainWindow::processMaps()
     initTopMap();
 
     showTopMap();
-//qDebug() << MinV1 << MaxV1;
+
     MinTop = MinV1;
     MaxTop = MaxV1;
 
@@ -337,6 +354,7 @@ cTMap *MainWindow::ReadMap(QString name)
 
 void MainWindow::on_toolButton_doEdit_clicked()
 {
+    op.editRestore = false;
     getCells();
     initOP(false);
     toolButton_editCell->setChecked(false);
@@ -348,6 +366,13 @@ void MainWindow::on_toolButton_doEdit_clicked()
 
 void MainWindow::on_toolButton_restoreEdit_clicked()
 {
-    restoreCells();
+    op.editRestore = true;
+    getCells();
+    initOP(false);
+    toolButton_editCell->setChecked(false);
+    toolButton_editPolygon->setChecked(false);
+    toolButton_editRectangle->setChecked(false);
+    toolButton_editLine->setChecked(false);
+  //  restoreCells();
 }
 

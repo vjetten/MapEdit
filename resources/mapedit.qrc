@@ -13,5 +13,7 @@
         <file>editline.png</file>
         <file>editrect.png</file>
         <file>checkmark.png</file>
+        <file>palette1.png</file>
+        <file>palette2.png</file>
     </qresource>
 </RCC>

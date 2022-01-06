@@ -118,6 +118,9 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
         minV = 0;
         maxV = 0;
     }
+    if (minV == maxV) {
+        minV = maxV-1;
+    }
     qDebug() << minV << maxV;
     *maxv = maxV;
     *minv = minV;
@@ -154,8 +157,8 @@ void MainWindow::initBaseMap()
     baseMap->setColorMap(bpalette);
     MPlot->setAxisAutoScale(MPlot->xBottom, true);
 
-    leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
-    MPlot->setAxisScale( MPlot->yLeft, MinV1, MaxV1);
+  //  leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
+  //  MPlot->setAxisScale( MPlot->yLeft, MinV1, MaxV1);
     MPlot->setAxisScaleEngine( MPlot->yLeft, new QwtLinearScaleEngine() );
 }
 //---------------------------------------------------------------------------
@@ -165,8 +168,8 @@ void MainWindow::showBaseMap()
 
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
-    leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
-    MPlot->setAxisScale( MPlot->yLeft, MinV1, MaxV1);
+   // leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
+   // MPlot->setAxisScale( MPlot->yLeft, MinV1, MaxV1);
 
     // adjust legend to new spin values
 }

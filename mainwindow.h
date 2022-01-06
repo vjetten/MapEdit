@@ -121,6 +121,7 @@ public:
     void drawSelectionPolygon();
     void drawSelectionLine();
     void drawSelectionRectangle();
+    void changePalette(int nr);
 
 public slots:
     void openMapFile();
@@ -132,6 +133,8 @@ public slots:
     void drawSelection();
     void getCells();
     void restoreCells();
+    void changePaletteBase();
+    void changePaletteTop();
 
 private slots:
 
@@ -156,6 +159,8 @@ private:
    QAction *openAct;
    QAction *saveAct;
    QAction *saveasAct;
+   QAction *PaletteTopAct;
+   QAction *PaletteBaseAct;
 
 //   QAction *shootscreenAct;
 //   QAction *shootMscreenAct;
