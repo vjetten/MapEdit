@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     col.setAlpha(96);
     b.setColor(col);
     b.setStyle(Qt::SolidPattern);//Dense7Pattern);
+//    QRegExpValidator *Validator = new QRegExpValidator(QRegExp("^[1-9][0-9]*$"),this);// ^[1-9][0-9]{0,2}(?:.[0-9]{3})$"),this);   //[0-9]{1,8}(?.[0-9]{0,6})$"), this);
+//    lineEdit_Value->setValidator(Validator);
 
     getStorePath();
 
@@ -129,13 +131,15 @@ void MainWindow::processMaps()
     op.nrR = _nrRows;
     op._dx = _dx;
 
-
-    //topRMap = ReadMap(PathNames[0]);
-    topRMap = NewMap(-1e20);
+    if (PathNames.size() > 1)
+        topRMap = ReadMap(PathNames[1]);
+    else
+        topRMap = NewMap(-1e20);
     op._M = topRMap;
 
 
     editRMap = NewMap(0);
+    //topRMap->data[(int)_nrRows/2][(int)_nrCols/2]=1;
     FOR_ROW_COL_MV {
         editRMap->Drc = topRMap->Drc;
     }
@@ -147,7 +151,7 @@ void MainWindow::processMaps()
     initTopMap();
 
     showTopMap();
-
+//qDebug() << MinV1 << MaxV1;
     MinTop = MinV1;
     MaxTop = MaxV1;
 
@@ -238,16 +242,6 @@ void MainWindow::on_toolButtonResetMax_clicked()
 
 void MainWindow::on_toolButton_editCell_clicked(bool checked)
 {
-    // if map loaded!
-//    op.editCell = true;
-//    op.editRectangle = false;
-//    op.editLine = false;
-//    op.editPolygon = false;
-//    op.editStart = true;
-//    op.editStop = false;
-//    op.clicks = 0;
-//    op.eData.clear();
-
     initOP(false);
     op.editCell = true;
     op.editStart = true;
@@ -259,13 +253,6 @@ void MainWindow::on_toolButton_editCell_clicked(bool checked)
 
 void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
 {
-//    op.editCell = false;
-//    op.editRectangle = false;
-//    op.editLine = false;
-//    op.editStop = false;
-//    op.clicks = 0;
-//    op.eData.clear();
-
     initOP(false);
     op.editPolygon = true;
     op.editStart = true;
@@ -278,15 +265,6 @@ void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
 
 void MainWindow::on_toolButton_editLine_clicked(bool checked)
 {
-//    op.editCell = false;
-//    op.editRectangle = false;
-//    op.editLine = true;
-//    op.editPolygon = false;
-//    op.editStart = true;
-//    op.editStop = false;
-//    op.clicks = 0;
-//    op.eData.clear();
-
     initOP(false);
     op.editLine = true;
     op.editStart = true;
@@ -299,16 +277,6 @@ void MainWindow::on_toolButton_editLine_clicked(bool checked)
 
 void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 {
-//    op.editCell = false;
-//    op.editRectangle = true;
-//    op.editLine = false;
-//    op.editPolygon = false;
-//    op.editStart = true;
-//    op.editStop = false;
-//    op.clicks = 0;
-//    op.eData.clear();
-
-
     initOP(false);
     op.editRectangle = true;
     op.editStart = true;

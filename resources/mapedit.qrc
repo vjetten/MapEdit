@@ -8,5 +8,10 @@
         <file>information_42X.png</file>
         <file>question-mark-button2x.png</file>
         <file>reset.png</file>
+        <file>editcell.png</file>
+        <file>editpoly.png</file>
+        <file>editline.png</file>
+        <file>editrect.png</file>
+        <file>checkmark.png</file>
     </qresource>
 </RCC>

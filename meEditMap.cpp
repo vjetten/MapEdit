@@ -337,6 +337,8 @@ void MainWindow::getCells()
     }
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
+qDebug() <<"e"<<MinV2 << MaxV2;
+   // initTopMap();
     showTopMap();
     MPlot->replot();
 

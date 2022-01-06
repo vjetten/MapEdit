@@ -12,8 +12,6 @@
 
 //---------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------
-
 class colorMapMagenta: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
@@ -45,7 +43,7 @@ public:
         QwtLinearColorMap( QColor(BGc),Qt::black  )
     {
         addColorStop(0, QColor("#ffffff"));
-        addColorStop(0.5, QColor("#888888"));
+       // addColorStop(0.5, QColor("#888888"));
     }
 };
 //---------------------------------------------------------------------------
@@ -219,7 +217,7 @@ class colorMapRainbow: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value < -1e19 )
-            return qRgba( 220,220,220,255 );
+            return qRgba( 220,220,220,0 );
 
         return QwtLinearColorMap::rgb( interval, value );
     }
@@ -269,25 +267,7 @@ public:
     }
 };
 //---------------------------------------------------------------------------
-class colorMapLime: public QwtLinearColorMap
-{
-    virtual QRgb rgb( const QwtInterval &interval, double value ) const
-    {
-        if ( value < -1e19 )
-            return qRgba( 220,220,220,255 );
 
-        return QwtLinearColorMap::rgb( interval, value );
-    }
-public:
-    colorMapLime():
-        QwtLinearColorMap(  QColor("#006802"), QColor("#FFFECB"))
-    {
-        addColorStop(0.000,QColor("#006802"));
-      //  addColorStop(0.500,QColor("#B1CA25"));
-        addColorStop(0.5,QColor("#CCFF00"));
-                addColorStop(1.000,QColor("#FFFECB"));
-    }
-};
 #endif // LISUIMAPCOLOR_	H
 
 

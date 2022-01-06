@@ -88,9 +88,8 @@ public:
     QwtLinearColorMap *bpalette, *bpalette1;
     QwtLinearColorMap *dpalette, *dpalette1;
 
-    QwtInterval legend;
-    QwtScaleWidget *rightAxisBase;
-    QwtScaleWidget *leftAxisTop;
+    QwtScaleWidget *rightAxis;
+    QwtScaleWidget *leftAxis;
     QwtPlotRescaler *mapRescaler;
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
