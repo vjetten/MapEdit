@@ -42,6 +42,9 @@ void MainWindow::setupMapPlot()
     rightAxis->setColorBarWidth( 16 );
     rightAxis->setMargin(8);
     rightAxis->setTitle( QwtText("edit map") );
+    int startDist, endDist;
+    rightAxis->getBorderDistHint( startDist, endDist );
+    rightAxis->setBorderDist( startDist, endDist+32 );
 
     leftAxis = new QwtScaleWidget(this);
     leftAxis->setAlignment( QwtScaleDraw::LeftScale );
@@ -49,6 +52,8 @@ void MainWindow::setupMapPlot()
     leftAxis->setColorBarWidth( 16 );
     leftAxis->setMargin(8);
     leftAxis->setTitle( QwtText("base map") );
+    leftAxis->getBorderDistHint( startDist, endDist );
+    leftAxis->setBorderDist( startDist, endDist+32 );
 
     magnifier = new QwtPlotMagnifier( MPlot->canvas() );
     magnifier->setMouseButton( Qt::NoButton );

@@ -15,13 +15,6 @@ class QPoint;
 class QwtPlot;
 class QwtPlotCurve;
 
-
-//typedef struct xyzLIST {
-//    int r;
-//    int c;
-//    double v;
-//} xyzLIST;
-
 class CanvasPicker: public QObject
 {
     Q_OBJECT
@@ -41,8 +34,6 @@ private:
 
     void select( const QPoint & );
     void move( const QPoint & );
- //   void moveBy( int dx, int dy );
-  //  void release();
 
     void drawSelection();
 

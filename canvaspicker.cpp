@@ -25,6 +25,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 {
     if ( plot() == NULL || object != plot()->canvas() )
         return false;
+
     if (op._M == NULL)
         return false;
 
@@ -64,7 +65,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         }
 
     }
-  //  qDebug() << event->type();
+    qDebug() << event->type();
     if (event->type() == QEvent::MouseMove)
     {
         const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );

@@ -125,14 +125,19 @@ void MainWindow::SetToolBar()
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
 {
+    if (op._M == nullptr)
+        return;
     changePalette(1);
     drawMap->setColorMap(dpalette);
     rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
     showTopMap();
     MPlot->replot();
 }
+
 void MainWindow::changePaletteBase()
 {
+    if (op._M == nullptr)
+        return;
     changePalette(0);
     baseMap->setColorMap(bpalette);
     leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
@@ -156,6 +161,9 @@ void MainWindow::processMaps()
 //    this->setMinimumSize(QSize((int)0.5*w, (int)0.5*h));
 //    this->setMaximumSize(QSize(3*w, 2*h));
 //    MPlot->canvas()->resize(w+200,h+200);
+
+    qApp->setMaximumSize(QSize(2000, 1200));
+    qApp->resize( 1500, 1000 );
 
     if (PathNames.size() > 1)
         topRMap = ReadMap(PathNames[1]);
