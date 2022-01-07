@@ -14,9 +14,6 @@ void MainWindow::setupMapPlot()
 {
     MPlot = new QwtPlot(title, this);
 
-  //  MPlot->enableAxis( MPlot->yRight );
-  //  MPlot->enableAxis( MPlot->yLeft );
-
     // attach plot to widget in UI
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
@@ -40,40 +37,35 @@ void MainWindow::setupMapPlot()
  //   QwtLinearScaleEngine scaleEngine;
 
     rightAxis = new QwtScaleWidget(this);
-    //rightAxis = MPlot->axisWidget( MPlot->yRight );
     rightAxis->setAlignment( QwtScaleDraw::RightScale );
     rightAxis->setColorBarEnabled( true );
- //   rightAxis->setColorBarWidth( 16 );
- //   rightAxis->setMargin(8);
+    rightAxis->setColorBarWidth( 16 );
+    rightAxis->setMargin(8);
     rightAxis->setTitle( QwtText("edit map") );
 
     leftAxis = new QwtScaleWidget(this);
-    //leftAxis = MPlot->axisWidget( MPlot->yLeft);
-    leftAxis->setAlignment( QwtScaleDraw::RightScale );
+    leftAxis->setAlignment( QwtScaleDraw::LeftScale );
     leftAxis->setColorBarEnabled( true );
-  //  leftAxis->setColorBarWidth( 16 );
-  //  leftAxis->setMargin(8);
+    leftAxis->setColorBarWidth( 16 );
+    leftAxis->setMargin(8);
     leftAxis->setTitle( QwtText("base map") );
 
     magnifier = new QwtPlotMagnifier( MPlot->canvas() );
-    magnifier->setAxisEnabled( MPlot->yRight, false );
     magnifier->setMouseButton( Qt::NoButton );
-    // exclude right axis legend from rescaling
     magnifier->setZoomInKey(Qt::Key_Plus, Qt::ShiftModifier);
     magnifier->setZoomOutKey(Qt::Key_Minus, Qt::NoModifier );
     magnifier->setZoomInKey(Qt::Key_Plus, Qt::KeypadModifier);
     magnifier->setZoomOutKey(Qt::Key_Minus, Qt::KeypadModifier);
 
     panner = new QwtPlotPanner( MPlot->canvas() );
-    panner->setAxisEnabled( MPlot->yRight, false );
     panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
     // exclude right axis legend from panning
 
     // correct square aspect ratio
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
-    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
-    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
+    mapRescaler->setAspectRatio( QwtPlot::yRight, 1.0 );
+   // mapRescaler->setAspectRatio( QwtPlot::xTop, 1.0 );
     mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
 
     cpicker = new CanvasPicker( MPlot );
@@ -85,7 +77,6 @@ void MainWindow::setupMapPlot()
     layout_Map->insertWidget(0,leftAxis, 0);
     layout_Map->insertWidget(1, MPlot, 1);
     layout_Map->insertWidget(2,rightAxis,0 );
-
 
 }
 //---------------------------------------------------------------------------
