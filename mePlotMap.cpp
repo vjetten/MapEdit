@@ -37,34 +37,23 @@ void MainWindow::setupMapPlot()
     // raster data to link to plot
 
 
-    QwtLinearScaleEngine scaleEngine;
+ //   QwtLinearScaleEngine scaleEngine;
 
-    rightAxis = new QwtScaleWidget();
+    rightAxis = new QwtScaleWidget(this);
     //rightAxis = MPlot->axisWidget( MPlot->yRight );
     rightAxis->setAlignment( QwtScaleDraw::RightScale );
     rightAxis->setColorBarEnabled( true );
-    rightAxis->setColorBarWidth( 16 );
-    rightAxis->setMargin(8);
-  //  rightAxis->setBorderDist(64, 64);
-    QwtInterval interval;
-    interval.setMinValue(0);
-    interval.setMaxValue(1);
-    rightAxis->setColorMap( interval, new colorMap1() );
-   // rightAxis->setScaleDiv(scaleEngine.divideScale( interval.mi
+ //   rightAxis->setColorBarWidth( 16 );
+ //   rightAxis->setMargin(8);
+    rightAxis->setTitle( QwtText("edit map") );
 
-  //  MPlot->setAxisScaleEngine( MPlot->yRight, new QwtLinearScaleEngine() );
- //   MPlot->setAxisScale( MPlot->yRight, 0,1);
-  //  MPlot->setAxisAutoScale(MPlot->yRight, true);
-
-    leftAxis = new QwtScaleWidget();
+    leftAxis = new QwtScaleWidget(this);
     //leftAxis = MPlot->axisWidget( MPlot->yLeft);
+    leftAxis->setAlignment( QwtScaleDraw::RightScale );
     leftAxis->setColorBarEnabled( true );
-    leftAxis->setColorBarWidth( 16 );
-    leftAxis->setMargin(8);
-    leftAxis->setColorMap( interval, new colorMap2() );
-  //  leftAxis->setBorderDist(64,64);
-  //  MPlot->setAxisScaleEngine( MPlot->yLeft, new QwtLinearScaleEngine() );
-  //  MPlot->setAxisAutoScale(MPlot->yLeft, true);
+  //  leftAxis->setColorBarWidth( 16 );
+  //  leftAxis->setMargin(8);
+    leftAxis->setTitle( QwtText("base map") );
 
     magnifier = new QwtPlotMagnifier( MPlot->canvas() );
     magnifier->setAxisEnabled( MPlot->yRight, false );
@@ -159,24 +148,20 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 //---------------------------------------------------------------------------
 void MainWindow::initBaseMap()
 {
-//    bpalette = new colorMapRainbow();
-//    bpalette1 = new colorMapRainbow();
-    bpalette = new colorMapGray();
-    bpalette1 = new colorMapGray();
+    palette1nr = -1;
+    changePalette(0);
 
     double res = fillDrawMapData(baseRMap, RDb, &MinV1, &MaxV1);
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
-    qDebug() << MinV1 << MaxV1;
     baseMap->setData(RDb);
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
     MPlot->setAxisAutoScale(MPlot->xBottom, true);
 
-    leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
-
-    //MPlot->setAxisScale( MPlot->yLeft, MinV1, MaxV1);
-    //MPlot->setAxisScaleEngine( MPlot->yLeft, new QwtLinearScaleEngine() );
+    interval = baseMap->data()->interval( Qt::ZAxis );
+    leftAxis->setColorMap( interval, bpalette1);
+    leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 }
 //---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
@@ -185,18 +170,16 @@ void MainWindow::showBaseMap()
 
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
-    leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
-  //  MPlot->setAxisScale( MPlot->yLeft, MinV1, MaxV1);
-
+    interval = baseMap->data()->interval( Qt::ZAxis );
+    leftAxis->setColorMap( interval, bpalette1);
+    leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
     // adjust legend to new spin values
 }
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
 {
-   // dpalette = new colorMapGray();
-  //  dpalette1 = new colorMapGray();
-    dpalette = new colorMapRainbow();
-    dpalette1 = new colorMapRainbow();
+    palette2nr = 0;
+    changePalette(1);
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
     RD->setInterval( Qt::ZAxis, QwtInterval(MinV2,MaxV2));
@@ -204,23 +187,23 @@ void MainWindow::initTopMap()
 
     drawMap->setColorMap(dpalette);
     drawMap->setAlpha(200);
-  //  MPlot->setAxisAutoScale(MPlot->xBottom, true);
+    MPlot->setAxisAutoScale(MPlot->xBottom, true);
 
-    rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
-    MPlot->setAxisAutoScale(MPlot->yRight, true);
-
+    interval = drawMap->data()->interval( Qt::ZAxis );
+    rightAxis->setColorMap( interval, dpalette1);
+    rightAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 }
 //---------------------------------------------------------------------------
 void MainWindow::showTopMap()
 {
-
     double ma = MaxV2; //(MaxV2 <= -1e20 ? 0 : MaxV2);//
     double mi = MinV2;// (MinV2 <= -1e20 ? 0 : MinV2);//MinV2;
 
     RD->setInterval( Qt::ZAxis, QwtInterval(mi,ma));//
     drawMap->setData(RD);
-    rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
-    MPlot->setAxisScale( MPlot->yRight, mi,ma);
+    interval = drawMap->data()->interval( Qt::ZAxis );
+    rightAxis->setColorMap( interval, dpalette1);
+    rightAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 }
 
 //---------------------------------------------------------------------------
@@ -250,43 +233,28 @@ void MainWindow::changePalette(int nr)
         case (0):
             bpalette = new colorMapGray();
             bpalette1 = new colorMapGray();
-            label_white->setStyleSheet("background-color: white");
-            label_black->setStyleSheet("background-color: black");
             break;
         case (1):
             bpalette = new colorMapRainbow();
             bpalette1 = new colorMapRainbow();
-            label_white->setStyleSheet("background-color:  #ce0c82");
-            label_black->setStyleSheet("background-color:  #ff0000");
             break;
         case(2):
             bpalette = new colorMap2();
             bpalette1 = new colorMap2();
-            label_white->setStyleSheet("background-color:  #ffff99");
-            label_black->setStyleSheet("background-color:  #2c3898");
             break;
         case(3):
             bpalette = new colorMap3();
             bpalette1 = new colorMap3();
-            label_white->setStyleSheet("background-color:  #d7191c");
-            label_black->setStyleSheet("background-color:  #2b83ba");
             break;
         case(4):
             bpalette = new colorMap4();
             bpalette1 = new colorMap4();
-            label_white->setStyleSheet("background-color:  #2b83ba");
-            label_black->setStyleSheet("background-color:  #d7191c");
             break;
         case(5):
             bpalette = new colorMap1();
             bpalette1 = new colorMap1();
-            label_white->setStyleSheet("background-color:  #ffffb2");
-            label_black->setStyleSheet("background-color:  #bd0026");
             break;
         }
-        baseMap->setColorMap(bpalette);
-        showBaseMap();
-        MPlot->replot();
     }
     if (nr == 1){
         palette1nr++;
@@ -319,10 +287,6 @@ void MainWindow::changePalette(int nr)
             dpalette1 = new colorMap1();
             break;
         }
-        drawMap->setColorMap(dpalette);
-        rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
-        showTopMap();
-        MPlot->replot();
     }
 
 }

@@ -121,19 +121,23 @@ void MainWindow::SetToolBar()
     connect(transparency, SIGNAL(sliderMoved(int)), this, SLOT(ssetAlpha(int)));
     connect(spinMinV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
     connect(spinMaxV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
-
-    label_white->setStyleSheet("background-color: white");
-    label_black->setStyleSheet("background-color: black");
-
 }
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
 {
     changePalette(1);
+    drawMap->setColorMap(dpalette);
+    rightAxis->setColorMap( drawMap->data()->interval( Qt::ZAxis ), dpalette1);
+    showTopMap();
+    MPlot->replot();
 }
 void MainWindow::changePaletteBase()
 {
     changePalette(0);
+    baseMap->setColorMap(bpalette);
+    leftAxis->setColorMap( baseMap->data()->interval( Qt::ZAxis ), bpalette1);
+    showBaseMap();
+    MPlot->replot();
 }
 //--------------------------------------------------------------------
 void MainWindow::processMaps()

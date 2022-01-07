@@ -82,6 +82,8 @@ public:
     QwtPlot *MPlot;               // plot in which the raster map is drawn
     QwtMatrixRasterData *RD;
     QwtMatrixRasterData *RDb;
+    QwtLinearScaleEngine scaleEngine;
+    QwtInterval interval;
 
     QLabel statusLabel;
 
