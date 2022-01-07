@@ -16,7 +16,7 @@ class colorMapMagenta: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
-        if ( value < -1e19 )
+        if ( value <= -1e19 )
             return qRgba( 220,220,220,0 );
 
         return QwtLinearColorMap::rgb( interval, value );
@@ -33,7 +33,7 @@ class colorMapGray: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
-        if ( value < -1e19 )
+        if ( value <= -1e19 )
             return qRgba( 220,220,220,0 );
 
         return QwtLinearColorMap::rgb( interval, value );
@@ -50,6 +50,7 @@ public:
 /// Logarithmic Yellow to blue legend for runoff map display
 class colorMapYellowBlueLog: public QwtLinearColorMap
 {
+
 public:
     colorMapYellowBlueLog():
         QwtLinearColorMap( QColor(BGc), QColor("#000080"))
@@ -65,6 +66,13 @@ public:
 /// Linear Yellow to blue legend for infil map display
 class colorMapYellowBlue: public QwtLinearColorMap
 {
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value <= -1e19 )
+            return qRgba( 0, 0, 0, 0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
 public:
     colorMapYellowBlue():
         QwtLinearColorMap( QColor(BGc),QColor("#0000AA"))
@@ -81,7 +89,7 @@ class colorMapFlood: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
-        if ( value < 0.001 )
+        if ( value <= -1e19 )
             return qRgba( 0, 0, 0, 0 );
 
         return QwtLinearColorMap::rgb( interval, value );
@@ -105,6 +113,13 @@ public:
 /// Cyan to red legend for sediment display
 class colorMapCyanYellowRed: public QwtLinearColorMap
 {
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value <= -1e19 )
+            return qRgba( 0, 0, 0, 0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
 public:
     colorMapCyanYellowRed():
         QwtLinearColorMap( QColor(BGc),Qt::red)//QColor("#903000") )//QColor("#cc3000"));//Qt::darkYellow);
@@ -119,6 +134,13 @@ public:
 /// Blue to red legend for sediment display
 class colorMapBlueYellowRed: public QwtLinearColorMap
 {
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value <= -1e19 )
+            return qRgba( 0, 0, 0, 0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
 public:
     colorMapBlueYellowRed():
         QwtLinearColorMap( QColor(BGc),Qt::red)
@@ -134,7 +156,7 @@ class colorMapGreenYellowRed: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
-        if ( value < 0.001 )
+        if ( value <= -1e19 )
             return qRgba( 0, 0, 0, 0 );
 
         return QwtLinearColorMap::rgb( interval, value );
@@ -153,7 +175,7 @@ class colorMapRedBlue: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
-        if ( value < 0.001 )
+        if ( value <= -1e19 )
             return qRgba( 0, 0, 0, 0 );
 
         return QwtLinearColorMap::rgb( interval, value );
@@ -169,6 +191,13 @@ public:
 //---------------------------------------------------------------------------
 class colorMapColorBrewer: public QwtLinearColorMap
 {
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value <= -1e19 )
+            return qRgba( 0, 0, 0, 0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
 public:
     colorMapColorBrewer():
         QwtLinearColorMap( QColor(BGc),QColor("#542788"))

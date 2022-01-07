@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     b.setStyle(Qt::SolidPattern);//Dense7Pattern);
 //    QRegExpValidator *Validator = new QRegExpValidator(QRegExp("^[1-9][0-9]*$"),this);// ^[1-9][0-9]{0,2}(?:.[0-9]{3})$"),this);   //[0-9]{1,8}(?.[0-9]{0,6})$"), this);
 //    lineEdit_Value->setValidator(Validator);
+    palette1nr = 0;
+    palette2nr = 0;
+
 
     getStorePath();
 
@@ -123,10 +126,6 @@ void MainWindow::SetToolBar()
     label_black->setStyleSheet("background-color: black");
 
 }
-void MainWindow::changePalette(int nr)
-{
-
-}
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
 {
@@ -147,6 +146,12 @@ void MainWindow::processMaps()
     op.nrC = _nrCols;
     op.nrR = _nrRows;
     op._dx = _dx;
+//    int w = MPlot->canvas()->width();
+//    int h = MPlot->canvas()->height();
+//    qDebug() << w << h;
+//    this->setMinimumSize(QSize((int)0.5*w, (int)0.5*h));
+//    this->setMaximumSize(QSize(3*w, 2*h));
+//    MPlot->canvas()->resize(w+200,h+200);
 
     if (PathNames.size() > 1)
         topRMap = ReadMap(PathNames[1]);

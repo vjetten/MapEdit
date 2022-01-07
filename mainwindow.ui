@@ -126,7 +126,7 @@
        <item row="11" column="0" colspan="2">
         <widget class="QDoubleSpinBox" name="spinMaxV">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -168,10 +168,10 @@
           <number>255</number>
          </property>
          <property name="value">
-          <number>128</number>
+          <number>200</number>
          </property>
          <property name="sliderPosition">
-          <number>128</number>
+          <number>200</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -181,7 +181,7 @@
        <item row="9" column="0" colspan="2">
         <widget class="QDoubleSpinBox" name="spinMinV">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>

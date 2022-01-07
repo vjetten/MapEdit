@@ -33,7 +33,7 @@
 #include <qwt_symbol.h>
 
 #include "ui_mainwindow.h"
-#include "LisUImapplot.h"
+#include "MEcolors.h"
 #include "CsfMap.h"
 #include "io.h"
 #include "error.h"
@@ -116,6 +116,9 @@ public:
 
     QBrush b;
     QwtSymbol *whitedot;
+
+    int palette1nr;
+    int palette2nr;
 
     void drawSelectionCell();
     void drawSelectionPolygon();

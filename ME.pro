@@ -99,6 +99,7 @@ HEADERS  += mainwindow.h\
     canvaspicker.h\
     MEoutput.h\
     global.h\
+    include/MEcolors.h \
     include/array.h\
     include/error.h\
     include/fixture.h\
@@ -111,8 +112,7 @@ HEADERS  += mainwindow.h\
     include/csfimpl.h\
     include/csftypes.h\
     include/CsfMap.h\
-    include/CsfRGBMap.h\
-    include/LisUImapplot.h
+    include/CsfRGBMap.h
 
 
 FORMS    += mainwindow.ui
@@ -129,3 +129,4 @@ INCLUDEPATH += c:\qt\msys64\mingw64\include
 LIBS += c:/qt/qwtma/lib/libqwt.dll.a
 LIBS += c:/qt/msys64/mingw64/lib/libgdal.dll.a
 RESOURCES += resources/mapedit.qrc
+RC_ICONS = mapedit.ico
