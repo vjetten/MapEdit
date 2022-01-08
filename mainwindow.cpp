@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 {
     setupUi(this);
 
+  //  qApp->installEventFilter(this);
+
     currentDir = "";
 
     initOP(true);
@@ -20,11 +22,9 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     col.setAlpha(96);
     b.setColor(col);
     b.setStyle(Qt::SolidPattern);//Dense7Pattern);
-//    QRegExpValidator *Validator = new QRegExpValidator(QRegExp("^[1-9][0-9]*$"),this);// ^[1-9][0-9]{0,2}(?:.[0-9]{3})$"),this);   //[0-9]{1,8}(?.[0-9]{0,6})$"), this);
-//    lineEdit_Value->setValidator(Validator);
-    palette1nr = 0;
-    palette2nr = 0;
 
+    palette1nr = -1;
+    palette2nr = 0;
 
     getStorePath();
 
@@ -89,15 +89,15 @@ void MainWindow::SetToolBar()
     connect(saveasAct, SIGNAL(triggered()), this, SLOT(saveMapFileas()));
     toolBar->addAction(saveasAct);
 
-    PaletteBaseAct = new QAction(QIcon(":/palette1.png"), "Save &As...", this);
+    PaletteBaseAct = new QAction(QIcon(":/palette1.png"), "Change palette of base map", this);
     connect(PaletteBaseAct, SIGNAL(triggered()), this, SLOT(changePaletteBase()));
     toolBar->addAction(PaletteBaseAct);
 
-    PaletteTopAct = new QAction(QIcon(":/palette2.png"), "Save &As...", this);
+    PaletteTopAct = new QAction(QIcon(":/palette2.png"), "Change palette of edit map", this);
     connect(PaletteTopAct, SIGNAL(triggered()), this, SLOT(changePaletteTop()));
     toolBar->addAction(PaletteTopAct);
 
-    ResizeAct = new QAction(QIcon(":/adjustsize.png"), "Save &As...", this);
+    ResizeAct = new QAction(QIcon(":/adjustsize.png"), "Reset the map size", this);
     connect(ResizeAct, SIGNAL(triggered()), this, SLOT(changeSize()));
     toolBar->addAction(ResizeAct);
 
@@ -152,6 +152,7 @@ void MainWindow::changePaletteBase()
 void MainWindow::processMaps()
 {
     baseRMap = ReadMap(PathNames[0]);
+    op._Mb = baseRMap;
     _dx = baseRMap->cellSize()*1.0000000;
     _nrRows = baseRMap->nrRows();
     _nrCols = baseRMap->nrCols();
@@ -160,16 +161,22 @@ void MainWindow::processMaps()
     op.nrR = _nrRows;
     op._dx = _dx;
 
+    QString name1 = QFileInfo(PathNames[0]).fileName();
+    QString name2;
 
-    if (PathNames.size() > 1)
+    if (PathNames.size() > 1) {
         topRMap = ReadMap(PathNames[1]);
-    else
+        name2 = QFileInfo(PathNames[1]).fileName();
+    } else {
         topRMap = NewMap(-1e20);
+        name2 = "Empty map to edit!";
+    }
     op._M = topRMap;
 
+    label_base->setText(QString("Base map: %1").arg(name1));
+    label_edit->setText(QString("Edit map: %1").arg(name2));
 
     editRMap = NewMap(0);
-    //topRMap->data[(int)_nrRows/2][(int)_nrCols/2]=1;
     FOR_ROW_COL_MV {
         editRMap->Drc = topRMap->Drc;
     }
@@ -253,7 +260,7 @@ void MainWindow::setStorePath()
 void MainWindow::Show(const QString &results)
 {
     QStringList s = results.split('=');
-    statusLabel.setText(QString("row,col:%1 Coordinates:%2 Value: %3").arg(s[0]).arg(s[2]).arg(s[1]));
+    statusLabel.setText(QString("Coord: %1 [Coordinates]r,c]:%2 Values: %3").arg(s[0]).arg(s[1]).arg(s[2]));
 }
 //---------------------------------------------------------------------------
 
@@ -318,8 +325,10 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 //--------------------------------------------------------------------
 void MainWindow::saveMapFile()
 {
-    if (PathNames.size() > 0)
-    writeRaster(*topRMap, PathNames[1],"PCRaster");
+    if (PathNames.size() > 1)
+        writeRaster(*topRMap, PathNames[1],"PCRaster");
+    else
+        saveMapFileas();
 }
 //--------------------------------------------------------------------
 void MainWindow::saveMapFileas()
@@ -327,7 +336,7 @@ void MainWindow::saveMapFileas()
    if (PathNames.size() == 0)
        return;
 
-    QString fileName = QFileDialog::getSaveFileName(this, "Save File as map",
+    QString fileName = QFileDialog::getSaveFileName(this, "Save PCRaster map under a new name ",
                            currentDir,
                            "*.map");
     if (!fileName.isEmpty()) {
@@ -339,7 +348,7 @@ void MainWindow::openMapFile()
 {
     QString filter = "PCR (*.map);;PCR (*.map *.0* *.1* *.2*);;all (*.*)";
     QStringList files = QFileDialog::getOpenFileNames(
-                this, QString("Select PCRaster Maps"),
+                this, QString("Select 1 or 2 PCRaster Maps"),
                 currentDir,
                 filter);
     if (files.count() > 0)
@@ -389,3 +398,13 @@ void MainWindow::on_toolButton_restoreEdit_clicked()
   //  restoreCells();
 }
 
+//bool MainWindow::eventFilter(QObject *object, QEvent *event)
+//{
+//  if (event->type() == QEvent::MouseMove)
+//  {
+//    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+//    statusBar()->showMessage(QString("Mouse move (%1,%2)").arg(mouseEvent->pos().x()).arg(mouseEvent->pos().y()));
+//  }
+//  return QObject::eventFilter( object, event );
+//  return false;
+//}

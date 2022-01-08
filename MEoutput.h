@@ -29,6 +29,7 @@ struct output{
     double wy;
 
     cTMap *_M;
+    cTMap *_Mb;
     int nrC;
     int nrR;
     double _dx;

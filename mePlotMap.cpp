@@ -271,6 +271,10 @@ void MainWindow::setMinTopMap()
   //  showTopMap();
 
     MPlot->replot();
+    int h1 = this->height();
+    int w1 = this->width();
+    resize(w1 + 1,h1);
+    resize(w1,h1);
 }
 //---------------------------------------------------------------------------
 void MainWindow::changePalette(int nr)
@@ -278,11 +282,11 @@ void MainWindow::changePalette(int nr)
     if (op._M == nullptr)
         return;
     if (nr == 0){
-        palette2nr++;
-        if (palette2nr > 5)
-            palette2nr = 0;
+        palette1nr++;
+        if (palette1nr > 5)
+            palette1nr = 0;
 
-        switch (palette2nr) {
+        switch (palette1nr) {
         case (0):
             bpalette = new colorMapGray();
             bpalette1 = new colorMapGray();
@@ -310,11 +314,11 @@ void MainWindow::changePalette(int nr)
         }
     }
     if (nr == 1){
-        palette1nr++;
-        if (palette1nr > 5)
-            palette1nr = 0;
+        palette2nr++;
+        if (palette2nr > 5)
+            palette2nr = 0;
 
-        switch (palette1nr) {
+        switch (palette2nr) {
         case (0):
             dpalette = new colorMapGray();
             dpalette1 = new colorMapGray();

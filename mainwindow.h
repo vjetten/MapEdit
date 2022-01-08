@@ -125,6 +125,7 @@ public:
     int palette1nr;
     int palette2nr;
 
+  //  bool eventFilter(QObject *obj, QEvent *event);
     void drawSelectionCell();
     void drawSelectionPolygon();
     void drawSelectionLine();
