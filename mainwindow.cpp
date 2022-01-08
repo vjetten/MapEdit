@@ -97,6 +97,10 @@ void MainWindow::SetToolBar()
     connect(PaletteTopAct, SIGNAL(triggered()), this, SLOT(changePaletteTop()));
     toolBar->addAction(PaletteTopAct);
 
+    ResizeAct = new QAction(QIcon(":/adjustsize.png"), "Save &As...", this);
+    connect(ResizeAct, SIGNAL(triggered()), this, SLOT(changeSize()));
+    toolBar->addAction(ResizeAct);
+
    // toolBar->addSeparator();
 
     //    shootscreenAct = new QAction(QIcon(":/screenshots.png"), "make a screendump of the current page", this);
@@ -155,15 +159,7 @@ void MainWindow::processMaps()
     op.nrC = _nrCols;
     op.nrR = _nrRows;
     op._dx = _dx;
-//    int w = MPlot->canvas()->width();
-//    int h = MPlot->canvas()->height();
-//    qDebug() << w << h;
-//    this->setMinimumSize(QSize((int)0.5*w, (int)0.5*h));
-//    this->setMaximumSize(QSize(3*w, 2*h));
-//    MPlot->canvas()->resize(w+200,h+200);
 
-    qApp->setMaximumSize(QSize(2000, 1200));
-    qApp->resize( 1500, 1000 );
 
     if (PathNames.size() > 1)
         topRMap = ReadMap(PathNames[1]);

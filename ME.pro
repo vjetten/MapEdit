@@ -93,7 +93,8 @@ SOURCES += main.cpp\
     PCRlib/vsdef.c\
     PCRlib/vsis.c\
     PCRlib/vsvers.c\
-    PCRlib/wattrblk.c
+    PCRlib/wattrblk.c \
+    meScaler.cpp
 
 HEADERS  += mainwindow.h\
     canvaspicker.h\

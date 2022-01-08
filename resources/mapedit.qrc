@@ -15,5 +15,6 @@
         <file>checkmark.png</file>
         <file>palette1.png</file>
         <file>palette2.png</file>
+        <file>adjustsize.png</file>
     </qresource>
 </RCC>

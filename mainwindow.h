@@ -40,6 +40,7 @@
 #include "canvaspicker.h"
 #include "MEoutput.h"
 
+
 #define Drc     data[r][c]
 #define FOR_ROW_COL_MV for(int r = 0; r < _nrRows; r++)\
     for (int c = 0; c < _nrCols; c++)\
@@ -93,6 +94,7 @@ public:
     QwtScaleWidget *rightAxis;
     QwtScaleWidget *leftAxis;
     QwtPlotRescaler *mapRescaler;
+
     QwtPlotMagnifier *magnifier;
     QwtPlotPanner *panner;
     CanvasPicker *cpicker;
@@ -115,6 +117,7 @@ public:
     QVector <double> vy;
     QVector <int> cx;
     QVector <int> ry;
+    int _h, _w;
 
     QBrush b;
     QwtSymbol *whitedot;
@@ -140,6 +143,8 @@ public slots:
     void restoreCells();
     void changePaletteBase();
     void changePaletteTop();
+    void changeSize();
+    void zoomPoint();
 
 private slots:
 
@@ -166,6 +171,7 @@ private:
    QAction *saveasAct;
    QAction *PaletteTopAct;
    QAction *PaletteBaseAct;
+   QAction *ResizeAct;
 
 //   QAction *shootscreenAct;
 //   QAction *shootMscreenAct;

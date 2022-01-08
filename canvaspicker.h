@@ -29,12 +29,12 @@ signals:
     void show(const QString &results);
     void draw();
     void get();
+    void zoom();
 
 private:
 
     void select( const QPoint & );
     void move( const QPoint & );
-
     void drawSelection();
 
     QwtPlot *plot();

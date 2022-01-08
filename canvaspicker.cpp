@@ -34,6 +34,18 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 //        qDebug() << keyEvent;
 //    }
 
+    if (event->type() == QEvent::Wheel) {
+        QWheelEvent *wEvent = static_cast<QWheelEvent  *>( event );
+        op.angleDelta = wEvent->angleDelta();
+        double ri = plot()->invTransform(QwtPlot::yLeft,wEvent->position().y());
+        double ci = plot()->invTransform(QwtPlot::xBottom,wEvent->position().x());
+        op.wy = ri;//wEvent->position().y();
+        op.wx = ci;//wEvent->position().x();
+
+        emit zoom();
+        return true;
+
+    }
     if (event->type() == QEvent::MouseButtonPress)
     {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
@@ -65,7 +77,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         }
 
     }
-    qDebug() << event->type();
+  //  qDebug() << event->type();
     if (event->type() == QEvent::MouseMove)
     {
         const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );

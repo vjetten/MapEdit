@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "global.h"
 
 
@@ -12,20 +12,23 @@ void MainWindow::ssetAlpha(int v)
 //----------------------------------------------------------------------------------------
 void MainWindow::setupMapPlot()
 {
-    MPlot = new QwtPlot(title, this);
 
+    MPlot = new QwtPlot();
     // attach plot to widget in UI
+
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
     grid->attach( MPlot );
 
     baseMap = new QwtPlotSpectrogram();
     baseMap->setRenderThreadCount( 0 );
+    baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
     baseMap->attach( MPlot );
     // shaded relief base map
 
     drawMap = new QwtPlotSpectrogram();
     drawMap->setRenderThreadCount( 0 );
+    drawMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
     drawMap->attach( MPlot );
     // NOTE the order in which these are attached is the order displayed.
 
@@ -33,8 +36,6 @@ void MainWindow::setupMapPlot()
     RDb = new QwtMatrixRasterData();
     // raster data to link to plot
 
-
- //   QwtLinearScaleEngine scaleEngine;
 
     rightAxis = new QwtScaleWidget(this);
     rightAxis->setAlignment( QwtScaleDraw::RightScale );
@@ -69,19 +70,23 @@ void MainWindow::setupMapPlot()
     // correct square aspect ratio
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
-    mapRescaler->setAspectRatio( QwtPlot::yRight, 1.0 );
-   // mapRescaler->setAspectRatio( QwtPlot::xTop, 1.0 );
+    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
+    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
     mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
+    //mapRescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
+//    mapRescaler->setRescalePolicy(QwtPlotRescaler::Fitting );
 
     cpicker = new CanvasPicker( MPlot );
-
     connect(cpicker, SIGNAL(show(QString)),this, SLOT(Show(QString)));
     connect(cpicker, SIGNAL(draw()),this, SLOT(drawSelection()));
     connect(cpicker, SIGNAL(get()),this, SLOT(getCells()));
+    connect(cpicker, SIGNAL(zoom()),this, SLOT(zoomPoint()));
 
     layout_Map->insertWidget(0,leftAxis, 0);
     layout_Map->insertWidget(1, MPlot, 1);
     layout_Map->insertWidget(2,rightAxis,0 );
+
+
 
 }
 //---------------------------------------------------------------------------
@@ -136,8 +141,8 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
  //   _RD->setInterval( Qt::YAxis, QwtInterval( cy,cy+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
 
 
-    _RD->setInterval( Qt::XAxis, QwtInterval( 0, (double)_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
-    _RD->setInterval( Qt::YAxis, QwtInterval( 0, (double)_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::XAxis, QwtInterval( 0, _nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::YAxis, QwtInterval( 0, _nrRows*_dx, QwtInterval::ExcludeMaximum ) );
     // set x/y axis intervals
     return maxV;
 }
@@ -153,11 +158,52 @@ void MainWindow::initBaseMap()
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
-    MPlot->setAxisAutoScale(MPlot->xBottom, true);
 
     interval = baseMap->data()->interval( Qt::ZAxis );
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
+
+    int h = MPlot->height();
+    int w = MPlot->width();
+
+    if (_nrRows > _nrCols) {
+        //MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
+     //   MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,0);
+
+     } else {
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,0);
+//       MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,0);
+    }
+
+
+}
+
+void MainWindow::changeSize()
+{
+    int h = MPlot->height();
+    int w = MPlot->width();
+
+    if (_nrRows > _nrCols) {
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
+        MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,0);
+
+     } else {
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,0);
+        MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,0);
+    }
+//    MPlot->updateLayout();
+//    MPlot->updateGeometry();
+
+//    QApplication::postEvent( this , new QEvent(QEvent::LayoutRequest ) );
+    MPlot->replot();
+    int h1 = this->height();
+    int w1 = this->width();
+    resize(w1 + 1,h1);
+    resize(w1,h1);
+
+
+
 }
 //---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
@@ -183,7 +229,18 @@ void MainWindow::initTopMap()
 
     drawMap->setColorMap(dpalette);
     drawMap->setAlpha(200);
-    MPlot->setAxisAutoScale(MPlot->xBottom, true);
+
+//    int h = MPlot->height();
+//    int w = MPlot->width();
+
+//    if (_nrRows > _nrCols)
+//        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
+//     else
+//        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,0);
+    //       MPlot->setAxisAutoScale(MPlot->xBottom, true);
+  //    MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx *_nrCols/_nrRows,_dx*10);
+
+  // MPlot->plotLayout()->setAlignCanvasToScales( true );
 
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
@@ -286,3 +343,37 @@ void MainWindow::changePalette(int nr)
     }
 
 }
+
+//--------------------------------------------------------
+
+
+/*
+ *     // MouseMove only fires while a mouse button is pressed
+ *     https://www.qtcentre.org/threads/47543-redraw-the-axes-of-a-QwtPlot-during-a-panning-(QwtPlotPanner)?highlight=qwt+reset+panner
+    if (event->type() == QEvent::MouseMove)
+    {
+        // User wants to pan the plot
+        if (m_middleMouseDown)
+        {
+            // Get current zoom rectangle
+            QRectF zoomRect = m_zoomer->zoomRect();
+
+            // Convert the change in position for the last drag (1px) from
+            // pixel space to plot space.
+            double deltaX   = invTransform(QwtPlot::xBottom, m_mouseDragLocation.x()) - invTransform(QwtPlot::xBottom, cursor().pos().x());
+            double deltaY   = invTransform(QwtPlot::yLeft,   m_mouseDragLocation.y()) - invTransform(QwtPlot::yLeft,   cursor().pos().y());
+
+            // Update the zoom rect with the new values
+            zoomRect.setX(zoomRect.x() + deltaX);
+            zoomRect.setY(zoomRect.y() + deltaY);
+            zoomRect.setWidth (zoomRect.width()  + deltaX);
+            zoomRect.setHeight(zoomRect.height() + deltaY);
+
+            // Store for continued dragging
+            m_mouseDragLocation = cursor().pos();
+
+            // Set the zoom to its new position
+            m_zoomer->zoom(zoomRect);
+        }
+    }
+    */
