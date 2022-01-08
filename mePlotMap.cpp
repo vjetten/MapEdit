@@ -18,17 +18,18 @@ void MainWindow::setupMapPlot()
 
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
+    //grid->setXDiv()
     grid->attach( MPlot );
 
     baseMap = new QwtPlotSpectrogram();
     baseMap->setRenderThreadCount( 0 );
-    baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
+ //   baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
     baseMap->attach( MPlot );
     // shaded relief base map
 
     drawMap = new QwtPlotSpectrogram();
     drawMap->setRenderThreadCount( 0 );
-    drawMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
+ //   drawMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
     drawMap->attach( MPlot );
     // NOTE the order in which these are attached is the order displayed.
 
@@ -73,7 +74,7 @@ void MainWindow::setupMapPlot()
     mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
     mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
     mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
-    //mapRescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
+ //   mapRescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
 //    mapRescaler->setRescalePolicy(QwtPlotRescaler::Fitting );
 
     cpicker = new CanvasPicker( MPlot );
@@ -149,7 +150,7 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 //---------------------------------------------------------------------------
 void MainWindow::initBaseMap()
 {
-    palette1nr = -1;
+    palette1nr = 0;
     changePalette(0);
 
     double res = fillDrawMapData(baseRMap, RDb, &MinV1, &MaxV1);
@@ -163,19 +164,21 @@ void MainWindow::initBaseMap()
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 
+    changeSize();
+/*
     int h = MPlot->height();
     int w = MPlot->width();
 
     if (_nrRows > _nrCols) {
         //MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
-     //   MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,0);
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,10*_dx);
+        MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,10*_dx);
 
      } else {
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,0);
-//       MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,0);
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,10*_dx);
+        MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,10*_dx);
     }
-
+*/
 
 }
 
@@ -185,17 +188,14 @@ void MainWindow::changeSize()
     int w = MPlot->width();
 
     if (_nrRows > _nrCols) {
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
-        MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,0);
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,10*_dx);
+        MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,10*_dx);
 
      } else {
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,0);
-        MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,0);
+        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,10*_dx);
+        MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,10*_dx);
     }
-//    MPlot->updateLayout();
-//    MPlot->updateGeometry();
 
-//    QApplication::postEvent( this , new QEvent(QEvent::LayoutRequest ) );
     MPlot->replot();
     int h1 = this->height();
     int w1 = this->width();
@@ -220,7 +220,7 @@ void MainWindow::showBaseMap()
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
 {
-    palette2nr = 0;
+    palette2nr = -1;
     changePalette(1);
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);

@@ -39,8 +39,8 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         op.angleDelta = wEvent->angleDelta();
         double ri = plot()->invTransform(QwtPlot::yLeft,wEvent->position().y());
         double ci = plot()->invTransform(QwtPlot::xBottom,wEvent->position().x());
-        op.wy = ri;//wEvent->position().y();
-        op.wx = ci;//wEvent->position().x();
+        op.wy = ri;
+        op.wx = ci;
 
         emit zoom();
         return true;
@@ -77,7 +77,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         }
 
     }
-    qDebug() << event->type();
+  //  qDebug() << event->type();
 
     if (event->type() == QEvent::MouseMove)
     {

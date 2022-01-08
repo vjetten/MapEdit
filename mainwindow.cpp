@@ -10,8 +10,6 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 {
     setupUi(this);
 
-  //  qApp->installEventFilter(this);
-
     currentDir = "";
 
     initOP(true);
@@ -22,9 +20,6 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     col.setAlpha(96);
     b.setColor(col);
     b.setStyle(Qt::SolidPattern);//Dense7Pattern);
-
-    palette1nr = -1;
-    palette2nr = 0;
 
     getStorePath();
 
