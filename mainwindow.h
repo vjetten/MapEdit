@@ -77,7 +77,6 @@ public:
 
     QString ErrorString;
 
-    QwtText title;
     QwtPlotSpectrogram *drawMap;  // raster map drawing
     QwtPlotSpectrogram *baseMap;  // raster map drawing
     QwtPlot *MPlot;               // plot in which the raster map is drawn
@@ -106,7 +105,7 @@ public:
     cTMap *editRMap;
     QStringList PathNames;
 
-    double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop;
+    double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop, MinBase, MaxBase;
 
     double editValue;
 
@@ -136,8 +135,9 @@ public slots:
     void openMapFile();
     void saveMapFile();
     void saveMapFileas();
-    void ssetAlpha(int v);
-    void setMinTopMap();
+    void setAlphaTop(int v);
+    void setMinMaxBaseMap();
+    void setMinMaxTopMap();
     void Show(const QString &results);
     void drawSelection();
     void getCells();
@@ -148,10 +148,6 @@ public slots:
     void zoomPoint();
 
 private slots:
-
-    void on_toolButtonResetMin_clicked();
-
-    void on_toolButtonResetMax_clicked();
 
     void on_toolButton_editCell_clicked(bool checked);
 

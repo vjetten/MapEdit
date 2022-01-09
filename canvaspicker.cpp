@@ -36,7 +36,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 
     if (event->type() == QEvent::Wheel) {
         QWheelEvent *wEvent = static_cast<QWheelEvent  *>( event );
-        op.angleDelta = wEvent->angleDelta();
+        op.wd = wEvent->angleDelta().y() < 0 ? -1 : 1;
         double ri = plot()->invTransform(QwtPlot::yLeft,wEvent->position().y());
         double ci = plot()->invTransform(QwtPlot::xBottom,wEvent->position().x());
         op.wy = ri;
@@ -89,23 +89,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         int r = op.nrR - qFloor(ri/op._dx) - 1 ;
         int c = qFloor(ci/op._dx);
 
-        QString txt;
-        QString txtcoor = QString("(%1,%2)=").arg(ri,9,'f',2,' ').arg(ci,9,'f',2,' ');
-        QString txtrc = QString("[%1,%2]=").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
-        QString txtv;
-
-        double v = op._M->data[r][c];
-        double vb = op._Mb->data[r][c];
-        txtv = "[MV][MV]";
-        if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
-            if (v > -1e19)
-                txtv = QString("[%1][%2]").arg(vb).arg(v);
-            else
-                txtv = QString("[%1][MV]").arg(vb);
-        }
-        txt = txtcoor + txtrc + txtv;
-
-        emit show(txt);
+        showinfo(r,c,ri,ci);
 
         return true;
     }
@@ -148,18 +132,25 @@ void CanvasPicker::select( const QPoint &pos )
         emit get();
 }
 
-void CanvasPicker::showinfo(int r, int c, int r1, int c1)
+void CanvasPicker::showinfo(int r, int c, int ri, int ci)
 {
-//    QString txt = "[ 000, 000]=MV=[ 000000.00, 000000.00]";
-//    if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
-//        double v = op._M->data[r][c];
-//        if (v < -1e19)
-//            txt = QString("[%1,%2]=MV").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
-//        else
-//            txt = QString("[%1,%2]=%3").arg(r,4,10,0,' ').arg(c,4,10,0,' ').arg(v);
-//        txt = txt + QString("=[%1,%2]").arg(r1,9,'f',2,' ').arg(c1,9,'f',2,' ');//pos.y()).arg(pos.x());
-//    }
-//    emit show(txt);
+    QString txt;
+    QString txtcoor = QString("(%1,%2)=").arg(ri,9,'f',2,' ').arg(ci,9,'f',2,' ');
+    QString txtrc = QString("[%1,%2]=").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
+    QString txtv;
+
+    double v = op._M->data[r][c];
+    double vb = op._Mb->data[r][c];
+    txtv = "[MV][MV]";
+    if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
+        if (v > -1e19)
+            txtv = QString("[%1][%2]").arg(vb).arg(v);
+        else
+            txtv = QString("[%1][MV]").arg(vb);
+    }
+    txt = txtcoor + txtrc + txtv;
+
+    emit show(txt);
 }
 
 // Move the selected point

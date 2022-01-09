@@ -2,19 +2,10 @@
 #include "global.h"
 
 
-//---------------------------------------------------------------------------
-void MainWindow::ssetAlpha(int v)
-{
-    drawMap->setAlpha(v);
-
-    MPlot->replot();
-}
 //----------------------------------------------------------------------------------------
 void MainWindow::setupMapPlot()
 {
-
     MPlot = new QwtPlot();
-    // attach plot to widget in UI
 
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
@@ -23,20 +14,16 @@ void MainWindow::setupMapPlot()
 
     baseMap = new QwtPlotSpectrogram();
     baseMap->setRenderThreadCount( 0 );
- //   baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
+ //   baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache ); <=== does not do cghanges immediately but cashes them!
     baseMap->attach( MPlot );
-    // shaded relief base map
 
     drawMap = new QwtPlotSpectrogram();
     drawMap->setRenderThreadCount( 0 );
- //   drawMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
+    drawMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
     drawMap->attach( MPlot );
-    // NOTE the order in which these are attached is the order displayed.
 
     RD = new QwtMatrixRasterData();
     RDb = new QwtMatrixRasterData();
-    // raster data to link to plot
-
 
     rightAxis = new QwtScaleWidget(this);
     rightAxis->setAlignment( QwtScaleDraw::RightScale );
@@ -66,9 +53,8 @@ void MainWindow::setupMapPlot()
 
     panner = new QwtPlotPanner( MPlot->canvas() );
     panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
-    // exclude right axis legend from panning
+ //   panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
 
-    // correct square aspect ratio
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
     mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
@@ -86,8 +72,6 @@ void MainWindow::setupMapPlot()
     layout_Map->insertWidget(0,leftAxis, 0);
     layout_Map->insertWidget(1, MPlot, 1);
     layout_Map->insertWidget(2,rightAxis,0 );
-
-
 
 }
 //---------------------------------------------------------------------------
@@ -122,7 +106,7 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 
     if (minV == 1e18 && maxV == -1e18) {
         minV = 0;
-        maxV = 0;
+        maxV = 1;
     }
     if (minV == maxV) {
         minV = maxV-1;
@@ -141,13 +125,13 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 //    _RD->setInterval( Qt::XAxis, QwtInterval( cx,cx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
  //   _RD->setInterval( Qt::YAxis, QwtInterval( cy,cy+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
 
-
     _RD->setInterval( Qt::XAxis, QwtInterval( 0, _nrCols*_dx, QwtInterval::ExcludeMaximum ) );
     _RD->setInterval( Qt::YAxis, QwtInterval( 0, _nrRows*_dx, QwtInterval::ExcludeMaximum ) );
     // set x/y axis intervals
     return maxV;
 }
 //---------------------------------------------------------------------------
+
 void MainWindow::initBaseMap()
 {
     palette1nr = 0;
@@ -165,57 +149,17 @@ void MainWindow::initBaseMap()
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 
     changeSize();
-/*
-    int h = MPlot->height();
-    int w = MPlot->width();
-
-    if (_nrRows > _nrCols) {
-        //MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,10*_dx);
-        MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,10*_dx);
-
-     } else {
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,10*_dx);
-        MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,10*_dx);
-    }
-*/
-
-}
-
-void MainWindow::changeSize()
-{
-    int h = MPlot->height();
-    int w = MPlot->width();
-
-    if (_nrRows > _nrCols) {
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,10*_dx);
-        MPlot->setAxisScale(MPlot->yLeft,0,_nrRows*_dx*w/h,10*_dx);
-
-     } else {
-        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,10*_dx);
-        MPlot->setAxisScale(MPlot->yLeft,0,_nrCols*_dx*h/w,10*_dx);
-    }
-
-    MPlot->replot();
-    int h1 = this->height();
-    int w1 = this->width();
-    resize(w1 + 1,h1);
-    resize(w1,h1);
-
-
-
 }
 //---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
 {
-// show base map with new spin values
-
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
     interval = baseMap->data()->interval( Qt::ZAxis );
+    interval = interval.normalized();
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
-    // adjust legend to new spin values
+
 }
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
@@ -228,19 +172,7 @@ void MainWindow::initTopMap()
     drawMap->setData(RD);
 
     drawMap->setColorMap(dpalette);
-    drawMap->setAlpha(200);
-
-//    int h = MPlot->height();
-//    int w = MPlot->width();
-
-//    if (_nrRows > _nrCols)
-//        MPlot->setAxisScale(MPlot->xBottom,0,_nrRows*_dx*w/h,0);
-//     else
-//        MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx*h/w,0);
-    //       MPlot->setAxisAutoScale(MPlot->xBottom, true);
-  //    MPlot->setAxisScale(MPlot->xBottom,0,_nrCols*_dx *_nrCols/_nrRows,_dx*10);
-
-  // MPlot->plotLayout()->setAlignCanvasToScales( true );
+    drawMap->setAlpha(180);
 
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
@@ -249,10 +181,7 @@ void MainWindow::initTopMap()
 //---------------------------------------------------------------------------
 void MainWindow::showTopMap()
 {
-    double ma = MaxV2; //(MaxV2 <= -1e20 ? 0 : MaxV2);//
-    double mi = MinV2;// (MinV2 <= -1e20 ? 0 : MinV2);//MinV2;
-
-    RD->setInterval( Qt::ZAxis, QwtInterval(mi,ma));//
+    RD->setInterval( Qt::ZAxis, QwtInterval(MinV2, MaxV2));
     drawMap->setData(RD);
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
@@ -260,21 +189,61 @@ void MainWindow::showTopMap()
 }
 
 //---------------------------------------------------------------------------
-void MainWindow::setMinTopMap()
-{
-    MinV1 = spinMinV->value();
-    MaxV1 = spinMaxV->value();
-    if (MinV1 == 0) MinV1 = MinTop;
-    if (MaxV1 == 0) MaxV1 = MaxTop;
 
-    showBaseMap();
-  //  showTopMap();
+void MainWindow::changeSize()
+{
+    int h = MPlot->height();
+    int w = MPlot->width();
+
+    if (_nrRows > _nrCols) {
+        double nr = _nrRows*_dx;//*(double)w/h;
+        MPlot->setAxisScale(MPlot->xBottom,0,nr,10*_dx);
+        MPlot->setAxisScale(MPlot->yLeft,0,nr,10*_dx);
+     } else {
+        double nc = _nrCols*_dx;//*(double)h/w;
+        MPlot->setAxisScale(MPlot->xBottom,0,nc,10*_dx);
+        MPlot->setAxisScale(MPlot->yLeft,0,nc,10*_dx);
+    }
 
     MPlot->replot();
     int h1 = this->height();
     int w1 = this->width();
     resize(w1 + 1,h1);
     resize(w1,h1);
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMinMaxBaseMap()
+{
+    int mi = slider_baseMin->value();
+    mi = std::min(mi, slider_baseMax->value()-1);
+    slider_baseMin->setValue(mi);
+    int ma = slider_baseMax->value();
+    ma = std::max(ma, slider_baseMin->value()+1);
+    slider_baseMax->setValue(ma);
+
+    MinV1 = MinBase+(MaxBase-MinBase)*((double)mi/101);
+    MaxV1 = MaxBase-(MaxBase-MinBase)*(1-(double)ma/101);
+
+    showBaseMap();
+
+    MPlot->replot();
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMinMaxTopMap()
+{
+    int mi = slider_editMin->value();
+    mi = std::min(mi, slider_editMax->value()-1);
+    slider_editMin->setValue(mi);
+    int ma = slider_editMax->value();
+    ma = std::max(ma, slider_editMin->value()+1);
+    slider_editMax->setValue(ma);
+
+    MinV2 = MinTop+(MaxTop-MinTop)*((double)mi/101);
+    MaxV2 = MaxTop-(MaxTop-MinTop)*(1-(double)ma/101);
+
+    showTopMap();
+
+    MPlot->replot();
 }
 //---------------------------------------------------------------------------
 void MainWindow::changePalette(int nr)
@@ -287,11 +256,11 @@ void MainWindow::changePalette(int nr)
             palette1nr = 0;
 
         switch (palette1nr) {
-        case (0):
+        case(0):
             bpalette = new colorMapGray();
             bpalette1 = new colorMapGray();
             break;
-        case (1):
+        case(1):
             bpalette = new colorMapRainbow();
             bpalette1 = new colorMapRainbow();
             break;
@@ -300,16 +269,16 @@ void MainWindow::changePalette(int nr)
             bpalette1 = new colorMap2();
             break;
         case(3):
-            bpalette = new colorMap3();
-            bpalette1 = new colorMap3();
+            bpalette = new colorMap6();
+            bpalette1 = new colorMap6();
             break;
         case(4):
             bpalette = new colorMap4();
             bpalette1 = new colorMap4();
             break;
         case(5):
-            bpalette = new colorMap1();
-            bpalette1 = new colorMap1();
+            bpalette = new colorMap7();
+            bpalette1 = new colorMap7();
             break;
         }
     }
@@ -319,11 +288,11 @@ void MainWindow::changePalette(int nr)
             palette2nr = 0;
 
         switch (palette2nr) {
-        case (0):
+        case(0):
             dpalette = new colorMapGray();
             dpalette1 = new colorMapGray();
             break;
-        case (1):
+        case(1):
             dpalette = new colorMapRainbow();
             dpalette1 = new colorMapRainbow();
             break;
@@ -332,22 +301,28 @@ void MainWindow::changePalette(int nr)
             dpalette1 = new colorMap2();
             break;
         case(3):
-            dpalette = new colorMap3();
-            dpalette1 = new colorMap3();
+            dpalette = new colorMap6();
+            dpalette1 = new colorMap6();
             break;
         case(4):
             dpalette = new colorMap4();
             dpalette1 = new colorMap4();
             break;
         case(5):
-            dpalette = new colorMap1();
-            dpalette1 = new colorMap1();
+            dpalette = new colorMap7();
+            dpalette1 = new colorMap7();
             break;
         }
     }
 
 }
+//---------------------------------------------------------------------------
+void MainWindow::setAlphaTop(int v)
+{
+    drawMap->setAlpha(v);
 
+    MPlot->replot();
+}
 //--------------------------------------------------------
 
 

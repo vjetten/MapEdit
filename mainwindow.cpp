@@ -52,9 +52,13 @@ void MainWindow::initOP(bool doit)
     op.editStop= false;
     op.editRestore= false;
     op.clicks = 0;
+    op.wx = 0;
+    op.wy = 0;
+    op.wd = 0;
 
     if (doit) {
         op._M = nullptr;
+        op._Mb = nullptr;
         op.nrC = 0;
         op.nrR = 0;
         op._dx = 0;
@@ -117,9 +121,12 @@ void MainWindow::SetToolBar()
     statusLabel.setText("[row,col]  [y,x]");
     statusBar()->addWidget(&statusLabel);
 
-    connect(transparency, SIGNAL(sliderMoved(int)), this, SLOT(ssetAlpha(int)));
-    connect(spinMinV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
-    connect(spinMaxV, SIGNAL(valueChanged(double)),this, SLOT(setMinTopMap()));
+    connect(transparency, SIGNAL(sliderMoved(int)), this, SLOT(setAlphaTop(int)));
+
+    connect(slider_baseMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
+    connect(slider_baseMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
+    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
+    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
 }
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
@@ -184,22 +191,15 @@ void MainWindow::processMaps()
 
     showTopMap();
 
-    MinTop = MinV1;
-    MaxTop = MaxV1;
+    MinBase = MinV1;
+    MaxBase = MaxV1;
+    MinTop = MinV2;
+    MaxTop = MaxV2;
 
-    spinMinV->setMinimum(MinTop);
-    spinMinV->setMaximum(MaxTop);
-    spinMaxV->setMinimum(MinTop);
-    spinMaxV->setMaximum(MaxTop);
-    spinMinV->setValue(MinTop);
-    spinMaxV->setValue(MaxTop);
-    if ((MaxTop-MinTop) < 10)
-    {
-        spinMinV->setDecimals(3);
-        spinMaxV->setDecimals(3);
-        spinMinV->setSingleStep(0.001);
-        spinMaxV->setSingleStep(0.001);
-    }
+    slider_baseMin->setValue(1);
+    slider_baseMax->setValue(99);
+    slider_editMin->setValue(1);
+    slider_editMax->setValue(99);
 
     MPlot->replot();
 }
@@ -255,22 +255,9 @@ void MainWindow::setStorePath()
 void MainWindow::Show(const QString &results)
 {
     QStringList s = results.split('=');
-    statusLabel.setText(QString("Coord: %1 [Coordinates]r,c]:%2 Values: %3").arg(s[0]).arg(s[1]).arg(s[2]));
+    statusLabel.setText(QString("Coord: %1 [r,c]:%2 Values: %3").arg(s[0]).arg(s[1]).arg(s[2]));
 }
 //---------------------------------------------------------------------------
-
-void MainWindow::on_toolButtonResetMin_clicked()
-{
-    MinV1 = MinTop;
-    spinMinV->setValue(MinTop);
-}
-
-
-void MainWindow::on_toolButtonResetMax_clicked()
-{
-    MaxV1 = MaxTop;
-    spinMaxV->setValue(MaxTop);
-}
 
 void MainWindow::on_toolButton_editCell_clicked(bool checked)
 {

@@ -5,7 +5,7 @@
 void MainWindow::zoomPoint()
 {
     double factor = 1.0;
-    if (op.angleDelta.y() < 0)
+    if (op.wd < 0)
         factor = 0.95;
     else
         factor = 1.05;

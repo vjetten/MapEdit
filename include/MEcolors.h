@@ -9,6 +9,7 @@
 //http://www.color-hex.com/color/
 //http://colorbrewer2.org/
 //http://www.colorschemer.com
+//qgis
 
 
 //------------------------------------------
@@ -22,7 +23,7 @@ class colorMap1: public QwtLinearColorMap
     }
 public:
     colorMap1():
-        QwtLinearColorMap( QColor(BGc),QColor("#bd0026") )
+        QwtLinearColorMap( QColor("#ffffb2"),QColor("#bd0026") )
     {
     addColorStop(0.00, QColor("#ffffb2"));
     addColorStop(0.25, QColor("#fecc5c"));
@@ -41,11 +42,11 @@ class colorMap2: public QwtLinearColorMap
     }
 public:
     colorMap2():
-        QwtLinearColorMap( QColor(BGc),QColor("#2c3898") )
+        QwtLinearColorMap(QColor("#ffff51"),QColor("#2c3898") )
     {
-    addColorStop(0.00, QColor("#ffff99"));
-    addColorStop(0.15, QColor("#ffff51"));
-    addColorStop(0.30, QColor("#c7e55a"));
+  //  addColorStop(0.00, QColor("#ffff99"));
+    addColorStop(0.00, QColor("#ffff51"));
+    addColorStop(0.25, QColor("#c7e55a"));
     addColorStop(0.50, QColor("#32b1df"));
     addColorStop(0.75, QColor("#3271ca"));
     }
@@ -61,7 +62,7 @@ class colorMap3: public QwtLinearColorMap
     }
 public:
     colorMap3():
-        QwtLinearColorMap( QColor(BGc),QColor("#2b83ba") )
+        QwtLinearColorMap(QColor("#d7191c"),QColor("#2b83ba") )
     {
     addColorStop(0.00, QColor("#d7191c"));
     addColorStop(0.25, QColor("#fdae61"));
@@ -80,7 +81,7 @@ class colorMap4: public QwtLinearColorMap
     }
 public:
     colorMap4():
-        QwtLinearColorMap( QColor(BGc),QColor("#d7191c") )
+        QwtLinearColorMap( QColor("#2b83ba"),QColor("#d7191c") )
     {
     addColorStop(0.00, QColor("#2b83ba"));
     addColorStop(0.25, QColor("#a4ddd9"));
@@ -99,12 +100,13 @@ class colorMap5: public QwtLinearColorMap
     }
 public:
     colorMap5():
-        QwtLinearColorMap( QColor(BGc),QColor("#FF0000") )
+        QwtLinearColorMap(QColor("#440154"), QColor("#fde725"))
     {
-    addColorStop(0.00, QColor("#616ca2"));
-    addColorStop(0.30, QColor("#50B547"));
-    addColorStop(0.50, QColor("#FFFFFF"));
-    addColorStop(0.70, QColor("#ffff88"));
+
+    addColorStop(0.00, QColor("#440154"));
+    addColorStop(0.25, QColor("#3b528b"));
+    addColorStop(0.50, QColor("#21908d"));
+    addColorStop(0.75, QColor("#5dc963"));
     }
 };
 //------------------------------------------
@@ -118,12 +120,31 @@ class colorMap6: public QwtLinearColorMap
     }
 public:
     colorMap6():
-        QwtLinearColorMap( QColor(BGc),QColor("#0868ac") )
+        QwtLinearColorMap( QColor(BGc),QColor("#2b83ba") )
     {
-    addColorStop(0.00, QColor("#f0f9e8"));
-    addColorStop(0.25, QColor("#bae4bc"));
-    addColorStop(0.50, QColor("#7bccc4"));
-    addColorStop(0.75, QColor("#43a2ca"));
+    addColorStop(0.00, QColor("#d7191c"));
+    addColorStop(0.25, QColor("#fdae61"));
+    addColorStop(0.50, QColor("#ffffbf"));
+    addColorStop(0.75, QColor("#abdda4"));
+    }
+};
+//------------------------------------------
+class colorMap7: public QwtLinearColorMap
+{
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value <= -1e19 )
+            return qRgba( 220,220,220,0 );
+        return QwtLinearColorMap::rgb( interval, value );
+    }
+public:
+    colorMap7():
+        QwtLinearColorMap( QColor(BGc),QColor("#a60404") )
+    {
+    addColorStop(0.00, QColor("#6a2884"));
+    addColorStop(0.25, QColor("#4e88eb"));
+    addColorStop(0.50, QColor("#cefc28"));
+    addColorStop(0.75, QColor("#fb7e21"));
     }
 };
 //------------------------------------------
@@ -138,9 +159,9 @@ class colorMapRainbow: public QwtLinearColorMap
     }
 public:
     colorMapRainbow():
-        QwtLinearColorMap(  QColor("#ce0c82"), QColor("#ff0000"))
+        QwtLinearColorMap(  QColor("#6a2884"), QColor("#ff0000"))
     {
-        addColorStop(0.000,QColor("#ce0c82"));
+        addColorStop(0.000,QColor("#6a2884"));//ce0c82"));
         addColorStop(0.091,QColor("#800cce"));
         addColorStop(0.182,QColor("#1f0cce"));
         addColorStop(0.273,QColor("#0c5bce"));

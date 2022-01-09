@@ -24,9 +24,10 @@ struct output{
     bool editRestore;
     int clicks;
     int polystart;
-    QPoint angleDelta;
+   // QPoint angleDelta;
     double wx;
     double wy;
+    int wd;
 
     cTMap *_M;
     cTMap *_Mb;
