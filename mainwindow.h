@@ -40,6 +40,7 @@
 #include "canvaspicker.h"
 #include "MEoutput.h"
 
+#define MVe 1e18
 
 #define Drc     data[r][c]
 #define FOR_ROW_COL_MV for(int r = 0; r < _nrRows; r++)\

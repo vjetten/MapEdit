@@ -318,6 +318,13 @@ void MainWindow::saveMapFileas()
                            "*.map");
     if (!fileName.isEmpty()) {
         writeRaster(*topRMap, fileName,"PCRaster");
+        if (PathNames.size() == 1)
+            PathNames << fileName;
+        else
+            PathNames.at(1) == fileName;
+
+        label_edit->setText(QString("Edit map: %1").arg(QFileInfo(PathNames[1]).fileName()));
+        qDebug() << PathNames;
     }
 }
 //--------------------------------------------------------------------

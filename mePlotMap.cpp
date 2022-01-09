@@ -20,7 +20,6 @@ void MainWindow::setupMapPlot()
 
     drawMap = new QwtPlotSpectrogram();
     drawMap->setRenderThreadCount( 0 );
-    drawMap->setCachePolicy( QwtPlotRasterItem::PaintCache );
     drawMap->attach( MPlot );
 
     RD = new QwtMatrixRasterData();
@@ -80,8 +79,8 @@ void MainWindow::setupMapPlot()
 // fill the current raster data structure with new data, called each run step
 double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *minv, double *maxv)
 {
-    double maxV = -1e18;
-    double minV = 1e18;
+    double maxV = -MVe;
+    double minV = MVe;
     QVector<double> mapData;
     mapData.clear();  //QVector double
 
@@ -105,12 +104,18 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
                 mapData << (double)-1e20;
         }
 
-    if (minV == 1e18 && maxV == -1e18) {
-        minV = 0;
+    if (maxV < 0 && maxV > -MVe && minV == MVe) {
+        minV = maxV;
         maxV = 0;
     }
+    if (minV == MVe && maxV == -MVe) {
+        minV = 0;
+        maxV = 1;
+    }
     if (minV == maxV) {
-        minV = maxV-1;
+        double v = maxV;
+        maxV = v*1.1;
+        minV = v * 0.9;
     }
     qDebug() << minV << maxV;
     *maxv = maxV;
@@ -293,7 +298,7 @@ void MainWindow::changePalette(int nr)
         palette2nr++;
         if (palette2nr > 5)
             palette2nr = 0;
-
+qDebug() << palette2nr;
         switch (palette2nr) {
         case(0):
             dpalette = new colorMapGray();
