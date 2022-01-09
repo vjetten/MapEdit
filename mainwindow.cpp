@@ -125,8 +125,8 @@ void MainWindow::SetToolBar()
 
     connect(slider_baseMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
     connect(slider_baseMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
-    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
-    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
+//    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
+//    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
 }
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
@@ -190,11 +190,6 @@ void MainWindow::processMaps()
     initTopMap();
 
     showTopMap();
-
-    MinBase = MinV1;
-    MaxBase = MaxV1;
-    MinTop = MinV2;
-    MaxTop = MaxV2;
 
     slider_baseMin->setValue(1);
     slider_baseMax->setValue(99);

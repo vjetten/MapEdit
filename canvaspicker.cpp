@@ -44,8 +44,8 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 
         emit zoom();
         return true;
-
     }
+
     if (event->type() == QEvent::MouseButtonPress)
     {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );

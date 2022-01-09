@@ -6,6 +6,7 @@
 void MainWindow::setupMapPlot()
 {
     MPlot = new QwtPlot();
+    MPlot->setAutoReplot(true);
 
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
@@ -53,7 +54,7 @@ void MainWindow::setupMapPlot()
 
     panner = new QwtPlotPanner( MPlot->canvas() );
     panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
- //   panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
+    panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
@@ -106,12 +107,12 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 
     if (minV == 1e18 && maxV == -1e18) {
         minV = 0;
-        maxV = 1;
+        maxV = 0;
     }
     if (minV == maxV) {
         minV = maxV-1;
     }
- //   qDebug() << minV << maxV;
+    qDebug() << minV << maxV;
     *maxv = maxV;
     *minv = minV;
 
@@ -140,6 +141,9 @@ void MainWindow::initBaseMap()
     double res = fillDrawMapData(baseRMap, RDb, &MinV1, &MaxV1);
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
     baseMap->setData(RDb);
+
+    MinBase = MinV1;
+    MaxBase = MaxV1;
 
     baseMap->setAlpha(255);
     baseMap->setColorMap(bpalette);
@@ -170,6 +174,9 @@ void MainWindow::initTopMap()
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
     RD->setInterval( Qt::ZAxis, QwtInterval(MinV2,MaxV2));
     drawMap->setData(RD);
+
+    MinTop = MinV2;
+    MaxTop = MaxV2;
 
     drawMap->setColorMap(dpalette);
     drawMap->setAlpha(180);
@@ -221,8 +228,8 @@ void MainWindow::setMinMaxBaseMap()
     ma = std::max(ma, slider_baseMin->value()+1);
     slider_baseMax->setValue(ma);
 
-    MinV1 = MinBase+(MaxBase-MinBase)*((double)mi/101);
-    MaxV1 = MaxBase-(MaxBase-MinBase)*(1-(double)ma/101);
+    MinV1 = MinBase+(MaxBase-MinBase)*((double)mi/100);
+    MaxV1 = MaxBase-(MaxBase-MinBase)*(1-(double)ma/100);
 
     showBaseMap();
 
@@ -231,19 +238,19 @@ void MainWindow::setMinMaxBaseMap()
 //---------------------------------------------------------------------------
 void MainWindow::setMinMaxTopMap()
 {
-    int mi = slider_editMin->value();
-    mi = std::min(mi, slider_editMax->value()-1);
-    slider_editMin->setValue(mi);
-    int ma = slider_editMax->value();
-    ma = std::max(ma, slider_editMin->value()+1);
-    slider_editMax->setValue(ma);
+//    int mi = slider_editMin->value();
+//    mi = std::min(mi, slider_editMax->value()-1);
+//    slider_editMin->setValue(mi);
+//    int ma = slider_editMax->value();
+//    ma = std::max(ma, slider_editMin->value()+1);
+//    slider_editMax->setValue(ma);
 
-    MinV2 = MinTop+(MaxTop-MinTop)*((double)mi/101);
-    MaxV2 = MaxTop-(MaxTop-MinTop)*(1-(double)ma/101);
+//    MinV2 = MinTop+(MaxTop-MinTop)*((double)mi/100);
+//    MaxV2 = MaxTop-(MaxTop-MinTop)*(1-(double)ma/100);
 
-    showTopMap();
+//    showTopMap();
 
-    MPlot->replot();
+//    MPlot->replot();
 }
 //---------------------------------------------------------------------------
 void MainWindow::changePalette(int nr)

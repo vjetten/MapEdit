@@ -201,8 +201,8 @@ void MainWindow::drawSelectionRectangle()
 void MainWindow::getCells()
 {
     editValue = lineEdit_Value->text().toDouble();
-    MinV2 =std::min(MinV2, editValue);
-    MaxV2 =std::max(MaxV2, editValue);
+//    MinV2 =std::min(MinV2, editValue);
+//    MaxV2 =std::max(MaxV2, editValue);
 
     if (op.editCell) {
        for (int i = 0; i < op.eData.size(); i++) {
@@ -337,13 +337,11 @@ void MainWindow::getCells()
     }
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
-
-
+//    MinTop = MinV2;
+//    MaxTop = MaxV2;
     showTopMap();
-    MPlot->replot();
-
-
-
+    //setMinMaxTopMap();
+     MPlot->replot();
 }
 //--------------------------------------------------------------------------
 void MainWindow::restoreCells()
