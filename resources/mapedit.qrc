@@ -16,5 +16,7 @@
         <file>palette1.png</file>
         <file>palette2.png</file>
         <file>adjustsize.png</file>
+        <file>palette.png</file>
+        <file>help1.html</file>
     </qresource>
 </RCC>

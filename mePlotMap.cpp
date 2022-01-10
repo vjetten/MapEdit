@@ -15,7 +15,7 @@ void MainWindow::setupMapPlot()
 
     baseMap = new QwtPlotSpectrogram();
     baseMap->setRenderThreadCount( 0 );
- //   baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache ); <=== does not do cghanges immediately but cashes them!
+ //   baseMap->setCachePolicy( QwtPlotRasterItem::PaintCache ); <=== does not do changes immediately but cashes them!
     baseMap->attach( MPlot );
 
     drawMap = new QwtPlotSpectrogram();
@@ -72,7 +72,6 @@ void MainWindow::setupMapPlot()
     layout_Map->insertWidget(0,leftAxis, 0);
     layout_Map->insertWidget(1, MPlot, 1);
     layout_Map->insertWidget(2,rightAxis,0 );
-
 }
 //---------------------------------------------------------------------------
 
@@ -117,13 +116,17 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
         maxV = v*1.1;
         minV = v * 0.9;
     }
+    if (minV == 0 && maxV == 0) {
+        maxV = 1;
+        minV = 0;
+    }
+
     qDebug() << minV << maxV;
     *maxv = maxV;
     *minv = minV;
 
     _RD->setValueMatrix( mapData, _nrCols );
     // set column number to divide vector into rows
-
 
   //  double cy = _M->north();
   //  double cx = _M->west();
@@ -184,7 +187,8 @@ void MainWindow::initTopMap()
     MaxTop = MaxV2;
 
     drawMap->setColorMap(dpalette);
-    drawMap->setAlpha(180);
+    transparency->setValue(128);
+    setAlphaTop(128);
 
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
@@ -208,11 +212,11 @@ void MainWindow::changeSize()
     int w = MPlot->width();
 
     if (_nrRows > _nrCols) {
-        double nr = _nrRows*_dx;//*(double)w/h;
+        double nr = _nrRows*_dx*(double)w/h;
         MPlot->setAxisScale(MPlot->xBottom,0,nr,10*_dx);
         MPlot->setAxisScale(MPlot->yLeft,0,nr,10*_dx);
      } else {
-        double nc = _nrCols*_dx;//*(double)h/w;
+        double nc = _nrCols*_dx*(double)h/w;
         MPlot->setAxisScale(MPlot->xBottom,0,nc,10*_dx);
         MPlot->setAxisScale(MPlot->yLeft,0,nc,10*_dx);
     }
@@ -220,7 +224,7 @@ void MainWindow::changeSize()
     MPlot->replot();
     int h1 = this->height();
     int w1 = this->width();
-    resize(w1 + 1,h1);
+    resize(w1 - 1,h1);
     resize(w1,h1);
 }
 //---------------------------------------------------------------------------
@@ -243,19 +247,19 @@ void MainWindow::setMinMaxBaseMap()
 //---------------------------------------------------------------------------
 void MainWindow::setMinMaxTopMap()
 {
-//    int mi = slider_editMin->value();
-//    mi = std::min(mi, slider_editMax->value()-1);
-//    slider_editMin->setValue(mi);
-//    int ma = slider_editMax->value();
-//    ma = std::max(ma, slider_editMin->value()+1);
-//    slider_editMax->setValue(ma);
+    int mi = slider_editMin->value();
+    mi = std::min(mi, slider_editMax->value()-1);
+    slider_editMin->setValue(mi);
+    int ma = slider_editMax->value();
+    ma = std::max(ma, slider_editMin->value()+1);
+    slider_editMax->setValue(ma);
 
-//    MinV2 = MinTop+(MaxTop-MinTop)*((double)mi/100);
-//    MaxV2 = MaxTop-(MaxTop-MinTop)*(1-(double)ma/100);
+    MinV2 = MinTop+(MaxTop-MinTop)*((double)mi/100);
+    MaxV2 = MaxTop-(MaxTop-MinTop)*(1-(double)ma/100);
 
-//    showTopMap();
+    showTopMap();
 
-//    MPlot->replot();
+    MPlot->replot();
 }
 //---------------------------------------------------------------------------
 void MainWindow::changePalette(int nr)
@@ -298,7 +302,7 @@ void MainWindow::changePalette(int nr)
         palette2nr++;
         if (palette2nr > 5)
             palette2nr = 0;
-qDebug() << palette2nr;
+
         switch (palette2nr) {
         case(0):
             dpalette = new colorMapGray();

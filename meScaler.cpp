@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "global.h"
-
+#include "qwt_plot.h"
+#include "qwt_scale_map.h"
+#include "qwt_plot_magnifier.h"
 //--------------------------------------------------------
 void MainWindow::zoomPoint()
 {
@@ -10,11 +12,11 @@ void MainWindow::zoomPoint()
     else
         factor = 1.05;
 
-    for ( int axisPos = 0; axisPos < QwtAxis::PosCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < 4 /*QwtAxis::PosCount*/; axisPos++ )
     {
         QwtAxisId axisId( axisPos );
 
-        QwtScaleMap scaleMap = MPlot->canvasMap( axisId );
+        const QwtScaleMap scaleMap = MPlot->canvasMap( axisId );
 
         double v1 = scaleMap.s1(); // scale interval boundaries
         double v2 = scaleMap.s2();

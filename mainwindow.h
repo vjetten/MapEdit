@@ -10,26 +10,26 @@
 #include <qrect.h>
 
 //QWT library files
+#include <qwt_color_map.h>
+//#include <qwt_legend.h>
+#include <qwt_matrix_raster_data.h>
+#include <qwt_picker.h>
+#include <qwt_picker_machine.h>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_marker.h>
-#include <qwt_legend.h>
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_panner.h>
 #include <qwt_plot_magnifier.h>
-#include <qwt_color_map.h>
 #include <qwt_plot_spectrogram.h>
-#include <qwt_plot_layout.h>
-#include <qwt_matrix_raster_data.h>
-#include <qwt_scale_widget.h>
-#include <qwt_plot_renderer.h>
+//#include <qwt_plot_layout.h>
+//#include <qwt_plot_renderer.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_rescaler.h>
-#include <qwt_scale_engine.h>
 #include <qwt_plot_zoomer.h>
-#include <qwt_picker.h>
-#include <qwt_picker_machine.h>
+#include <qwt_scale_engine.h>
+#include <qwt_scale_widget.h>
 #include <qwt_symbol.h>
 
 #include "ui_mainwindow.h"
@@ -84,6 +84,7 @@ public:
     QwtMatrixRasterData *RD;
     QwtMatrixRasterData *RDb;
     QwtLinearScaleEngine scaleEngine;
+    //QwtLogScaleEngine scaleEngine;
     QwtInterval interval;
 
     QLabel statusLabel;
@@ -105,6 +106,11 @@ public:
     cTMap *topRMap;
     cTMap *editRMap;
     QStringList PathNames;
+    QString savetype;
+
+    QDialog *helpbox;
+    QTextEdit *helptxt;
+    QHBoxLayout *helpLayout;
 
     double MinV1, MaxV1, MinV2, MaxV2, MinTop, MaxTop, MinBase, MaxBase;
 
@@ -131,6 +137,8 @@ public:
     void drawSelectionLine();
     void drawSelectionRectangle();
     void changePalette(int nr);
+    void changePaletteBase();
+    void changePaletteTop();
 
 public slots:
     void openMapFile();
@@ -143,8 +151,6 @@ public slots:
     void drawSelection();
     void getCells();
     void restoreCells();
-    void changePaletteBase();
-    void changePaletteTop();
     void changeSize();
     void zoomPoint();
 
@@ -162,13 +168,28 @@ private slots:
 
     void on_toolButton_restoreEdit_clicked();
 
+    void on_toolButton_paletteBase_clicked();
+
+    void on_toolButton_paletteTop_clicked();
+
+
+    void on_toolButton_openFile_clicked();
+
+    void on_toolButton_saveFile_clicked();
+
+    void on_toolButton_saveFileas_clicked();
+
+    void on_toolButton_resize_clicked();
+
+    void on_toolButton_help_clicked();
+
 private:
    //toolbar actions
    QAction *openAct;
    QAction *saveAct;
    QAction *saveasAct;
-   QAction *PaletteTopAct;
-   QAction *PaletteBaseAct;
+//   QAction *PaletteTopAct;
+//   QAction *PaletteBaseAct;
    QAction *ResizeAct;
 
 //   QAction *shootscreenAct;

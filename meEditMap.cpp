@@ -337,11 +337,11 @@ void MainWindow::getCells()
     }
 
     double res = fillDrawMapData(topRMap, RD, &MinV2, &MaxV2);
-//    MinTop = MinV2;
-//    MaxTop = MaxV2;
+    MinTop = MinV2;
+    MaxTop = MaxV2;
     showTopMap();
-    //setMinMaxTopMap();
-     MPlot->replot();
+    setMinMaxTopMap();
+    MPlot->replot();
 }
 //--------------------------------------------------------------------------
 void MainWindow::restoreCells()

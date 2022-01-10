@@ -34,6 +34,13 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 
         processMaps();
     }
+
+//    helpbox = new QDialog();
+//    helpbox->resize(1080, 600);
+//    helpbox->setWindowTitle("Mapedit elp");
+//    helpLayout = new QHBoxLayout(helpbox);
+    helptxt = new QTextEdit();
+//    helpLayout->addWidget(helptxt);
 }
 //----------------------------------------------------------------------------------------
 MainWindow::~MainWindow()
@@ -74,49 +81,34 @@ void MainWindow::initOP(bool doit)
 //---------------------------------------------------------------------------------------
 void MainWindow::SetToolBar()
 {
-    toolBar->setIconSize(QSize(24,24));
+     toolBar->setVisible(false);
+//    toolBar->setIconSize(QSize(24,24));
 
-    openAct = new QAction(QIcon(":/Folder-Open-icon1.png"), "&Open...", this);
-    connect(openAct, SIGNAL(triggered()), this, SLOT(openMapFile()));
-    toolBar->addAction(openAct);
+//    openAct = new QAction(QIcon(":/Folder-Open-icon1.png"), "&Open...", this);
+//    connect(openAct, SIGNAL(triggered()), this, SLOT(openMapFile()));
+//    toolBar->addAction(openAct);
 
-    saveAct = new QAction(QIcon(":/filesave2X.png"), "&Save...", this);
-    connect(saveAct, SIGNAL(triggered()), this, SLOT(saveMapFile()));
-    toolBar->addAction(saveAct);
+//    saveAct = new QAction(QIcon(":/filesave2X.png"), "&Save...", this);
+//    connect(saveAct, SIGNAL(triggered()), this, SLOT(saveMapFile()));
+//    toolBar->addAction(saveAct);
 
-    saveasAct = new QAction(QIcon(":/filesaveas2X.png"), "Save &As...", this);
-    connect(saveasAct, SIGNAL(triggered()), this, SLOT(saveMapFileas()));
-    toolBar->addAction(saveasAct);
+//    saveasAct = new QAction(QIcon(":/filesaveas2X.png"), "Save &As...", this);
+//    connect(saveasAct, SIGNAL(triggered()), this, SLOT(saveMapFileas()));
+//    toolBar->addAction(saveasAct);
 
-    PaletteBaseAct = new QAction(QIcon(":/palette1.png"), "Change palette of base map", this);
-    connect(PaletteBaseAct, SIGNAL(triggered()), this, SLOT(changePaletteBase()));
-    toolBar->addAction(PaletteBaseAct);
+//    PaletteBaseAct = new QAction(QIcon(":/palette1.png"), "Change palette of base map", this);
+//    connect(PaletteBaseAct, SIGNAL(triggered()), this, SLOT(changePaletteBase()));
+//    toolBar->addAction(PaletteBaseAct);
 
-    PaletteTopAct = new QAction(QIcon(":/palette2.png"), "Change palette of edit map", this);
-    connect(PaletteTopAct, SIGNAL(triggered()), this, SLOT(changePaletteTop()));
-    toolBar->addAction(PaletteTopAct);
+//    PaletteTopAct = new QAction(QIcon(":/palette2.png"), "Change palette of edit map", this);
+//    connect(PaletteTopAct, SIGNAL(triggered()), this, SLOT(changePaletteTop()));
+//    toolBar->addAction(PaletteTopAct);
 
-    ResizeAct = new QAction(QIcon(":/adjustsize.png"), "Reset the map size", this);
-    connect(ResizeAct, SIGNAL(triggered()), this, SLOT(changeSize()));
-    toolBar->addAction(ResizeAct);
+//    ResizeAct = new QAction(QIcon(":/adjustsize.png"), "Reset the map size", this);
+//    connect(ResizeAct, SIGNAL(triggered()), this, SLOT(changeSize()));
+//    toolBar->addAction(ResizeAct);
 
-   // toolBar->addSeparator();
-
-    //    shootscreenAct = new QAction(QIcon(":/screenshots.png"), "make a screendump of the current page", this);
-    //    connect(shootscreenAct, SIGNAL(triggered()), this, SLOT(shootScreen()));
-    //    toolBar->addAction(shootscreenAct);
-
-
-    //    aboutActI = new QAction(QIcon(":/Info.png"), "", this);
-    //    connect(aboutActI, SIGNAL(triggered()), this, SLOT(aboutInfo()));
-    //    toolBar_2->addAction(aboutActI);
-
-    //aboutAct = new QAction(QIcon(":/Info.png"), "", this);
-    //connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutQT()));
-    //toolBar_2->addAction(aboutAct);
-
-    //    toolBar_2->setMovable( false);
-    //    toolBar->setMovable( false);
+ //    toolBar->setMovable( false);
 
     statusLabel.setText("[row,col]  [y,x]");
     statusBar()->addWidget(&statusLabel);
@@ -125,8 +117,8 @@ void MainWindow::SetToolBar()
 
     connect(slider_baseMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
     connect(slider_baseMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
-//    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
-//    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
+    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
+    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
 }
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
@@ -165,13 +157,18 @@ void MainWindow::processMaps()
 
     QString name1 = QFileInfo(PathNames[0]).fileName();
     QString name2;
+    savetype = "PCRaster";
 
     if (PathNames.size() > 1) {
         topRMap = ReadMap(PathNames[1]);
         name2 = QFileInfo(PathNames[1]).fileName();
+        if (QFileInfo(PathNames[1]).suffix() == "tif")
+            savetype = "GTiff";
     } else {
-        topRMap = NewMap(-1e20);
-        name2 = "Empty map to edit!";
+        topRMap = NewMap(0);//-1e20);
+        name2 = "<empty>";//"Empty map to edit!";
+        if (QFileInfo(PathNames[0]).suffix() == "tif")
+            savetype = "GTiff";
     }
     op._M = topRMap;
 
@@ -303,7 +300,7 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 void MainWindow::saveMapFile()
 {
     if (PathNames.size() > 1)
-        writeRaster(*topRMap, PathNames[1],"PCRaster");
+        writeRaster(*topRMap, PathNames[1],savetype);
     else
         saveMapFileas();
 }
@@ -312,12 +309,13 @@ void MainWindow::saveMapFileas()
 {
    if (PathNames.size() == 0)
        return;
+   QString ext = "*.map";
+   if (savetype == "GTiff")
+       ext = "*.tif";
 
-    QString fileName = QFileDialog::getSaveFileName(this, "Save PCRaster map under a new name ",
-                           currentDir,
-                           "*.map");
+    QString fileName = QFileDialog::getSaveFileName(this, "Save map under a new name ",currentDir,ext);
     if (!fileName.isEmpty()) {
-        writeRaster(*topRMap, fileName,"PCRaster");
+        writeRaster(*topRMap, fileName,savetype);
         if (PathNames.size() == 1)
             PathNames << fileName;
         else
@@ -330,13 +328,10 @@ void MainWindow::saveMapFileas()
 //--------------------------------------------------------------------
 void MainWindow::openMapFile()
 {
-    QString filter = "PCR (*.map);;PCR (*.map *.0* *.1* *.2*);;all (*.*)";
-    QStringList files = QFileDialog::getOpenFileNames(
-                this, QString("Select 1 or 2 PCRaster Maps"),
-                currentDir,
-                filter);
-    if (files.count() > 0)
-    {
+    QString filter = "PCR (*.map);;PCR (*.map *.0* *.1* *.2*);;GTiff (*.tif);;all (*.*)";
+    QStringList files = QFileDialog::getOpenFileNames(this, QString("Select 1 or 2 Maps"),currentDir,filter);
+
+    if (files.count() > 0) {
         currentDir = QFileInfo(files[0]).absoluteDir().absolutePath();
     }
 
@@ -382,13 +377,59 @@ void MainWindow::on_toolButton_restoreEdit_clicked()
   //  restoreCells();
 }
 
-//bool MainWindow::eventFilter(QObject *object, QEvent *event)
-//{
-//  if (event->type() == QEvent::MouseMove)
-//  {
-//    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-//    statusBar()->showMessage(QString("Mouse move (%1,%2)").arg(mouseEvent->pos().x()).arg(mouseEvent->pos().y()));
-//  }
-//  return QObject::eventFilter( object, event );
-//  return false;
-//}
+void MainWindow::on_toolButton_paletteBase_clicked()
+{
+    changePaletteBase();
+}
+
+
+void MainWindow::on_toolButton_paletteTop_clicked()
+{
+    changePaletteTop();
+}
+
+
+void MainWindow::on_toolButton_openFile_clicked()
+{
+    openMapFile();
+}
+
+
+void MainWindow::on_toolButton_saveFile_clicked()
+{
+    saveMapFile();
+}
+
+
+void MainWindow::on_toolButton_saveFileas_clicked()
+{
+    saveMapFileas();
+}
+
+
+void MainWindow::on_toolButton_resize_clicked()
+{
+    changeSize();
+}
+
+
+void MainWindow::on_toolButton_help_clicked()
+{
+    QString filename =":/help1.html";
+
+    QFile file(filename);
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream stream(&file);
+    helptxt->setHtml(stream.readAll());
+
+    QTextEdit *view = new QTextEdit(helptxt->toHtml());
+    view->createStandardContextMenu();
+    view->setWindowTitle("Mapedit help");
+    view->setMinimumWidth(640);
+    view->setMinimumHeight(480);
+    view->setAttribute(Qt::WA_DeleteOnClose);
+
+    view->show();
+}
+
+
