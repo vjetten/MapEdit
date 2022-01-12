@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     initOP(true);
 
     mapsLoaded = false;
+    editBase = false;
 
     int size = qApp->font().pointSize()*0.8;
     whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( size,size ));
@@ -41,12 +42,10 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 
         processMaps();
 
-        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.5;
+        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
         MPlot->setGeometry(0,0,r.width(),r.height());
-        //    MPlot->setGeometry(0,0,600,600);
         MPlot->repaint();
         qApp->processEvents();
-        //qDebug() << layout_Map->geometry();
 
         changeSize();
     }
@@ -338,7 +337,6 @@ void MainWindow::saveMapFileas()
             PathNames.at(1) == fileName;
 
         label_edit->setText(QString("Edit map: %1").arg(QFileInfo(PathNames[1]).fileName()));
-        qDebug() << PathNames;
     }
 }
 //--------------------------------------------------------------------

@@ -103,8 +103,6 @@ void CanvasPicker::select( const QPoint &pos )
     if (op._M == nullptr)
         return;
 
-    //double cy = _M->north();
-    //double cx = _M->west();
     op.clicks++;
 
     double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y());
@@ -134,15 +132,18 @@ void CanvasPicker::select( const QPoint &pos )
 
 void CanvasPicker::showinfo(int r, int c, int ri, int ci)
 {
+    if (r < 0 || c < 0)
+        return;
+
     QString txt;
     QString txtcoor = QString("(%1,%2)=").arg(ri,9,'f',2,' ').arg(ci,9,'f',2,' ');
     QString txtrc = QString("[%1,%2]=").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
     QString txtv;
 
-    double v = op._M->data[r][c];
-    double vb = op._Mb->data[r][c];
     txtv = "[MV][MV]";
     if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
+        double v = op._M->data[r][c];
+        double vb = op._Mb->data[r][c];
         if (v > -1e19)
             txtv = QString("[%1][%2]").arg(vb).arg(v);
         else

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MapEdit v3.0  -  PCRaster map editor (10 jan 2022)</string>
+   <string>MapEdit v3.0  -  PCRaster map editor (12 jan 2022)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -524,7 +524,7 @@
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>MapEdit v3.0  -  PCRaster map editor (12 jan 2022)</string>
    </property>
    <property name="movable">
     <bool>false</bool>

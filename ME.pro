@@ -6,7 +6,7 @@
 
 
 QT       += core gui widgets
-TARGET = me
+TARGET = mapedit
 TEMPLATE = app
 CONFIG += exceptions
 CONFIG += warn_off

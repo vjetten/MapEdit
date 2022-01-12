@@ -121,7 +121,6 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
         minV = 0;
     }
 
-    qDebug() << minV << maxV;
     *maxv = maxV;
     *minv = minV;
 
