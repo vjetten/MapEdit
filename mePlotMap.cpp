@@ -160,7 +160,7 @@ void MainWindow::initBaseMap()
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 
-    changeSize();
+   // changeSize();
 }
 //---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
@@ -210,6 +210,10 @@ void MainWindow::changeSize()
 {
     int h = MPlot->height();
     int w = MPlot->width();
+    if (h == sizeHint().height() && w == sizeHint().width()) {
+        h = this->height();
+        w = this->width();
+    }
 
     if (_nrRows > _nrCols) {
         double nr = _nrRows*_dx*(double)w/h;

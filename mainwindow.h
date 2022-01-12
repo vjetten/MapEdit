@@ -130,6 +130,8 @@ public:
 
     int palette1nr;
     int palette2nr;
+    bool editBase;
+    bool mapsLoaded;
 
   //  bool eventFilter(QObject *obj, QEvent *event);
     void drawSelectionCell();
@@ -182,6 +184,8 @@ private slots:
     void on_toolButton_resize_clicked();
 
     void on_toolButton_help_clicked();
+
+    void on_checkBox_editBase_clicked(bool checked);
 
 private:
    //toolbar actions

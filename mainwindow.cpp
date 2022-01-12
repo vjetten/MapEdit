@@ -9,10 +9,12 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     : QMainWindow(parent)
 {
     setupUi(this);
-
+    resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
     initOP(true);
+
+    mapsLoaded = false;
 
     int size = qApp->font().pointSize()*0.8;
     whitedot = new QwtSymbol( QwtSymbol::Ellipse, Qt::white, QPen( Qt::black ), QSize( size,size ));
@@ -20,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     col.setAlpha(96);
     b.setColor(col);
     b.setStyle(Qt::SolidPattern);//Dense7Pattern);
+    helptxt = new QTextEdit();
 
     getStorePath();
 
@@ -29,18 +32,24 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 
     if (doBatch)
     {
-        QStringList list = names.split(";");
-        PathNames << list;
+        PathNames << names.split(";");
+
+        if (!QFileInfo(PathNames[0]).exists())
+            return;
+        if (PathNames.size() > 1 && !QFileInfo(PathNames[1]).exists())
+            return;
 
         processMaps();
-    }
 
-//    helpbox = new QDialog();
-//    helpbox->resize(1080, 600);
-//    helpbox->setWindowTitle("Mapedit elp");
-//    helpLayout = new QHBoxLayout(helpbox);
-    helptxt = new QTextEdit();
-//    helpLayout->addWidget(helptxt);
+        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.5;
+        MPlot->setGeometry(0,0,r.width(),r.height());
+        //    MPlot->setGeometry(0,0,600,600);
+        MPlot->repaint();
+        qApp->processEvents();
+        //qDebug() << layout_Map->geometry();
+
+        changeSize();
+    }
 }
 //----------------------------------------------------------------------------------------
 MainWindow::~MainWindow()
@@ -165,8 +174,15 @@ void MainWindow::processMaps()
         if (QFileInfo(PathNames[1]).suffix() == "tif")
             savetype = "GTiff";
     } else {
-        topRMap = NewMap(0);//-1e20);
-        name2 = "<empty>";//"Empty map to edit!";
+        if (editBase) {
+            topRMap = ReadMap(PathNames[0]);
+            name2 = QFileInfo(PathNames[0]).fileName();
+            PathNames << name2;
+        } else {
+            topRMap = NewMap(0);   //-1e20);
+            name2 = "<edit layer>";
+        }
+
         if (QFileInfo(PathNames[0]).suffix() == "tif")
             savetype = "GTiff";
     }
@@ -193,7 +209,7 @@ void MainWindow::processMaps()
     slider_editMin->setValue(1);
     slider_editMax->setValue(99);
 
-    MPlot->replot();
+    mapsLoaded = true;
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::NewMap(double value)
@@ -342,6 +358,8 @@ void MainWindow::openMapFile()
     PathNames << files;
 
     processMaps();
+
+    changeSize();
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::ReadMap(QString name)
@@ -432,4 +450,21 @@ void MainWindow::on_toolButton_help_clicked()
     view->show();
 }
 
+
+void MainWindow::on_checkBox_editBase_clicked(bool checked)
+{
+    editBase = checked;
+
+    if (mapsLoaded && editBase) {
+        QString name = PathNames[0];
+        if (PathNames.size() == 1)
+            PathNames << name;
+        else
+            PathNames[1] = name;
+        topRMap = ReadMap(PathNames[0]);
+        label_edit->setText(QString("Edit map: %1").arg(name));
+        initTopMap();
+        showTopMap();
+    }
+}
 

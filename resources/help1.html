@@ -1,8 +1,15 @@
 <h2><strong>MapEdit - editor for PCRaster and GTiff raster maps<br /></strong></h2>
 <p>Version: 3.0<br />Date: 10 jan 2022</p>
 <h3>Loading maps</h3>
-<p>Mapedit works with two map layers: the base map is a reference map which is not changed, and the top map can be edited. When you load two maps, the first one you choose is the base layer/reference map, the second one is the edit layer. If the edit layer is a GeoTiff map, it will be saved as a tif file.</p>
-<p>If you load only one map, this is assumed to be the base layer. An empty map is created, filled with the value '0' (zero) that can be edited and saved using you own name. If the base map is a tif file, the empty edit map will be a tif file with the ESPG information of the base layer, else it will be a PCRaster map file.</p>
+<p>Mapedit works with two map layers: the base map is a reference map which is not changed, and the top map can be edited.</p>
+<p>There are 3 ways to use mapedit:</p>
+<ul>
+<li>When you load two maps, the first one you choose is the base layer/reference map, the second one is the edit layer. If the edit layer is a GeoTiff map, it will be saved as a tif file.</li>
+<li>If you load only one map, there are two options. If you check "<em>Edit a copy of the base map</em>" the base map is copied and you can start editing it. The base layer is a copy of the original as a reference layer.</li>
+<li>If you uncheck</li>
+<li>If you check "<em>Edit a copy of the base map</em>", an empty map is created, filled with the value '0' (zero) that can be edited and saved using you own name.</li>
+</ul>
+<p>If the base map is a GeoTiff file, the edit layer will be saved as GeoTiff file with the ESPG information of the base layer, else it will be a PCRaster map file (default).</p>
 <p>The legend of the base map is shown to the left of the map, the legend of the edit layer to the right.</p>
 <h3>Editing options</h3>
 <p>Edit shapes are selected with the tool buttons. After selecitng a shape, areas are digitized with the <em>left mouse button. Single </em>cells and rectangles have only one point (cell) or two points in opposiite corners. Lines and polygones needs to be stopped if you want to digitize a second line or polygon. You stop editing a shape by clicking with the <em>right mouse button</em>. If you then click with the left mouse button, a new shape is started.</p>
@@ -10,13 +17,13 @@
 <p>If you want to restire the original values, digitize one or more areas that you want to restore, close it, and click on the restire button (with tthe two round arrows).</p>
 <h3>Display options</h3>
 <p>The edit layer is semi-transparent on top of the base layer. The transparancy can be chgosen with the slider.</p>
-<p>Both the base and edit layer can have different colors, click on the palette tool buttons to change the color setting of the maps and legends.</p>
-<p>The slider influence the min and max display values, so you can show particular areas well.</p>
-<p>You can zoom in and out with the mouse wheel. The reset size icon resets the zoom level to the full map.</p>
-<p>You can drag the map by keeping the right mouse button pressed and dragging the map.</p>
+<p>Both the base and edit layer can have different legend colors, click on the palette tool buttons to change the color setting of the maps and legends (def. base layer in rainbow legend and edit layer in grey scale).</p>
+<p>The sliders influence the min and max display values, to better show certain areas well.</p>
+<p><em>Mouse wheel</em>: zoom in and out. The reset size icon resets the zoom level to the full map.</p>
+<p><em>Right Mouse button</em>: drag the map by keeping the right mouse button pressed and dragging the map.</p>
 <p>good luck!</p>
 <p>&nbsp;</p>
 <p>Victor Jetten</p>
 <p>Faculty of Geoinformation Science and Earth Observation - ITC<br />University of Twente<br />The Netherlands</p>
 <p><em>Open source material:</em></p>
-<p>Qt platform: <a href="https://www.qt.io/">www.qt.io </a><br />MSYS2 - Mingw compiler and libraries: <a class="result__url js-result-extras-url" href="https://www.msys2.org/" rel="noopener" data-testid="result-extras-url-link"><span class="result__url__domain"><a href="https://www.msys2.org">https://www.msys2.org</a></span></a><br />Qwt - Qt Widgets for Technical Applications:&nbsp; <a href="https://qwt.sourceforge.io/">https://qwt.sourceforge.io/</a><br />Source code: <a href="https://github.com/vjetten/MapEdit">https://github.com/vjetten/MapEdit</a><br />Licence: GNU-GPL V3.0: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a></p>
+<p>Qt platform: <a href="https://www.qt.io/">www.qt.io </a><br />MSYS2 - Mingw compiler and libraries: <a href="https://www.msys2.org">https://www.msys2.org</a><br />Qwt - Qt Widgets for Technical Applications:&nbsp; <a href="https://qwt.sourceforge.io/">https://qwt.sourceforge.io/</a><br />Source code: <a href="https://github.com/vjetten/MapEdit">https://github.com/vjetten/MapEdit</a><br />Licence: GNU-GPL V3.0: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a></p>
