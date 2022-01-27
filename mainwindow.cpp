@@ -33,7 +33,10 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
 
     if (doBatch)
     {
-        PathNames << names.split(";");
+        QStringList tmp = names.split(";");
+        PathNames << tmp[0];
+        if (tmp.size() > 1)
+            PathNames << tmp[1];
 
         if (!QFileInfo(PathNames[0]).exists())
             return;
@@ -151,10 +154,13 @@ void MainWindow::changePaletteBase()
     MPlot->replot();
 }
 //--------------------------------------------------------------------
+// loads two different maps or makes a copy of the base map
 void MainWindow::processMaps()
 {
+    if (!mapsLoaded)
+        checkBox_editBase->setEnabled(false);
+
     baseRMap = ReadMap(PathNames[0]);
-    op._Mb = baseRMap;
     _dx = baseRMap->cellSize()*1.0000000;
     _nrRows = baseRMap->nrRows();
     _nrCols = baseRMap->nrCols();
@@ -168,23 +174,21 @@ void MainWindow::processMaps()
     savetype = "PCRaster";
 
     if (PathNames.size() > 1) {
+        checkBox_editBase->setEnabled(false);
         topRMap = ReadMap(PathNames[1]);
         name2 = QFileInfo(PathNames[1]).fileName();
         if (QFileInfo(PathNames[1]).suffix() == "tif")
             savetype = "GTiff";
     } else {
-        if (editBase) {
-            topRMap = ReadMap(PathNames[0]);
-            name2 = QFileInfo(PathNames[0]).fileName();
-            PathNames << name2;
-        } else {
-            topRMap = NewMap(0);   //-1e20);
-            name2 = "<edit layer>";
-        }
-
-        if (QFileInfo(PathNames[0]).suffix() == "tif")
-            savetype = "GTiff";
+        topRMap = ReadMap(PathNames[0]);
+        name2 = QFileInfo(PathNames[0]).fileName();
+        PathNames << name2;
     }
+
+    if (QFileInfo(PathNames[0]).suffix() == "tif")
+        savetype = "GTiff";
+
+    op._Mb = baseRMap;
     op._M = topRMap;
 
     label_base->setText(QString("Base map: %1").arg(name1));
@@ -209,6 +213,8 @@ void MainWindow::processMaps()
     slider_editMax->setValue(99);
 
     mapsLoaded = true;
+    checkBox_editBase->setEnabled(true);
+
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::NewMap(double value)
@@ -314,7 +320,7 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 //--------------------------------------------------------------------
 void MainWindow::saveMapFile()
 {
-    if (PathNames.size() > 1)
+    if (PathNames[1] != "empty")
         writeRaster(*topRMap, PathNames[1],savetype);
     else
         saveMapFileas();
@@ -331,10 +337,10 @@ void MainWindow::saveMapFileas()
     QString fileName = QFileDialog::getSaveFileName(this, "Save map under a new name ",currentDir,ext);
     if (!fileName.isEmpty()) {
         writeRaster(*topRMap, fileName,savetype);
-        if (PathNames.size() == 1)
-            PathNames << fileName;
-        else
-            PathNames.at(1) == fileName;
+//        if (PathNames.size() == 1)
+//            PathNames << fileName;
+//        else
+        PathNames.at(1) == fileName;
 
         label_edit->setText(QString("Edit map: %1").arg(QFileInfo(PathNames[1]).fileName()));
     }
@@ -349,11 +355,14 @@ void MainWindow::openMapFile()
         currentDir = QFileInfo(files[0]).absoluteDir().absolutePath();
     }
 
+    PathNames.clear();
     if (files.count() == 0)
         return;
 
-    PathNames.clear();
-    PathNames << files;
+    // only copy the first two selected
+    PathNames << files[0];
+    if (files.count() > 1)
+        PathNames << files[1];
 
     processMaps();
 
@@ -452,15 +461,21 @@ void MainWindow::on_toolButton_help_clicked()
 void MainWindow::on_checkBox_editBase_clicked(bool checked)
 {
     editBase = checked;
-
-    if (mapsLoaded && editBase) {
-        QString name = PathNames[0];
-        if (PathNames.size() == 1)
-            PathNames << name;
-        else
-            PathNames[1] = name;
-        topRMap = ReadMap(PathNames[0]);
-        label_edit->setText(QString("Edit map: %1").arg(name));
+    if (mapsLoaded) {
+        if(!editBase) {
+            QString name = PathNames[0];
+            PathNames[1] == name;
+            FOR_ROW_COL_MV {
+                topRMap->Drc = baseRMap->Drc;
+            }
+            label_edit->setText(QString("Edit map: %1").arg(name));
+        } else {
+            FOR_ROW_COL_MV {
+                topRMap->Drc = 0;
+            }
+            label_edit->setText(QString("Edit map: <edit layer>"));
+            PathNames[1] == "empty";
+        }
         initTopMap();
         showTopMap();
     }

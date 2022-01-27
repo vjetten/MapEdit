@@ -4,9 +4,9 @@
 <p>Mapedit works with two map layers: the base map is a reference map which is not changed, and the top map can be edited.</p>
 <p>There are 3 ways to use mapedit:</p>
 <ul>
-<li>When you load two maps, the first one you choose is the base layer/reference map, the second one is the edit layer. If the edit layer is a GeoTiff map, it will be saved as a tif file.</li>
-<li>If you load only one map, there are two options. If you check "<em>Edit a copy of the base map</em>" the base map is copied and you can start editing it. The base layer is a copy of the original as a reference layer.</li>
-<li>If you uncheck "<em>Edit a copy of the base map</em>", an empty map is created, filled with the value '0' (zero) that can be edited and saved using you own name.</li>
+<li>When you load two maps, the first one you choose is the base layer/reference map, the second one is the edit layer. If the edit layer is a GeoTiff map, it will be saved as a tif file.<br /><em>Both maps need to have the same nr. of rows, columns and cellsize</em></li>
+<li>If you load only one map, this map is used as base layer for reference and as toplayer to edit. </li>
+<li>If you load one map and check the option "<em>Edit an empty layer</em>", an empty map is created filled with the value '0' (zero) that can be edited and saved using you own name. <em>Any edits you made will be lost!</em></li>
 </ul>
 <p>If the base map is a GeoTiff file, the edit layer will be saved as GeoTiff file with the ESPG information of the base layer, else it will be a PCRaster map file (default).</p>
 <p>The legend of the base map is shown to the left of the map, the legend of the edit layer to the right.</p>

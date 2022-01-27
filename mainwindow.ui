@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MapEdit v3.0  -  PCRaster map editor (12 jan 2022)</string>
+   <string>MapEdit v3.1  -  PCRaster map editor (14 jan 2022)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -468,8 +468,11 @@
        </item>
        <item row="1" column="0" colspan="4">
         <widget class="QCheckBox" name="checkBox_editBase">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
-          <string>Edit a copy of the base map</string>
+          <string>Edit an empty layer</string>
          </property>
         </widget>
        </item>

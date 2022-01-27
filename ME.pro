@@ -125,10 +125,11 @@ FORMS    += mainwindow.ui
   DESTDIR = release
 
 INCLUDEPATH += .\include
-#INCLUDEPATH += C:\Qt\qwtma\src
-INCLUDEPATH += C:\Qt\msys64\mingw64\include\qwt-qt5
 INCLUDEPATH += c:\qt\msys64\mingw64\include
-LIBS += c:/qt/msys64/mingw64/lib/libqwt-qt5.dll.a #libqwt.dll.a
+#INCLUDEPATH += C:\Qt\qwtma\src
+#LIBS += c:/qt/qwtma/lib/libqwt.dll.a
+INCLUDEPATH += C:\Qt\msys64\mingw64\include\qwt-qt5
+LIBS += c:/qt/msys64/mingw64/lib/libqwt-qt5.dll.a
 LIBS += c:/qt/msys64/mingw64/lib/libgdal.dll.a
 RESOURCES += resources/mapedit.qrc
 RC_ICONS = mapedit.ico
