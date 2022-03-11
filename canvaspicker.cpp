@@ -114,7 +114,7 @@ void CanvasPicker::select( const QPoint &pos )
     showinfo(r,c,ri,ci);
 
     if (!op.editStop) {
-        if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
+        if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC) {// && !pcr::isMV(op._M->data[r][c])) {
             xyzLIST cr;
             cr.cy = (op.nrR-r-1)*op._dx + 0.5*op._dx;
             cr.cx = c*op._dx + 0.5*op._dx;

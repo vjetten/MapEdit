@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "global.h"
 
+#define MV(r,c) pcr::isMV(topRMap->data[r][c])
+
 void MainWindow::drawSelection()
 {
   if (op.editCell)
@@ -209,7 +211,8 @@ void MainWindow::getCells()
 
            int r = op.eData[i].r;
            int c = op.eData[i].c;
-           topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+           if (!MV(r,c))
+                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
        }
     }
 
@@ -240,6 +243,7 @@ void MainWindow::getCells()
                     int en = std::max(cb,ce);
                     int r = rb;
                     for(int c = st; c <= en; c++)
+                        if (!MV(r,c))
                         topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                 } else
                     if (cb == ce) {
@@ -248,6 +252,7 @@ void MainWindow::getCells()
                         int en = std::max(rb,re);
                         int c = cb;
                         for(int r = st; r <= en; r++)
+                            if (!MV(r,c))
                             topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                     } else {
                         //diagonal lines
@@ -261,7 +266,7 @@ void MainWindow::getCells()
                                 double _r = r0 + dy*(_c - c0)/dx;
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
-
+                                if (!MV(r,c))
                                 topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
 
                             }
@@ -273,7 +278,7 @@ void MainWindow::getCells()
                                 double _r = r0 + dy*(_c - c0)/dx;
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
-
+                                if (!MV(r,c))
                                 topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
 
                             }
@@ -294,8 +299,10 @@ void MainWindow::getCells()
             int rn = *std::max_element(_ry.constBegin(), _ry.constEnd());
             int c0 = *std::min_element(_cx.constBegin(), _cx.constEnd());
             int cn = *std::max_element(_cx.constBegin(), _cx.constEnd());
+
             for (int r = r0 ; r <= rn; r++)
                 for (int c = c0 ; c <= cn; c++)
+                    if (!MV(r,c))
                       topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
         }
     }
