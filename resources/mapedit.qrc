@@ -18,5 +18,6 @@
         <file>adjustsize.png</file>
         <file>palette.png</file>
         <file>help1.html</file>
+        <file>clip.png</file>
     </qresource>
 </RCC>

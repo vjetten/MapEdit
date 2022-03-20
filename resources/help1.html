@@ -1,12 +1,13 @@
 <h2><strong>MapEdit - editor for PCRaster and GTiff raster maps<br /></strong></h2>
-<p>Version: 3.0<br />Date: 10 jan 2022</p>
+<p>Version: 3.2.1<br />Date: 20 mar 2022</p>
 <h3>Loading maps</h3>
 <p>Mapedit works with two map layers: the base map is a reference map which is not changed, and the top map can be edited.</p>
+<p>The transparanecy of the toplayer can be adjusted, and of the Base and Edit maps the min and max displayed and the palette can be adjusted.</p>
 <p>There are 3 ways to use mapedit:</p>
 <ul>
-<li>When you load two maps, the first one you choose is the base layer/reference map, the second one is the edit layer. If the edit layer is a GeoTiff map, it will be saved as a tif file.<br /><em>Both maps need to have the same nr. of rows, columns and cellsize</em></li>
-<li>If you load only one map, this map is used as base layer for reference and as toplayer to edit. </li>
-<li>If you load one map and check the option "<em>Edit an empty layer</em>", an empty map is created filled with the value '0' (zero) that can be edited and saved using you own name. <em>Any edits you made will be lost!</em></li>
+<li>If you load two maps, the first one you choose is the base layer/reference map, the second one is the edit layer. If the edit layer is a GeoTiff map, it will be saved as a tif file.<br /><em>Both maps need to have the same nr. of rows, columns and cellsize</em></li>
+<li>If you load only one map, this map is loaded TWICE: the base layer is seen for reference and it can also be edited. You are editintg in fact the base layer.</li>
+<li>If you load maps and check the option "<em>Edit an empty layer</em>", the edit map is replaced with an empty map is created filled with the value '0' (zero) that can be edited and saved using you own name. <em>Any edits you made will be lost!</em></li>
 </ul>
 <p>If the base map is a GeoTiff file, the edit layer will be saved as GeoTiff file with the ESPG information of the base layer, else it will be a PCRaster map file (default).</p>
 <p>The legend of the base map is shown to the left of the map, the legend of the edit layer to the right.</p>

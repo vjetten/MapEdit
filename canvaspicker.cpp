@@ -55,6 +55,9 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         // if ctrl mouse is pressed give it back for panning
 
         if (mouseEvent->button() == Qt::LeftButton) {
+            if (!op.editStart)
+                return QObject::eventFilter( object, event );
+
             if (op.editRectangle && op.clicks % 2 == 0)
                 op.editStop = true;
 
@@ -69,11 +72,12 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
             select( mouseEvent->pos() );
             return true;
         }
+
         if (mouseEvent->button() == Qt::RightButton) {
             if (!op.editStart)
                 return QObject::eventFilter( object, event );
-            op.editStop = true;
-            return true;
+            //op.editStop = true;
+            //return true;
         }
 
     }
@@ -152,6 +156,7 @@ void CanvasPicker::showinfo(int r, int c, int ri, int ci)
     txt = txtcoor + txtrc + txtv;
 
     emit show(txt);
+
 }
 
 // Move the selected point

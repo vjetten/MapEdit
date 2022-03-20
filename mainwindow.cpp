@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
+    setWindowTitle("MapEdit v3.2.1  -  PCRaster map editor (20 Mar 2022)");
+
     initOP(true);
 
     mapsLoaded = false;
@@ -37,12 +39,12 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
         PathNames << tmp[0];
         if (tmp.size() > 1)
             PathNames << tmp[1];
+        currentDir = QFileInfo(PathNames[0]).absoluteDir().absolutePath();
 
         if (!QFileInfo(PathNames[0]).exists())
             return;
         if (PathNames.size() > 1 && !QFileInfo(PathNames[1]).exists())
             return;
-
         processMaps();
 
         QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
@@ -126,10 +128,10 @@ void MainWindow::SetToolBar()
 
     connect(transparency, SIGNAL(sliderMoved(int)), this, SLOT(setAlphaTop(int)));
 
-    connect(slider_baseMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
-    connect(slider_baseMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxBaseMap()));
-    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
-    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMinMaxTopMap()));
+    connect(slider_baseMin, SIGNAL(valueChanged(int)),this, SLOT(setMinBaseMap()));
+    connect(slider_baseMax, SIGNAL(valueChanged(int)),this, SLOT(setMaxBaseMap()));
+    connect(slider_editMin, SIGNAL(valueChanged(int)),this, SLOT(setMinTopMap()));
+    connect(slider_editMax, SIGNAL(valueChanged(int)),this, SLOT(setMaxTopMap()));
 }
 //--------------------------------------------------------------------
 void MainWindow::changePaletteTop()
@@ -320,7 +322,7 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 //--------------------------------------------------------------------
 void MainWindow::saveMapFile()
 {
-    if (PathNames[1] != "empty")
+    if(!editBase)
         writeRaster(*topRMap, PathNames[1],savetype);
     else
         saveMapFileas();
@@ -479,5 +481,27 @@ void MainWindow::on_checkBox_editBase_clicked(bool checked)
         initTopMap();
         showTopMap();
     }
+}
+
+
+void MainWindow::on_toolButton_fixBaseminmax_clicked(bool checked)
+{
+    int mi = slider_baseMin->value();
+    int ma = slider_baseMax->value();
+    if (toolButton_fixBaseminmax->isChecked())
+        baseMinMaxdistance = ma - mi;
+    else
+        baseMinMaxdistance = 1;
+}
+
+
+void MainWindow::on_toolButton_fixTopminmax_clicked(bool checked)
+{
+    int mi = slider_editMin->value();
+    int ma = slider_editMax->value();
+    if (toolButton_fixTopminmax->isChecked())
+        topMinMaxdistance = ma - mi;
+    else
+        topMinMaxdistance = 1;
 }
 

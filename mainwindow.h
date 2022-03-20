@@ -132,6 +132,8 @@ public:
     int palette2nr;
     bool editBase;
     bool mapsLoaded;
+    int baseMinMaxdistance;
+    int topMinMaxdistance;
 
   //  bool eventFilter(QObject *obj, QEvent *event);
     void drawSelectionCell();
@@ -141,14 +143,18 @@ public:
     void changePalette(int nr);
     void changePaletteBase();
     void changePaletteTop();
+    void setMinMaxBaseMap(int i);
+    void setMinMaxTopMap(int i);
 
 public slots:
     void openMapFile();
     void saveMapFile();
     void saveMapFileas();
     void setAlphaTop(int v);
-    void setMinMaxBaseMap();
-    void setMinMaxTopMap();
+    void setMinBaseMap();
+    void setMaxBaseMap();
+    void setMinTopMap();
+    void setMaxTopMap();
     void Show(const QString &results);
     void drawSelection();
     void getCells();
@@ -186,6 +192,10 @@ private slots:
     void on_toolButton_help_clicked();
 
     void on_checkBox_editBase_clicked(bool checked);
+
+    void on_toolButton_fixBaseminmax_clicked(bool checked);
+
+    void on_toolButton_fixTopminmax_clicked(bool checked);
 
 private:
    //toolbar actions

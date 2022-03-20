@@ -52,8 +52,8 @@ void MainWindow::setupMapPlot()
     magnifier->setZoomOutKey(Qt::Key_Minus, Qt::KeypadModifier);
 
     panner = new QwtPlotPanner( MPlot->canvas() );
-    panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
-    panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
+    panner->setMouseButton( Qt::LeftButton, Qt::NoModifier);//ControlModifier );
+   // panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
@@ -142,6 +142,8 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 
 void MainWindow::initBaseMap()
 {
+    baseMinMaxdistance = 1;
+
     palette1nr = 0;
     changePalette(0);
 
@@ -175,6 +177,8 @@ void MainWindow::showBaseMap()
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
 {
+    topMinMaxdistance = 1;
+
     palette2nr = -1;
     changePalette(1);
 
@@ -231,14 +235,26 @@ void MainWindow::changeSize()
     resize(w1,h1);
 }
 //---------------------------------------------------------------------------
-void MainWindow::setMinMaxBaseMap()
+void MainWindow::setMinMaxBaseMap(int i)
 {
+    if (op._M == nullptr)
+        return;
     int mi = slider_baseMin->value();
-    mi = std::min(mi, slider_baseMax->value()-1);
-    slider_baseMin->setValue(mi);
     int ma = slider_baseMax->value();
-    ma = std::max(ma, slider_baseMin->value()+1);
-    slider_baseMax->setValue(ma);
+
+    if (i == 0) {
+        mi = std::min(mi, slider_baseMax->value()-baseMinMaxdistance);
+        slider_baseMin->setValue(mi);
+
+        ma = std::max(ma, slider_baseMin->value()+baseMinMaxdistance);
+        slider_baseMax->setValue(ma);
+    } else {
+        ma = std::max(ma, slider_baseMin->value()+baseMinMaxdistance);
+        slider_baseMax->setValue(ma);
+
+        mi = std::min(mi, slider_baseMax->value()-baseMinMaxdistance);
+        slider_baseMin->setValue(mi);
+    }
 
     MinV1 = MinBase+(MaxBase-MinBase)*((double)mi/100);
     MaxV1 = MaxBase-(MaxBase-MinBase)*(1-(double)ma/100);
@@ -248,14 +264,47 @@ void MainWindow::setMinMaxBaseMap()
     MPlot->replot();
 }
 //---------------------------------------------------------------------------
-void MainWindow::setMinMaxTopMap()
+void MainWindow::setMinBaseMap()
 {
+    setMinMaxBaseMap(1);
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMaxBaseMap()
+{
+    setMinMaxBaseMap(0);
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMinTopMap()
+{
+    setMinMaxTopMap(1);
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMaxTopMap()
+{
+    setMinMaxTopMap(0);
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMinMaxTopMap(int i)
+{
+    if (op._M == nullptr)
+        return;
+
     int mi = slider_editMin->value();
-    mi = std::min(mi, slider_editMax->value()-1);
-    slider_editMin->setValue(mi);
     int ma = slider_editMax->value();
-    ma = std::max(ma, slider_editMin->value()+1);
-    slider_editMax->setValue(ma);
+
+    if (i == 0) {
+        mi = std::min(mi, slider_editMax->value()-topMinMaxdistance);
+        slider_editMin->setValue(mi);
+
+        ma = std::max(ma, slider_editMin->value()+topMinMaxdistance);
+        slider_editMax->setValue(ma);
+    } else {
+        ma = std::max(ma, slider_editMin->value()+topMinMaxdistance);
+        slider_editMax->setValue(ma);
+
+        mi = std::min(mi, slider_editMax->value()-topMinMaxdistance);
+        slider_editMin->setValue(mi);
+    }
 
     MinV2 = MinTop+(MaxTop-MinTop)*((double)mi/100);
     MaxV2 = MaxTop-(MaxTop-MinTop)*(1-(double)ma/100);

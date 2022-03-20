@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MapEdit v3.2  -  PCRaster map editor (11 Mar 2022)</string>
+   <string>MapEdit v3.2.1  -  PCRaster map editor (20 Mar 2022)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -184,7 +184,7 @@
          <item>
           <widget class="QToolButton" name="toolButton_saveFile">
            <property name="toolTip">
-            <string>Save edit layer masp</string>
+            <string>Save edit layer map</string>
            </property>
            <property name="text">
             <string>...</string>
@@ -473,6 +473,40 @@
          </property>
          <property name="text">
           <string>Edit an empty layer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="3">
+        <widget class="QToolButton" name="toolButton_fixBaseminmax">
+         <property name="toolTip">
+          <string>fix distance min - max sliders</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/mapedit.qrc">
+           <normaloff>:/clip.png</normaloff>:/clip.png</iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="3">
+        <widget class="QToolButton" name="toolButton_fixTopminmax">
+         <property name="toolTip">
+          <string>fix distance min - max sliders</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/mapedit.qrc">
+           <normaloff>:/clip.png</normaloff>:/clip.png</iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

@@ -347,7 +347,7 @@ void MainWindow::getCells()
     MinTop = MinV2;
     MaxTop = MaxV2;
     showTopMap();
-    setMinMaxTopMap();
+    setMinMaxTopMap(1);
     MPlot->replot();
 }
 //--------------------------------------------------------------------------
