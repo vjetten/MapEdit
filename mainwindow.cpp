@@ -164,12 +164,16 @@ void MainWindow::processMaps()
 
     baseRMap = ReadMap(PathNames[0]);
     _dx = baseRMap->cellSize()*1.0000000;
-    _nrRows = baseRMap->nrRows();
-    _nrCols = baseRMap->nrCols();
+    _nrRows = (double)baseRMap->nrRows();
+    _nrCols = (double)baseRMap->nrCols();
+    _llx = baseRMap->west();
+    _lly = baseRMap->north() - _nrRows * _dx;
 
     op.nrC = _nrCols;
     op.nrR = _nrRows;
     op._dx = _dx;
+    op._llx = _llx;
+    op._lly = _lly;
 
     QString name1 = QFileInfo(PathNames[0]).fileName();
     QString name2;

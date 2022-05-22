@@ -34,6 +34,8 @@ struct output{
     int nrC;
     int nrR;
     double _dx;
+    double _llx;
+    double _lly;
 
     QVector <xyzLIST> eData;
 

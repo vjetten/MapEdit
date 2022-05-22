@@ -127,14 +127,9 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
     _RD->setValueMatrix( mapData, _nrCols );
     // set column number to divide vector into rows
 
-  //  double cy = _M->north();
-  //  double cx = _M->west();
+    _RD->setInterval( Qt::XAxis, QwtInterval( _llx,_llx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::YAxis, QwtInterval( _lly,_lly+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
 
-//    _RD->setInterval( Qt::XAxis, QwtInterval( cx,cx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
- //   _RD->setInterval( Qt::YAxis, QwtInterval( cy,cy+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
-
-    _RD->setInterval( Qt::XAxis, QwtInterval( 0, _nrCols*_dx, QwtInterval::ExcludeMaximum ) );
-    _RD->setInterval( Qt::YAxis, QwtInterval( 0, _nrRows*_dx, QwtInterval::ExcludeMaximum ) );
     // set x/y axis intervals
     return maxV;
 }
@@ -160,8 +155,6 @@ void MainWindow::initBaseMap()
     interval = baseMap->data()->interval( Qt::ZAxis );
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
-
-   // changeSize();
 }
 //---------------------------------------------------------------------------
 void MainWindow::showBaseMap()
@@ -172,7 +165,6 @@ void MainWindow::showBaseMap()
     interval = interval.normalized();
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
-
 }
 //---------------------------------------------------------------------------
 void MainWindow::initTopMap()
@@ -208,31 +200,31 @@ void MainWindow::showTopMap()
 }
 
 //---------------------------------------------------------------------------
-
+// find optimum display size
 void MainWindow::changeSize()
 {
     int h = MPlot->height();
     int w = MPlot->width();
-    if (h == sizeHint().height() && w == sizeHint().width()) {
-        h = this->height();
-        w = this->width();
-    }
+    double asp = (double)w/(double)h;
+    int i = 0;
 
-    if (_nrRows > _nrCols) {
-        double nr = _nrRows*_dx*(double)w/h;
-        MPlot->setAxisScale(MPlot->xBottom,0,nr,10*_dx);
-        MPlot->setAxisScale(MPlot->yLeft,0,nr,10*_dx);
-     } else {
-        double nc = _nrCols*_dx*(double)h/w;
-        MPlot->setAxisScale(MPlot->xBottom,0,nc,10*_dx);
-        MPlot->setAxisScale(MPlot->yLeft,0,nc,10*_dx);
-    }
+    MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrCols*_dx, _dx*10);
+    MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrRows*_dx, _dx*10);
+
+    if(_nrCols/_nrRows > asp) {
+        MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrCols*_dx, _dx*10);
+        MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrCols*_dx, _dx*10);
+        i = 1;
+    } else
+        if(_nrRows > _nrCols)
+        {
+            MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrRows*_dx*asp, _dx*10);
+            MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrRows*_dx*asp, _dx*10);
+            i = 2;
+        }
 
     MPlot->replot();
-    int h1 = this->height();
-    int w1 = this->width();
-    resize(w1 - 1,h1);
-    resize(w1,h1);
+
 }
 //---------------------------------------------------------------------------
 void MainWindow::setMinMaxBaseMap(int i)

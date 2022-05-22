@@ -19,7 +19,7 @@ void MainWindow::drawSelection()
 //--------------------------------------------------------------------------
 void MainWindow::drawSelectionCell()
 {
-    double dx[5] = {-0.5,+0.5,+0.5,-0.5, -0.5};
+    double dx[5] = {-0.5,+0.5,+0.5,-0.5,-0.5};
     double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
 
     cur = new QwtPlotCurve();
@@ -39,6 +39,13 @@ void MainWindow::drawSelectionCell()
     for (int i = 0; i < 5; i++) {
         vx << op.eData[l].cx+dx[i]*_dx;
         vy << op.eData[l].cy+dy[i]*_dx;
+    }
+
+    for (int i = 0; i < vx.size(); i++) {
+        double vxi = vx.at(i)+_llx;
+        vx.replace(i, vxi);
+        double vyi = vy.at(i)+_lly;
+        vy.replace(i, vyi);
     }
 
     cur->setSamples(vx,vy);
@@ -84,6 +91,13 @@ void MainWindow::drawSelectionPolygon()
         op.vvy << vy;
     }
 
+    for (int i = 0; i < vx.size(); i++) {
+        double vxi = vx.at(i)+_llx;
+        vx.replace(i, vxi);
+        double vyi = vy.at(i)+_lly;
+        vy.replace(i, vyi);
+    }
+
     cur->setSamples(vx,vy);
 }
 //--------------------------------------------------------------------------
@@ -93,6 +107,7 @@ void MainWindow::drawSelectionLine()
     vy.clear();
     cx.clear();
     ry.clear();
+
     if (op.polystart == op.eData.size()-1) {
         cur = new QwtPlotCurve();
         curves << cur;
@@ -131,6 +146,13 @@ void MainWindow::drawSelectionLine()
         op.rry.removeLast();
         op.rry << ry;
     }
+    for (int i = 0; i < vx.size(); i++) {
+        double vxi = vx.at(i)+_llx;
+        vx.replace(i, vxi);
+        double vyi = vy.at(i)+_lly;
+        vy.replace(i, vyi);
+    }
+
 
     cur->setSamples(vx,vy);
 }
@@ -196,6 +218,13 @@ void MainWindow::drawSelectionRectangle()
         op.rry.removeLast();
         op.rry << ry;
     }
+    for (int i = 0; i < vx.size(); i++) {
+        double vxi = vx.at(i)+_llx;
+        vx.replace(i, vxi);
+        double vyi = vy.at(i)+_lly;
+        vy.replace(i, vyi);
+    }
+
 
     cur->setSamples(vx,vy);
 }

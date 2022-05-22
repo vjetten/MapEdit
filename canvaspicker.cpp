@@ -109,16 +109,17 @@ void CanvasPicker::select( const QPoint &pos )
 
     op.clicks++;
 
-    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y());
-    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x());
+    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y()) - op._lly;
+    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x()) - op._llx;
+    // real coordinates
 
     int r = op.nrR - qFloor(ri/op._dx) - 1 ;
     int c = qFloor(ci/op._dx);
-
+qDebug() << ri<< ci<<  r << c;
     showinfo(r,c,ri,ci);
 
     if (!op.editStop) {
-        if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC) {// && !pcr::isMV(op._M->data[r][c])) {
+        if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC) {
             xyzLIST cr;
             cr.cy = (op.nrR-r-1)*op._dx + 0.5*op._dx;
             cr.cx = c*op._dx + 0.5*op._dx;

@@ -100,7 +100,7 @@ public:
     QwtPlotPanner *panner;
     CanvasPicker *cpicker;
 
-    double _dx, _nrRows, _nrCols;
+    double _dx, _nrRows, _nrCols, _lly, _llx;
 
     cTMap *baseRMap;
     cTMap *topRMap;
