@@ -81,7 +81,7 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
         }
 
     }
-  //  qDebug() << event->type();
+    //qDebug() << event->type();
 
     if (event->type() == QEvent::MouseMove)
     {
@@ -115,7 +115,7 @@ void CanvasPicker::select( const QPoint &pos )
 
     int r = op.nrR - qFloor(ri/op._dx) - 1 ;
     int c = qFloor(ci/op._dx);
-qDebug() << ri<< ci<<  r << c;
+
     showinfo(r,c,ri,ci);
 
     if (!op.editStop) {
@@ -144,7 +144,7 @@ void CanvasPicker::showinfo(int r, int c, int ri, int ci)
     QString txtcoor = QString("(%1,%2)=").arg(ri,9,'f',2,' ').arg(ci,9,'f',2,' ');
     QString txtrc = QString("[%1,%2]=").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
     QString txtv;
-
+qDebug() << txtcoor;
     txtv = "[MV][MV]";
     if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
         double v = op._M->data[r][c];

@@ -63,13 +63,13 @@ class colorMap3: public QwtLinearColorMap
     }
 public:
     colorMap3():
-        QwtLinearColorMap(QColor("#d7191c"),QColor("#2b83ba") )
+        QwtLinearColorMap(QColor("#2b83ba"),QColor("#d7191c") )
     {
-        addColorStop(0.00, QColor("#d7191c"));
-        addColorStop(0.25, QColor("#fdae61"));
-        addColorStop(0.50, QColor("#fdfd7e"));
+        addColorStop(1.00, QColor("#2b83ba"));
         addColorStop(0.75, QColor("#abdda4"));
-        addColorStop(0.75, QColor("#2b83ba"));
+        addColorStop(0.50, QColor("#fdfd7e"));
+        addColorStop(0.25, QColor("#fdae61"));
+        addColorStop(0.00, QColor("#d7191c"));
     }
 };
 //------------------------------------------
@@ -125,13 +125,13 @@ class colorMap6: public QwtLinearColorMap
     }
 public:
     colorMap6():
-        QwtLinearColorMap( QColor("#d7191c"),QColor("#2b83ba") )
+        QwtLinearColorMap( QColor("#2b83ba"),QColor("#d7191c") )
     {
-        addColorStop(0.00, QColor("#d7191c"));
-        addColorStop(0.25, QColor("#fdae61"));
+        addColorStop(1.00, QColor("#d7191c"));
+        addColorStop(0.75, QColor("#fdae61"));
         addColorStop(0.50, QColor("#ffffbf"));
-        addColorStop(0.75, QColor("#abdda4"));
-        addColorStop(1.00, QColor("#2b83ba"));
+        addColorStop(0.25, QColor("#abdda4"));
+        addColorStop(0.00, QColor("#2b83ba"));
     }
 };
 //------------------------------------------

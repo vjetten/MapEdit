@@ -312,7 +312,7 @@ void MainWindow::changePalette(int nr)
         return;
     if (nr == 0){
         palette1nr++;
-        if (palette1nr > 5)
+        if (palette1nr > 3)
             palette1nr = 0;
 
         switch (palette1nr) {
@@ -332,19 +332,19 @@ void MainWindow::changePalette(int nr)
             bpalette = new colorMap6();
             bpalette1 = new colorMap6();
             break;
-        case(4):
-            bpalette = new colorMap4();
-            bpalette1 = new colorMap4();
-            break;
-        case(5):
-            bpalette = new colorMap7();
-            bpalette1 = new colorMap7();
-            break;
+//        case(4):
+//            bpalette = new colorMap4();
+//            bpalette1 = new colorMap4();
+//            break;
+//        case(5):
+//            bpalette = new colorMap7();
+//            bpalette1 = new colorMap7();
+//            break;
         }
     }
     if (nr == 1){
         palette2nr++;
-        if (palette2nr > 5)
+        if (palette2nr > 3)
             palette2nr = 0;
 
         switch (palette2nr) {
@@ -364,14 +364,14 @@ void MainWindow::changePalette(int nr)
             dpalette = new colorMap6();
             dpalette1 = new colorMap6();
             break;
-        case(4):
-            dpalette = new colorMap4();
-            dpalette1 = new colorMap4();
-            break;
-        case(5):
-            dpalette = new colorMap7();
-            dpalette1 = new colorMap7();
-            break;
+//        case(4):
+//            dpalette = new colorMap4();
+//            dpalette1 = new colorMap4();
+//            break;
+//        case(5):
+//            dpalette = new colorMap7();
+//            dpalette1 = new colorMap7();
+//            break;
         }
     }
 
