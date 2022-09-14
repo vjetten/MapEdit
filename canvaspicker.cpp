@@ -50,13 +50,23 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
     {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
 
+        double ri = plot()->invTransform(QwtPlot::yLeft,(double)mouseEvent->pos().y());// - op._lly;
+        double ci = plot()->invTransform(QwtPlot::xBottom,(double)mouseEvent->pos().x());// - op._llx;
+        //when mouse in LL corner op_llx = pos.x()
+        int r = op.nrR - qFloor((ri- op._lly)/op._dx) - 1;
+        int c = qFloor((ci- op._llx)/op._dx);
+        //qDebug() << op._llx << op._lly << ci << ri;
+        showinfo(r,c,ri,ci);
+
         if (QGuiApplication::queryKeyboardModifiers() == Qt::ControlModifier)
             return QObject::eventFilter( object, event );
         // if ctrl mouse is pressed give it back for panning
 
         if (mouseEvent->button() == Qt::LeftButton) {
-            if (!op.editStart)
-                return QObject::eventFilter( object, event );
+
+
+            if (op.editCell)
+                op.editStop = true;
 
             if (op.editRectangle && op.clicks % 2 == 0)
                 op.editStop = true;
@@ -70,32 +80,21 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
                 op.editStop = false;
             }
             select( mouseEvent->pos() );
-            return true;
+
+//            if (!op.editStart)
+//                return QObject::eventFilter( object, event );
+
+//            return true;
         }
 
         if (mouseEvent->button() == Qt::RightButton) {
+
             if (!op.editStart)
                 return QObject::eventFilter( object, event );
-            //op.editStop = true;
-            //return true;
+            op.editStop = true;
+            return true;
         }
 
-    }
-    //qDebug() << event->type();
-
-    if (event->type() == QEvent::MouseMove)
-    {
-        const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
-
-        double ri = plot()->invTransform(QwtPlot::yLeft,(double)mouseEvent->pos().y());
-        double ci = plot()->invTransform(QwtPlot::xBottom,(double)mouseEvent->pos().x());
-
-        int r = op.nrR - qFloor(ri/op._dx) - 1 ;
-        int c = qFloor(ci/op._dx);
-
-        showinfo(r,c,ri,ci);
-
-        return true;
     }
 
     return QObject::eventFilter( object, event );
@@ -116,7 +115,7 @@ void CanvasPicker::select( const QPoint &pos )
     int r = op.nrR - qFloor(ri/op._dx) - 1 ;
     int c = qFloor(ci/op._dx);
 
-    showinfo(r,c,ri,ci);
+  //  showinfo(r,c,ri,ci);
 
     if (!op.editStop) {
         if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC) {
@@ -137,22 +136,22 @@ void CanvasPicker::select( const QPoint &pos )
 
 void CanvasPicker::showinfo(int r, int c, int ri, int ci)
 {
-    if (r < 0 || c < 0)
-        return;
+  //  if (r < 0 || c < 0)
+  //      return;
 
     QString txt;
     QString txtcoor = QString("(%1,%2)=").arg(ri,9,'f',2,' ').arg(ci,9,'f',2,' ');
     QString txtrc = QString("[%1,%2]=").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
     QString txtv;
-qDebug() << txtcoor;
-    txtv = "[MV][MV]";
+//qDebug() << txtcoor << txtrc;
+    txtv = "Base[MV] - Edit[MV]";
     if (r >= 0 && r < op.nrR && c >= 0 && c < op.nrC && !pcr::isMV(op._M->data[r][c])) {
         double v = op._M->data[r][c];
         double vb = op._Mb->data[r][c];
         if (v > -1e19)
-            txtv = QString("[%1][%2]").arg(vb).arg(v);
+            txtv = QString("Base[%1] - Edit[%2]").arg(vb).arg(v);
         else
-            txtv = QString("[%1][MV]").arg(vb);
+            txtv = QString("Base[%1] - Edit[MV]").arg(vb);
     }
     txt = txtcoor + txtrc + txtv;
 
@@ -163,16 +162,16 @@ qDebug() << txtcoor;
 // Move the selected point
 void CanvasPicker::move( const QPoint &pos )
 {
-    if (op._M == nullptr)
-        return;
+        if (op._M == nullptr)
+            return;
 
-    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y());
-    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x());
+    //    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y());
+    //    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x());
 
-    int r = op.nrR - qFloor(ri/op._dx) - 1 ;
-    int c = qFloor(ci/op._dx);
+    //    int r = op.nrR - qFloor(ri/op._dx) - 1 ;
+    //    int c = qFloor(ci/op._dx);
 
-    showinfo(r,c,ri,ci);
+    //    showinfo(r,c,ri,ci);
 }
 
 

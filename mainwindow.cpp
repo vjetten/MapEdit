@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
-    setWindowTitle("MapEdit v3.2.1  -  PCRaster map editor (20 Mar 2022)");
+    setWindowTitle("MapEdit v3.2.2  -  PCRaster map editor (14 Sep 2022)");
 
     initOP(true);
 
@@ -283,6 +283,7 @@ void MainWindow::on_toolButton_editCell_clicked(bool checked)
     initOP(false);
     op.editCell = true;
     op.editStart = true;
+    op.editStop = false;
 
     toolButton_editPolygon->setChecked(false);
     toolButton_editLine->setChecked(false);
@@ -294,6 +295,8 @@ void MainWindow::on_toolButton_editPolygon_clicked(bool checked)
     initOP(false);
     op.editPolygon = true;
     op.editStart = true;
+    op.editStop = false;
+
 
     toolButton_editCell->setChecked(false);
     toolButton_editLine->setChecked(false);
@@ -306,6 +309,8 @@ void MainWindow::on_toolButton_editLine_clicked(bool checked)
     initOP(false);
     op.editLine = true;
     op.editStart = true;
+    op.editStop = false;
+
 
     toolButton_editCell->setChecked(false);
     toolButton_editPolygon->setChecked(false);
@@ -318,6 +323,7 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
     initOP(false);
     op.editRectangle = true;
     op.editStart = true;
+    op.editStop = false;
 
     toolButton_editCell->setChecked(false);
     toolButton_editPolygon->setChecked(false);
@@ -326,6 +332,8 @@ void MainWindow::on_toolButton_editRectangle_clicked(bool checked)
 //--------------------------------------------------------------------
 void MainWindow::saveMapFile()
 {
+    if (PathNames.size() == 0)
+        return;
     if(!editBase)
         writeRaster(*topRMap, PathNames[1],savetype);
     else
