@@ -52,8 +52,8 @@ void MainWindow::setupMapPlot()
     magnifier->setZoomOutKey(Qt::Key_Minus, Qt::KeypadModifier);
 
     panner = new QwtPlotPanner( MPlot->canvas() );
-    panner->setMouseButton( Qt::LeftButton, Qt::NoModifier);//ControlModifier );
-   // panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
+   // panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
+    panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
@@ -205,6 +205,7 @@ void MainWindow::changeSize()
 {
     int h = MPlot->height();
     int w = MPlot->width();
+
     double asp = (double)w/(double)h;
     int i = 0;
 

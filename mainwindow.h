@@ -197,6 +197,8 @@ private slots:
 
     void on_toolButton_fixTopminmax_clicked(bool checked);
 
+    void on_toolButton_doEdit_AVG_clicked();
+
 private:
    //toolbar actions
    QAction *openAct;

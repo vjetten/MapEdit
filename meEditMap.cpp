@@ -232,10 +232,24 @@ void MainWindow::drawSelectionRectangle()
 void MainWindow::getCells()
 {
     editValue = lineEdit_Value->text().toDouble();
-//    MinV2 =std::min(MinV2, editValue);
-//    MaxV2 =std::max(MaxV2, editValue);
 
     if (op.editCell) {
+        if (op.editAVG) {
+            double sum = 0;
+            double nn = 0;
+            for (int i = 0; i < op.eData.size(); i++) {
+                int r = op.eData[i].r;
+                int c = op.eData[i].c;
+                if (!MV(r,c)) {
+                    sum += topRMap->data[r][c];
+                    nn += 1.0;
+                }
+            }
+            if (nn > 0)
+                editValue = sum/nn;
+        }
+
+
        for (int i = 0; i < op.eData.size(); i++) {
 
            int r = op.eData[i].r;
@@ -246,6 +260,93 @@ void MainWindow::getCells()
     }
 
     if (op.editLine) {
+        if (op.editAVG) {
+            double sum = 0;
+            double nn = 0;
+
+            for (int k = 0; k < op.ccx.count(); k++)  {
+                QVector <int> _cx;
+                QVector <int> _ry;
+                _cx << op.ccx[k];
+                _ry << op.rry[k];
+                QVector <double> _vx;
+                QVector <double> _vy;
+                _vx << op.vvx[k];
+                _vy << op.vvy[k];
+
+                for (int j = 0; j < _cx.count()-1; j++) {
+                    int rb = _ry.at(j);
+                    int re = _ry.at(j+1);
+                    int cb = _cx.at(j);
+                    int ce = _cx.at(j+1);
+
+                    double r0 = _vy.at(j);
+                    double rn = _vy.at(j+1);
+                    double c0 = _vx.at(j);
+                    double cn = _vx.at(j+1);
+                    if (rb == re) {
+                        // vertical line
+                        int st = std::min(cb,ce);
+                        int en = std::max(cb,ce);
+                        int r = rb;
+                        for(int c = st; c <= en; c++)
+                            if (!MV(r,c)) {
+                                sum = sum + topRMap->data[r][c];
+                                nn += 1.0;
+                            }
+                    } else
+                        if (cb == ce) {
+                            //horizontal line
+                            int st = std::min(rb,re);
+                            int en = std::max(rb,re);
+                            int c = cb;
+                            for(int r = st; r <= en; r++)
+                                if (!MV(r,c)) {
+                                    sum = sum + topRMap->data[r][c];
+                                    nn += 1.0;
+                                }
+
+                        } else {
+                            //diagonal lines
+                            double dx = cn-c0;
+                            double dy = rn-r0;
+                            if (r0 > rn) {
+                                double begin = std::min(c0,cn);
+                                double end = std::max(c0,cn);
+                                for(double _c = begin; _c <= end; _c+=_dx*0.1)
+                                {
+                                    double _r = r0 + dy*(_c - c0)/dx;
+                                    int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
+                                    int c = int((_c - 0.5*_dx)/_dx);
+                                    if (!MV(r,c)) {
+                                        sum = sum + topRMap->data[r][c];
+                                        nn += 1.0;
+                                    }
+
+
+                                }
+                            } else {
+                                double begin = std::min(c0,cn);
+                                double end = std::max(c0,cn);
+                                for(double _c = begin; _c <= end; _c+=_dx*0.1)
+                                {
+                                    double _r = r0 + dy*(_c - c0)/dx;
+                                    int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
+                                    int c = int((_c - 0.5*_dx)/_dx);
+                                    if (!MV(r,c)) {
+                                        sum = sum + topRMap->data[r][c];
+                                        nn += 1.0;
+                                    }
+
+                                }
+                            }
+                        }
+                }
+            } // k
+            if (nn > 0)
+                editValue = sum/nn;
+        } // editAVG
+
         for (int k = 0; k < op.ccx.count(); k++)  {
             QVector <int> _cx;
             QVector <int> _ry;
@@ -273,7 +374,7 @@ void MainWindow::getCells()
                     int r = rb;
                     for(int c = st; c <= en; c++)
                         if (!MV(r,c))
-                        topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                            topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                 } else
                     if (cb == ce) {
                         //horizontal line
@@ -282,7 +383,7 @@ void MainWindow::getCells()
                         int c = cb;
                         for(int r = st; r <= en; r++)
                             if (!MV(r,c))
-                            topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                     } else {
                         //diagonal lines
                         double dx = cn-c0;
@@ -296,7 +397,7 @@ void MainWindow::getCells()
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
                                 if (!MV(r,c))
-                                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                                    topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
 
                             }
                         } else {
@@ -308,16 +409,42 @@ void MainWindow::getCells()
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
                                 if (!MV(r,c))
-                                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
-
+                                    topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                             }
                         }
                     }
             }
-        }
-    }
+        } // k
+    } // editline
 
     if (op.editRectangle) {
+
+        if (op.editAVG) {
+            double sum = 0;
+            double nn = 0;
+            for (int k = 0; k < op.ccx.count(); k++)  {
+                QVector <int> _cx;
+                QVector <int> _ry;
+                _cx << op.ccx[k];
+                _ry << op.rry[k];
+
+                int r0 = *std::min_element(_ry.constBegin(), _ry.constEnd());
+                int rn = *std::max_element(_ry.constBegin(), _ry.constEnd());
+                int c0 = *std::min_element(_cx.constBegin(), _cx.constEnd());
+                int cn = *std::max_element(_cx.constBegin(), _cx.constEnd());
+
+                for (int r = r0 ; r <= rn; r++)
+                    for (int c = c0 ; c <= cn; c++)
+                        if (!MV(r,c)) {
+                            sum += topRMap->data[r][c];
+                            nn += 1.0;
+                        }
+            }
+            if (nn > 0)
+                editValue = sum/nn;
+        }
+
+
         for (int k = 0; k < op.ccx.count(); k++)  {
             QVector <int> _cx;
             QVector <int> _ry;
@@ -332,11 +459,49 @@ void MainWindow::getCells()
             for (int r = r0 ; r <= rn; r++)
                 for (int c = c0 ; c <= cn; c++)
                     if (!MV(r,c))
-                      topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                        topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
         }
+
     }
 
     if (op.editPolygon) {
+
+        if (op.editAVG) {
+            double sum = 0;
+            double nn = 0;
+            for (int k = 0; k < op.vvx.count(); k++)  {
+                QVector <double> _vx;
+                QVector <double> _vy;
+                _vx << op.vvx[k];
+                _vy << op.vvy[k];
+
+                int n = _vx.size();
+
+                FOR_ROW_COL_MV {
+                    double cy = (_nrRows-r-1)*_dx + 0.5*_dx;
+                    double cx = c*_dx + 0.5*_dx;
+
+                    int res = 0;
+                    int i, j;
+                    for (i = 0, j = n-1; i < n; j = i++) {
+
+                        if ( ((_vy[i] > cy) != (_vy[j] > cy)) &&
+                             (cx < (_vx[j]-_vx[i]) * (cy-_vy[i]) / (_vy[j]-_vy[i]) + _vx[i]) )
+                            res = !res;
+                    }
+
+                    if (res == 1) {
+                        sum = sum + topRMap->data[r][c];
+                        nn += 1.0;
+                    }
+                }
+            } // k
+
+            if (nn > 0)
+                editValue = sum / nn;
+        }
+
+
         for (int k = 0; k < op.vvx.count(); k++)  {
             QVector <double> _vx;
             QVector <double> _vy;
@@ -356,15 +521,16 @@ void MainWindow::getCells()
                     if ( ((_vy[i] > cy) != (_vy[j] > cy)) &&
                          (cx < (_vx[j]-_vx[i]) * (cy-_vy[i]) / (_vy[j]-_vy[i]) + _vx[i]) )
                         res = !res;
-
                 }
 
                 if (res == 1) {
                     topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                 }
             }
-        }
-    }
+        } // k
+
+
+    } // polygon
 
     vx.clear();
     vy.clear();

@@ -22,6 +22,7 @@ struct output{
 	bool editStart;
 	bool editStop;
     bool editRestore;
+    bool editAVG;
     int clicks;
     int polystart;
    // QPoint angleDelta;

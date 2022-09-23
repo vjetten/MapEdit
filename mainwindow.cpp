@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
-    setWindowTitle("MapEdit v3.2.2  -  PCRaster map editor (14 Sep 2022)");
+    setWindowTitle("MapEdit v3.3  -  PCRaster map editor (15 Sep 2022)");
 
     initOP(true);
 
@@ -47,12 +47,15 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
             return;
         processMaps();
 
-        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
-        MPlot->setGeometry(0,0,r.width(),r.height());
-        MPlot->repaint();
-        qApp->processEvents();
+        MPlot->replot();
 
-        changeSize();
+        //        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
+//      MPlot->setGeometry(0,0,r.width(),r.height());
+//          MPlot->setGeometry(0,0,1080,786);
+//        MPlot->repaint();
+//        qApp->processEvents();
+
+//        changeSize();
     }
 }
 //----------------------------------------------------------------------------------------
@@ -71,6 +74,7 @@ void MainWindow::initOP(bool doit)
     op.editStart= false;
     op.editStop= false;
     op.editRestore= false;
+    op.editAVG = false;
     op.clicks = 0;
     op.wx = 0;
     op.wy = 0;
@@ -404,6 +408,20 @@ void MainWindow::on_toolButton_doEdit_clicked()
 }
 
 
+void MainWindow::on_toolButton_doEdit_AVG_clicked()
+{
+    op.editRestore = false;
+    op.editAVG = true;
+    getCells();
+    initOP(false);
+    toolButton_editCell->setChecked(false);
+    toolButton_editPolygon->setChecked(false);
+    toolButton_editRectangle->setChecked(false);
+    toolButton_editLine->setChecked(false);
+
+}
+
+
 void MainWindow::on_toolButton_restoreEdit_clicked()
 {
     op.editRestore = true;
@@ -516,4 +534,6 @@ void MainWindow::on_toolButton_fixTopminmax_clicked(bool checked)
     else
         topMinMaxdistance = 1;
 }
+
+
 
