@@ -147,7 +147,7 @@ cTRGBMap *readRasterImage(
     GDALDatasetPtr dataset(static_cast<GDALDataset*>(GDALOpen(
         pathName.toLatin1().constData(), GA_ReadOnly)), close_gdal_dataset);
     if(!dataset) {
-        Error(QString("Map %1 cannot be opened.").arg(pathName));
+        Error(QString("Image %1 cannot be opened.").arg(pathName));
     }
 
     int nr_bands = dataset->GetRasterCount();
@@ -421,6 +421,7 @@ void writeGDALRaster(
     int const nrRows{raster.nrRows()};
     int const nrCols{raster.nrCols()};
     int const nrBands{1};
+
     GDALDatasetPtr dataset{driver.Create(pathName.toLatin1().constData(),
         nrCols, nrRows, nrBands, GDT_Float32, nullptr), close_gdal_dataset};
 
@@ -459,6 +460,7 @@ void writeGDALRaster(
             nrCols, nrRows, GDT_Float64, 0, 0) != CE_None) {
         Error(QString("Raster band %1 cannot be written.").arg(pathName));
     }
+
 }
 
 
@@ -506,12 +508,13 @@ void writeRaster(
         if(driverSupportsCreate) {
             // All is well, write using GDAL.
             writeGDALRaster(raster, pathName, *driver);
+
         } else {
             Error(QString(
                 "Format driver %1 cannot be used to create datasets.").arg(
                     format.toLatin1().constData()));
         }
-    }
+   }
 }
 
 

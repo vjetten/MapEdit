@@ -47,6 +47,9 @@
     for (int c = 0; c < _nrCols; c++)\
     if(!pcr::isMV(baseRMap->data[r][c]))
 
+#define FOR_ROW_COL for(int r = 0; r < _nrRows; r++)\
+    for (int c = 0; c < _nrCols; c++)
+
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
@@ -64,10 +67,11 @@ public:
     void initTopMap();
     void showTopMap();
 
-    void processMaps();
+    int processMaps();
     cTMap *ReadMap(QString name);
     void WriteMap(QString name);
     cTMap *NewMap(double value);
+    QErrorMessage *errorMessageDialog;
 
     void initOP(bool doit);
     void SetToolBar();
@@ -101,6 +105,7 @@ public:
     CanvasPicker *cpicker;
 
     double _dx, _nrRows, _nrCols, _lly, _llx;
+    int vs_scale;
 
     cTMap *baseRMap;
     cTMap *topRMap;

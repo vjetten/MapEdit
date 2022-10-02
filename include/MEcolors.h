@@ -183,6 +183,34 @@ public:
     }
 };
 //------------------------------------------
+class colorMapRandom: public QwtLinearColorMap
+{
+    virtual QRgb rgb( const QwtInterval &interval, double value ) const
+    {
+        if ( value < -1e19 )
+            return qRgba( 220,220,220,0 );
+
+        return QwtLinearColorMap::rgb( interval, value );
+    }
+public:
+    colorMapRandom():
+        QwtLinearColorMap(  QColor("#6a2884"), QColor("#ff0000"))
+    {
+        addColorStop(0.000,QColor("#6a2884"));
+        addColorStop(0.091,QColor("#800cce"));
+        addColorStop(0.182,QColor("#1f0cce"));
+        addColorStop(0.273,QColor("#0c5bce"));
+        addColorStop(0.364,QColor("#0c99ce"));
+        addColorStop(0.455,QColor("#2ece0c"));
+        addColorStop(0.545,QColor("#bae806"));
+        addColorStop(0.636,QColor("#feff00"));
+        addColorStop(0.727,QColor("#ffcd00"));
+        addColorStop(0.818,QColor("#ff9a00"));
+        addColorStop(0.909,QColor("#ff6000"));
+        addColorStop(1.000,QColor("#ff0000"));
+    }
+};
+//------------------------------------------
 class colorMapGray: public QwtLinearColorMap
 {
     virtual QRgb rgb( const QwtInterval &interval, double value ) const

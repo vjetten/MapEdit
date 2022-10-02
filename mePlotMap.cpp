@@ -75,7 +75,8 @@ void MainWindow::setupMapPlot()
 }
 //---------------------------------------------------------------------------
 
-// fill the current raster data structure with new data, called each run step
+// fill the current raster data structure with new data
+// set min and max
 double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *minv, double *maxv)
 {
     double maxV = -MVe;
@@ -90,7 +91,7 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
     for(int r = _nrRows-1; r >= 0; r--)
         for(int c=0; c < _nrCols; c++)
         {
-            if(!pcr::isMV(baseRMap->data[r][c]))
+            if(!pcr::isMV(_M->Drc)) //baseRMap->data[r][c]))
             {
                 mapData << _M->Drc;
                 if (_M->Drc != -1e20) {
@@ -129,12 +130,12 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
 
     _RD->setInterval( Qt::XAxis, QwtInterval( _llx,_llx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
     _RD->setInterval( Qt::YAxis, QwtInterval( _lly,_lly+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
+    // use real coordinates
 
-    // set x/y axis intervals
     return maxV;
 }
 //---------------------------------------------------------------------------
-
+// initialise bottom layer for reference
 void MainWindow::initBaseMap()
 {
     baseMinMaxdistance = 1;
@@ -150,13 +151,17 @@ void MainWindow::initBaseMap()
     MaxBase = MaxV1;
 
     baseMap->setAlpha(255);
+    if (baseRMap->valueScale != VS_SCALAR)
+        bpalette->setMode(QwtLinearColorMap::FixedColors);
     baseMap->setColorMap(bpalette);
+
 
     interval = baseMap->data()->interval( Qt::ZAxis );
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 }
 //---------------------------------------------------------------------------
+// display bottom layer for reference with bpalette1
 void MainWindow::showBaseMap()
 {
     RDb->setInterval( Qt::ZAxis, QwtInterval( MinV1, MaxV1));
@@ -167,6 +172,7 @@ void MainWindow::showBaseMap()
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 }
 //---------------------------------------------------------------------------
+// initialize map to be edited
 void MainWindow::initTopMap()
 {
     topMinMaxdistance = 1;
@@ -181,6 +187,8 @@ void MainWindow::initTopMap()
     MinTop = MinV2;
     MaxTop = MaxV2;
 
+    if (topRMap->valueScale != VS_SCALAR)
+        dpalette->setMode(QwtLinearColorMap::FixedColors);
     drawMap->setColorMap(dpalette);
     transparency->setValue(128);
     setAlphaTop(128);
@@ -190,6 +198,7 @@ void MainWindow::initTopMap()
     rightAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
 }
 //---------------------------------------------------------------------------
+// display map to be edited
 void MainWindow::showTopMap()
 {
     RD->setInterval( Qt::ZAxis, QwtInterval(MinV2, MaxV2));
@@ -228,6 +237,7 @@ void MainWindow::changeSize()
 
 }
 //---------------------------------------------------------------------------
+// slider for palette
 void MainWindow::setMinMaxBaseMap(int i)
 {
     if (op._M == nullptr)
@@ -267,16 +277,6 @@ void MainWindow::setMaxBaseMap()
     setMinMaxBaseMap(0);
 }
 //---------------------------------------------------------------------------
-void MainWindow::setMinTopMap()
-{
-    setMinMaxTopMap(1);
-}
-//---------------------------------------------------------------------------
-void MainWindow::setMaxTopMap()
-{
-    setMinMaxTopMap(0);
-}
-//---------------------------------------------------------------------------
 void MainWindow::setMinMaxTopMap(int i)
 {
     if (op._M == nullptr)
@@ -305,6 +305,16 @@ void MainWindow::setMinMaxTopMap(int i)
     showTopMap();
 
     MPlot->replot();
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMinTopMap()
+{
+    setMinMaxTopMap(1);
+}
+//---------------------------------------------------------------------------
+void MainWindow::setMaxTopMap()
+{
+    setMinMaxTopMap(0);
 }
 //---------------------------------------------------------------------------
 void MainWindow::changePalette(int nr)
@@ -378,6 +388,7 @@ void MainWindow::changePalette(int nr)
 
 }
 //---------------------------------------------------------------------------
+// trasnparency of top map
 void MainWindow::setAlphaTop(int v)
 {
     drawMap->setAlpha(v);

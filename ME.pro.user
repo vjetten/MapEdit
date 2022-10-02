@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 7.0.0, 2022-09-15T17:17:23. -->
+<!-- Written by QtCreator 8.0.1, 2022-10-02T14:40:08. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -97,8 +97,8 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.15.3 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.15.3 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.15.6 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.15.6 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt5.shared.M2_MinGW-w64_MINGW64_kit</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
@@ -248,6 +248,8 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">ME2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/prgc/lisemgit/Mapedit/mapedit/ME.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/prgc/lisemgit/Mapedit/mapedit/ME.pro</value>
+    <value type="QString" key="RunConfiguration.Arguments">C:/data/limburg/Strabeek/base/lu4.map</value>
+    <value type="bool" key="RunConfiguration.Arguments.multi">true</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
@@ -262,8 +264,8 @@
   <variable>ProjectExplorer.Project.Target.1</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.3.0 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.3.0 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.3.2 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.3.2 (shared) MinGW-w64 MINGW64 (MSYS2)</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt6.shared.M2_MinGW-w64_MINGW64_kit</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>

@@ -231,7 +231,10 @@ void MainWindow::drawSelectionRectangle()
 //--------------------------------------------------------------------------
 void MainWindow::getCells()
 {
-    editValue = lineEdit_Value->text().toDouble();
+    if (radioButton_e1->isChecked())
+        editValue = lineEdit_Value->text().toDouble();
+    else
+        editValue = lineEdit_Value2->text().toDouble();
 
     if (op.editCell) {
         if (op.editAVG) {
@@ -251,7 +254,6 @@ void MainWindow::getCells()
 
 
        for (int i = 0; i < op.eData.size(); i++) {
-
            int r = op.eData[i].r;
            int c = op.eData[i].c;
            if (!MV(r,c))
@@ -398,7 +400,6 @@ void MainWindow::getCells()
                                 int c = int((_c - 0.5*_dx)/_dx);
                                 if (!MV(r,c))
                                     topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
-
                             }
                         } else {
                             double begin = std::min(c0,cn);
@@ -510,7 +511,7 @@ void MainWindow::getCells()
 
             int n = _vx.size();
 
-            FOR_ROW_COL_MV {
+            FOR_ROW_COL {
                 double cy = (_nrRows-r-1)*_dx + 0.5*_dx;
                 double cx = c*_dx + 0.5*_dx;
 

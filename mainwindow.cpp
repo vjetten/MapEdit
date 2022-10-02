@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "global.h"
 #include "io.h"
+#include "csf.h"
 
 output op;
 
@@ -12,9 +13,11 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
-    setWindowTitle("MapEdit v3.3  -  PCRaster map editor (15 Sep 2022)");
+    setWindowTitle("MapEdit v3.32  -  PCRaster map editor (2 Oct 2022)");
 
     initOP(true);
+
+    errorMessageDialog = new QErrorMessage(this);
 
     mapsLoaded = false;
     editBase = false;
@@ -45,17 +48,16 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
             return;
         if (PathNames.size() > 1 && !QFileInfo(PathNames[1]).exists())
             return;
-        processMaps();
 
-        MPlot->replot();
-
-        //        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
-//      MPlot->setGeometry(0,0,r.width(),r.height());
-//          MPlot->setGeometry(0,0,1080,786);
+//        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
+//        MPlot->setGeometry(0,0,r.width(),r.height());
+//        MPlot->setGeometry(0,0,1080,786);
 //        MPlot->repaint();
 //        qApp->processEvents();
 
-//        changeSize();
+        // load the map(s)
+        if (processMaps() == 0);
+            //changeSize();
     }
 }
 //----------------------------------------------------------------------------------------
@@ -161,7 +163,7 @@ void MainWindow::changePaletteBase()
 }
 //--------------------------------------------------------------------
 // loads two different maps or makes a copy of the base map
-void MainWindow::processMaps()
+int MainWindow::processMaps()
 {
     if (!mapsLoaded)
         checkBox_editBase->setEnabled(false);
@@ -187,15 +189,28 @@ void MainWindow::processMaps()
         checkBox_editBase->setEnabled(false);
         topRMap = ReadMap(PathNames[1]);
         name2 = QFileInfo(PathNames[1]).fileName();
-        if (QFileInfo(PathNames[1]).suffix() == "tif")
-            savetype = "GTiff";
+        int i = 0;
+        if(topRMap->cellSize() != baseRMap->cellSize()) i++;
+        if(topRMap->nrCols() != baseRMap->nrCols()) i++;
+        if(topRMap->nrRows() != baseRMap->nrRows()) i++;
+        if(topRMap->west() != baseRMap->west()) i++;
+        if(topRMap->north() != baseRMap->north()) i++;
+
+        if (i > 0){
+            if (i == 1) ErrorString ="Cellsize of the two maps does not match, maps have to have the same cellsize().";
+            if (i ==2 || i == 3) ErrorString ="Nr Rows or Columns of the two maps do not match, you have to load maps with the same size.";
+            if (i > 3) ErrorString ="Coordinates of the two maps do not match, you have to load maps with the same coordinates.";
+            errorMessageDialog->showMessage(ErrorString);
+            return 1;
+        }
+
     } else {
         topRMap = ReadMap(PathNames[0]);
         name2 = QFileInfo(PathNames[0]).fileName();
         PathNames << name2;
     }
 
-    if (QFileInfo(PathNames[0]).suffix() == "tif")
+    if (QFileInfo(PathNames[1]).suffix() == "tif")
         savetype = "GTiff";
 
     op._Mb = baseRMap;
@@ -225,6 +240,7 @@ void MainWindow::processMaps()
     mapsLoaded = true;
     checkBox_editBase->setEnabled(true);
 
+    return 0;
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::NewMap(double value)
@@ -346,18 +362,24 @@ void MainWindow::saveMapFile()
 //--------------------------------------------------------------------
 void MainWindow::saveMapFileas()
 {
-   if (PathNames.size() == 0)
-       return;
-   QString ext = "*.map";
-   if (savetype == "GTiff")
-       ext = "*.tif";
+    if (PathNames.size() == 0)
+        return;
+    //   QString ext = "*.map";
+    //   if (savetype == "GTiff")
+    //       ext = "*.tif";
 
+    QString ext = "PCR (*.map);;GTiff (*.tif)";
+//    savetype = "PCRaster";
     QString fileName = QFileDialog::getSaveFileName(this, "Save map under a new name ",currentDir,ext);
+
+    if (QFileInfo(fileName).suffix().contains("tif")) {
+        if (savetype == "PCRaster")
+            errorMessageDialog->showMessage("Saving PCRaster maps as GeoTiff file, not that EPSG information is not available");
+        savetype = "GTiff";
+    }
+
     if (!fileName.isEmpty()) {
         writeRaster(*topRMap, fileName,savetype);
-//        if (PathNames.size() == 1)
-//            PathNames << fileName;
-//        else
         PathNames.at(1) == fileName;
 
         label_edit->setText(QString("Edit map: %1").arg(QFileInfo(PathNames[1]).fileName()));
@@ -382,14 +404,20 @@ void MainWindow::openMapFile()
     if (files.count() > 1)
         PathNames << files[1];
 
-    processMaps();
-
-    changeSize();
+    // load the map(s)    
+    if (processMaps() == 0)
+        // set the window
+        changeSize();
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::ReadMap(QString name)
 {
     cTMap *_M = new cTMap(readRaster(name));
+
+    MAP *m = Mopen(name.toLatin1(),M_READ);
+    _M->valueScale = RgetValueScale(m);
+    //qDebug() << _M->valueScale;
+    Mclose(m);
 
     return(_M);
 }
@@ -418,9 +446,7 @@ void MainWindow::on_toolButton_doEdit_AVG_clicked()
     toolButton_editPolygon->setChecked(false);
     toolButton_editRectangle->setChecked(false);
     toolButton_editLine->setChecked(false);
-
 }
-
 
 void MainWindow::on_toolButton_restoreEdit_clicked()
 {

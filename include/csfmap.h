@@ -68,6 +68,8 @@ public:
 
     double         cellSize            () const;
 
+    CSF_VS            valueScale;//          () const; // VJ added
+
     QString const& projection          () const;
 
     QString const& mapName             () const;
