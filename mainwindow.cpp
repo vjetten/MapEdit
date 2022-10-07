@@ -49,12 +49,6 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
         if (PathNames.size() > 1 && !QFileInfo(PathNames[1]).exists())
             return;
 
-//        QSize r = QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7;
-//        MPlot->setGeometry(0,0,r.width(),r.height());
-//        MPlot->setGeometry(0,0,1080,786);
-//        MPlot->repaint();
-//        qApp->processEvents();
-
         // load the map(s)
         if (processMaps() == 0);
             //changeSize();
@@ -408,6 +402,7 @@ void MainWindow::openMapFile()
     if (processMaps() == 0)
         // set the window
         changeSize();
+    changeSize();
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::ReadMap(QString name)

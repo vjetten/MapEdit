@@ -212,28 +212,18 @@ void MainWindow::showTopMap()
 // find optimum display size
 void MainWindow::changeSize()
 {
-    int h = MPlot->height();
-    int w = MPlot->width();
+    double h = MPlot->height();
+    double w = MPlot->width();
 
-    double asp = (double)w/(double)h;
-    int i = 0;
-
-    MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrCols*_dx, _dx*10);
-    MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrRows*_dx, _dx*10);
-
-    if(_nrCols/_nrRows > asp) {
-        MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrCols*_dx, _dx*10);
+    if(_nrCols >= _nrRows ) {
+        MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrCols*_dx*w/h, _dx*10);
         MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrCols*_dx, _dx*10);
-        i = 1;
-    } else
-        if(_nrRows > _nrCols)
-        {
-            MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrRows*_dx*asp, _dx*10);
-            MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrRows*_dx*asp, _dx*10);
-            i = 2;
-        }
-
+    } else {
+        MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrRows*_dx*w/h,_dx*10);
+        MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrRows*_dx, _dx*10);
+    }
     MPlot->replot();
+
 
 }
 //---------------------------------------------------------------------------
