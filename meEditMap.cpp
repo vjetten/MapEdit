@@ -2,6 +2,7 @@
 #include "global.h"
 
 #define MV(r,c) pcr::isMV(topRMap->data[r][c])
+#define MVchecked(r,c) checkBox_editMV->isChecked() ? false : pcr::isMV(topRMap->data[r][c])
 
 void MainWindow::drawSelection()
 {
@@ -253,12 +254,15 @@ void MainWindow::getCells()
         }
 
 
-       for (int i = 0; i < op.eData.size(); i++) {
-           int r = op.eData[i].r;
-           int c = op.eData[i].c;
-           if (!MV(r,c))
+        for (int i = 0; i < op.eData.size(); i++) {
+            int r = op.eData[i].r;
+            int c = op.eData[i].c;
+            if (checkBox_editMV->isChecked())
                 topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
-       }
+            else
+                if (!MV(r,c))
+                    topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+        }
     }
 
     if (op.editLine) {
@@ -374,18 +378,26 @@ void MainWindow::getCells()
                     int st = std::min(cb,ce);
                     int en = std::max(cb,ce);
                     int r = rb;
-                    for(int c = st; c <= en; c++)
+                    for(int c = st; c <= en; c++) {
+                        if (checkBox_editMV->isChecked())
+                            topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                        else
                         if (!MV(r,c))
                             topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                    }
                 } else
                     if (cb == ce) {
                         //horizontal line
                         int st = std::min(rb,re);
                         int en = std::max(rb,re);
                         int c = cb;
-                        for(int r = st; r <= en; r++)
+                        for(int r = st; r <= en; r++){
+                            if (checkBox_editMV->isChecked())
+                                topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                            else
                             if (!MV(r,c))
                                 topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                        }
                     } else {
                         //diagonal lines
                         double dx = cn-c0;
@@ -398,8 +410,11 @@ void MainWindow::getCells()
                                 double _r = r0 + dy*(_c - c0)/dx;
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
-                                if (!MV(r,c))
+                                if (checkBox_editMV->isChecked())
                                     topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                                else
+                                    if (!MV(r,c))
+                                        topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                             }
                         } else {
                             double begin = std::min(c0,cn);
@@ -409,8 +424,11 @@ void MainWindow::getCells()
                                 double _r = r0 + dy*(_c - c0)/dx;
                                 int r = _nrRows-1 - int((_r - 0.5*_dx)/_dx);
                                 int c = int((_c - 0.5*_dx)/_dx);
-                                if (!MV(r,c))
+                                if (checkBox_editMV->isChecked())
                                     topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                                else
+                                    if (!MV(r,c))
+                                        topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                             }
                         }
                     }
@@ -458,9 +476,13 @@ void MainWindow::getCells()
             int cn = *std::max_element(_cx.constBegin(), _cx.constEnd());
 
             for (int r = r0 ; r <= rn; r++)
-                for (int c = c0 ; c <= cn; c++)
-                    if (!MV(r,c))
+                for (int c = c0 ; c <= cn; c++) {
+                    if (checkBox_editMV->isChecked())
                         topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                    else
+                        if (!MV(r,c))
+                            topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                }
         }
 
     }
@@ -525,7 +547,11 @@ void MainWindow::getCells()
                 }
 
                 if (res == 1) {
-                    topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                    if (checkBox_editMV->isChecked())
+                        topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
+                    else
+                        if (!MV(r,c))
+                            topRMap->data[r][c] = op.editRestore ? editRMap->Drc : editValue;
                 }
             }
         } // k

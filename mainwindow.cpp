@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
-    setWindowTitle("MapEdit v3.32  -  PCRaster map editor (2 Oct 2022)");
+    setWindowTitle("MapEdit v3.4  -  PCRaster map editor (22 Oct 2022)");
 
     initOP(true);
 
