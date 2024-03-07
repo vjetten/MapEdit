@@ -118,14 +118,23 @@ HEADERS  += mainwindow.h\
 
 FORMS    += mainwindow.ui
 
+CONFIG(debug, debug|release) {
+  MOC_DIR = debug/moc
+  OBJECTS_DIR= debug/objs
+  UI_DIR= debug/ui
+  RCC_DIR= debug/rcc
+  DESTDIR = debug
+} else {
   MOC_DIR = release/moc
   OBJECTS_DIR= release/objs
   UI_DIR= release/ui
   RCC_DIR= release/rcc
   DESTDIR = release
+}
 
 INCLUDEPATH += .\include
 INCLUDEPATH += c:\qt\msys64\mingw64\include
+INCLUDEPATH += C:\Qt\msys64\mingw64\lib
 #INCLUDEPATH += C:\Qt\qwtma\src
 #LIBS += c:/qt/qwtma/lib/libqwt.dll.a
 INCLUDEPATH += C:\Qt\msys64\mingw64\include\qwt-qt5

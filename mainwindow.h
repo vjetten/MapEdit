@@ -139,6 +139,8 @@ public:
     bool mapsLoaded;
     int baseMinMaxdistance;
     int topMinMaxdistance;
+    QGraphicsScene scene;
+
 
   //  bool eventFilter(QObject *obj, QEvent *event);
     void drawSelectionCell();

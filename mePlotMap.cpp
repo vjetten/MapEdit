@@ -70,8 +70,12 @@ void MainWindow::setupMapPlot()
     connect(cpicker, SIGNAL(zoom()),this, SLOT(zoomPoint()));
 
     layout_Map->insertWidget(0,leftAxis, 0);
-    layout_Map->insertWidget(1, MPlot, 1);
+   layout_Map->insertWidget(1, MPlot, 1);
     layout_Map->insertWidget(2,rightAxis,0 );
+
+    QGraphicsView *view = new QGraphicsView(&scene);
+  //   layout_Map->insertWidget(1,view,0 );
+
 }
 //---------------------------------------------------------------------------
 
@@ -190,8 +194,8 @@ void MainWindow::initTopMap()
     if (topRMap->valueScale != VS_SCALAR)
         dpalette->setMode(QwtLinearColorMap::FixedColors);
     drawMap->setColorMap(dpalette);
-    transparency->setValue(128);
-    setAlphaTop(128);
+    transparency->setValue(200);
+    setAlphaTop(200);
 
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
@@ -206,6 +210,20 @@ void MainWindow::showTopMap()
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
     rightAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
+
+    QImage image(_nrCols, _nrRows, QImage::Format_RGB32);
+    FOR_ROW_COL_MV {
+        double value = topRMap->data[r][c];
+        int color = std::min(std::max(0, (int) value), 255);
+        //qDebug() << color << value;
+        image.setPixel(c, r, qRgb(color, color, color));
+    }
+
+    // Display the QImage in the QGraphicsView
+    scene.clear();
+    scene.addPixmap(QPixmap::fromImage(image));
+
+
 }
 
 //---------------------------------------------------------------------------
