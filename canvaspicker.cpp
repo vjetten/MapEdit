@@ -37,8 +37,8 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
     if (event->type() == QEvent::Wheel) {
         QWheelEvent *wEvent = static_cast<QWheelEvent  *>( event );
         op.wd = wEvent->angleDelta().y() < 0 ? -1 : 1;
-        double ri = plot()->invTransform(QwtPlot::yLeft,wEvent->position().y());
-        double ci = plot()->invTransform(QwtPlot::xBottom,wEvent->position().x());
+        double ri = plot()->invTransform( QwtAxis::YLeft,wEvent->position().y());
+        double ci = plot()->invTransform(QwtAxis::XBottom,wEvent->position().x());
         op.wy = ri;
         op.wx = ci;
 
@@ -50,8 +50,8 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
     {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
 
-        double ri = plot()->invTransform(QwtPlot::yLeft,(double)mouseEvent->pos().y());// - op._lly;
-        double ci = plot()->invTransform(QwtPlot::xBottom,(double)mouseEvent->pos().x());// - op._llx;
+        double ri = plot()->invTransform( QwtAxis::YLeft,(double)mouseEvent->pos().y());// - op._lly;
+        double ci = plot()->invTransform(QwtAxis::XBottom,(double)mouseEvent->pos().x());// - op._llx;
         //when mouse in LL corner op_llx = pos.x()
         int r = op.nrR - qFloor((ri- op._lly)/op._dx) - 1;
         int c = qFloor((ci- op._llx)/op._dx);
@@ -108,8 +108,8 @@ void CanvasPicker::select( const QPoint &pos )
 
     op.clicks++;
 
-    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y()) - op._lly;
-    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x()) - op._llx;
+    double ri = plot()->invTransform( QwtAxis::YLeft,(double)pos.y()) - op._lly;
+    double ci = plot()->invTransform(QwtAxis::XBottom,(double)pos.x()) - op._llx;
     // real coordinates
 
     int r = op.nrR - qFloor(ri/op._dx) - 1 ;
@@ -165,8 +165,8 @@ void CanvasPicker::move( const QPoint &pos )
         if (op._M == nullptr)
             return;
 
-    //    double ri = plot()->invTransform(QwtPlot::yLeft,(double)pos.y());
-    //    double ci = plot()->invTransform(QwtPlot::xBottom,(double)pos.x());
+    //    double ri = plot()->invTransform( QwtAxis::YLeft,(double)pos.y());
+    //    double ci = plot()->invTransform(QwtAxis::XBottom,(double)pos.x());
 
     //    int r = op.nrR - qFloor(ri/op._dx) - 1 ;
     //    int c = qFloor(ci/op._dx);

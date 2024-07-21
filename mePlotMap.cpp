@@ -56,9 +56,9 @@ void MainWindow::setupMapPlot()
     panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
-    mapRescaler->setAspectRatio( QwtPlot::xBottom, 1.0 );
-    mapRescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
-    mapRescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
+    mapRescaler->setAspectRatio( QwtAxis::XBottom, 1.0 );
+    mapRescaler->setAspectRatio(QwtAxis::YRight, 0.0 );
+    mapRescaler->setAspectRatio( QwtAxis::XTop, 0.0 );
     mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
  //   mapRescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
 //    mapRescaler->setRescalePolicy(QwtPlotRescaler::Fitting );
@@ -234,11 +234,11 @@ void MainWindow::changeSize()
     double w = MPlot->width();
 
     if(_nrCols >= _nrRows ) {
-        MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrCols*_dx*w/h, _dx*10);
-        MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrCols*_dx, _dx*10);
+        MPlot->setAxisScale(QwtAxis::XBottom, _llx, _llx+_nrCols*_dx*w/h, _dx*10);
+        MPlot->setAxisScale(QwtAxis::YLeft, _lly, _lly+_nrCols*_dx, _dx*10);
     } else {
-        MPlot->setAxisScale( MPlot->xBottom, _llx, _llx+_nrRows*_dx*w/h,_dx*10);
-        MPlot->setAxisScale( MPlot->yLeft, _lly, _lly+_nrRows*_dx, _dx*10);
+        MPlot->setAxisScale(QwtAxis::XBottom, _llx, _llx+_nrRows*_dx*w/h,_dx*10);
+        MPlot->setAxisScale(QwtAxis::YLeft, _lly, _lly+_nrRows*_dx, _dx*10);
     }
     MPlot->replot();
 
@@ -419,8 +419,8 @@ void MainWindow::setAlphaTop(int v)
 
             // Convert the change in position for the last drag (1px) from
             // pixel space to plot space.
-            double deltaX   = invTransform(QwtPlot::xBottom, m_mouseDragLocation.x()) - invTransform(QwtPlot::xBottom, cursor().pos().x());
-            double deltaY   = invTransform(QwtPlot::yLeft,   m_mouseDragLocation.y()) - invTransform(QwtPlot::yLeft,   cursor().pos().y());
+            double deltaX   = invTransform(QwtAxis::XBottom, m_mouseDragLocation.x()) - invTransform(QwtAxis::XBottom, cursor().pos().x());
+            double deltaY   = invTransform( QwtAxis::YLeft,   m_mouseDragLocation.y()) - invTransform( QwtAxis::YLeft,   cursor().pos().y());
 
             // Update the zoom rect with the new values
             zoomRect.setX(zoomRect.x() + deltaX);

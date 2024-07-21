@@ -23,6 +23,8 @@ void MainWindow::drawSelectionCell()
     double dx[5] = {-0.5,+0.5,+0.5,-0.5,-0.5};
     double dy[5] = {-0.5,-0.5,+0.5,+0.5,-0.5};
 
+
+
     cur = new QwtPlotCurve();
     curves << cur;
 
@@ -30,7 +32,9 @@ void MainWindow::drawSelectionCell()
     cur->setStyle( QwtPlotCurve::Lines );
     cur->setBrush(b);
     cur->attach( MPlot );
-    cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+    cur->setAxes(QwtAxis::XBottom,QwtAxis::YLeft);
+   // MPlot->setAxisScale( QwtAxis::XBottom, op._llx, op._llx+(double)op._nrRows*op._dx*w/h);//, op._dx*10);
+   // MPlot->setAxisScale( QwtAxis::YLeft, op._lly, op._lly+(double)op._nrRows*op._dx);//, op._dx*10);
 
     vx.clear();
     vy.clear();
@@ -42,18 +46,58 @@ void MainWindow::drawSelectionCell()
         vy << op.eData[l].cy+dy[i]*_dx;
     }
 
-    for (int i = 0; i < vx.size(); i++) {
+    for (int i = 0; i < 5 ; i++) { //vx.size()
         double vxi = vx.at(i)+_llx;
         vx.replace(i, vxi);
         double vyi = vy.at(i)+_lly;
         vy.replace(i, vyi);
     }
-
     cur->setSamples(vx,vy);
+
+    // QPolygonF points;
+    // for (int i = 0; i < vx.size(); i++ )
+    //     points << QPointF(vx.at(i), vy.at(i));
+
+    // cur->setSamples(points);
+/*
+    double vx[5];
+    double vy[5];
+
+    cur = new QwtPlotCurve();
+    curves << cur;
+
+    cur->setPen( Qt::magenta, 2 );
+    cur->setStyle( QwtPlotCurve::Lines );
+    cur->setBrush(b);
+    cur->attach( MPlot );
+    cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+
+    //vx.clear();
+    //vy.clear();
+
+    int l = op.eData.size()-1;
+
+    for (int i = 0; i < 5; i++) {
+        vx[i] = op.eData[l].cx+dx[i]*_dx;
+        vy[i] = op.eData[l].cy+dy[i]*_dx;
+    }
+
+    for (int i = 0; i < 5 ; i++) { //vx.size()
+        double vxi = vx[i]+_llx;//vx.at(i)+_llx;
+        //vx.replace(i, vxi);
+        vx[i] = vxi;
+        double vyi = vy[i] + _lly;//vy.at(i)+_lly;
+        //vy.replace(i, vyi);
+        vy[i] = vyi;
+    }
+
+    cur->setSamples(vx,vy,5);
+    */
 }
 //--------------------------------------------------------------------------
 void MainWindow::drawSelectionPolygon()
 {
+
     vx.clear();
     vy.clear();
     cx.clear();
@@ -68,7 +112,7 @@ void MainWindow::drawSelectionPolygon()
         cur->setStyle( QwtPlotCurve::Lines );
         cur->setBrush(b);
         cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+        cur->setAxes(QwtAxis::XBottom,QwtAxis::YLeft);
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
@@ -100,6 +144,7 @@ void MainWindow::drawSelectionPolygon()
     }
 
     cur->setSamples(vx,vy);
+
 }
 //--------------------------------------------------------------------------
 void MainWindow::drawSelectionLine()
@@ -118,7 +163,7 @@ void MainWindow::drawSelectionLine()
         cur->setStyle( QwtPlotCurve::Lines );
 
         cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+         cur->setAxes(QwtAxis::XBottom,QwtAxis::YLeft);
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
@@ -175,7 +220,7 @@ void MainWindow::drawSelectionRectangle()
         cur->setStyle( QwtPlotCurve::Lines );
 
         cur->attach( MPlot );
-        cur->setAxes(MPlot->xBottom, MPlot->yLeft);
+         cur->setAxes(QwtAxis::XBottom,QwtAxis::YLeft);
 
         vx << op.eData[op.polystart].cx;
         vy << op.eData[op.polystart].cy;
