@@ -13,6 +13,21 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
     resize(QGuiApplication::primaryScreen()->availableGeometry().size() * 0.7);
     currentDir = "";
 
+    QString appDataLocalPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QFileInfo appDataLocalFileInfo(appDataLocalPath);
+    QString localPath = appDataLocalFileInfo.absolutePath();
+    AppPath = localPath+"/nutshell";
+    QDir dir;
+    if (!dir.exists(AppPath)) {
+        if (dir.mkpath(AppPath)) {
+            qDebug() << "Directory created successfully: " << AppPath;
+        } else {
+            qDebug() << "Failed to create directory: " << AppPath;
+        }
+    } else {
+        qDebug() << "Directory already exists: " << AppPath;
+    }
+
     setWindowTitle("MapEdit v3.41 (Qt6) - PCRaster map editor (13 June 2024)");
 
     initOP(true);
@@ -248,7 +263,8 @@ cTMap *MainWindow::NewMap(double value)
 //--------------------------------------------------------------------
 void MainWindow::getStorePath()
 {
-    QFile fff(qApp->applicationDirPath() + "/mapedit.ini");
+//    QFile fff(qApp->applicationDirPath() + "/mapedit.ini");
+    QFile fff(AppPath+"/mapedit.ini");
     QStringList  list;
 
     if (!fff.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -274,7 +290,8 @@ void MainWindow::setStorePath()
     if(currentDir.isEmpty())
         return;
 
-    QFile fff(qApp->applicationDirPath() + "/mapedit.ini");
+    //QFile fff(qApp->applicationDirPath() + "/mapedit.ini");
+    QFile fff(AppPath+"/mapedit.ini");
     if (!fff.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
@@ -402,7 +419,7 @@ void MainWindow::openMapFile()
     if (processMaps() == 0)
         // set the window
         changeSize();
-    changeSize();
+    //changeSize();
 }
 //--------------------------------------------------------------------
 cTMap *MainWindow::ReadMap(QString name)

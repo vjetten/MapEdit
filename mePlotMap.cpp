@@ -10,7 +10,6 @@ void MainWindow::setupMapPlot()
 
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen( QPen( Qt::DotLine ) );
-    //grid->setXDiv()
     grid->attach( MPlot );
 
     baseMap = new QwtPlotSpectrogram();
@@ -45,6 +44,7 @@ void MainWindow::setupMapPlot()
     leftAxis->setBorderDist( startDist, endDist+32 );
 
     magnifier = new QwtPlotMagnifier( MPlot->canvas() );
+    magnifier->setAxisEnabled( QwtAxis::YRight, false );
     magnifier->setMouseButton( Qt::NoButton );
     magnifier->setZoomInKey(Qt::Key_Plus, Qt::ShiftModifier);
     magnifier->setZoomOutKey(Qt::Key_Minus, Qt::NoModifier );
@@ -52,16 +52,16 @@ void MainWindow::setupMapPlot()
     magnifier->setZoomOutKey(Qt::Key_Minus, Qt::KeypadModifier);
 
     panner = new QwtPlotPanner( MPlot->canvas() );
+    panner->setAxisEnabled( QwtAxis::YRight, false );
    // panner->setMouseButton( Qt::LeftButton, Qt::ControlModifier );
     panner->setMouseButton( Qt::RightButton, Qt::NoModifier );
 
     mapRescaler = new QwtPlotRescaler( MPlot->canvas() );
     mapRescaler->setAspectRatio( QwtAxis::XBottom, 1.0 );
-    mapRescaler->setAspectRatio(QwtAxis::YRight, 0.0 );
-    mapRescaler->setAspectRatio( QwtAxis::XTop, 0.0 );
+    mapRescaler->setAspectRatio( QwtAxis::YLeft, 1.0 );
+    mapRescaler->setAspectRatio( QwtAxis::YRight, 0.0 );
+    mapRescaler->setAspectRatio( QwtAxis::XTop, 1.0 );
     mapRescaler->setExpandingDirection( QwtPlotRescaler::ExpandUp );
- //   mapRescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
-//    mapRescaler->setRescalePolicy(QwtPlotRescaler::Fitting );
 
     cpicker = new CanvasPicker( MPlot );
     connect(cpicker, SIGNAL(show(QString)),this, SLOT(Show(QString)));
@@ -70,10 +70,10 @@ void MainWindow::setupMapPlot()
     connect(cpicker, SIGNAL(zoom()),this, SLOT(zoomPoint()));
 
     layout_Map->insertWidget(0,leftAxis, 0);
-   layout_Map->insertWidget(1, MPlot, 1);
+    layout_Map->insertWidget(1, MPlot, 1);
     layout_Map->insertWidget(2,rightAxis,0 );
 
-    QGraphicsView *view = new QGraphicsView(&scene);
+  //  QGraphicsView *view = new QGraphicsView(&scene);
   //   layout_Map->insertWidget(1,view,0 );
 
 }
@@ -132,8 +132,10 @@ double MainWindow::fillDrawMapData(cTMap *_M, QwtMatrixRasterData *_RD, double *
     _RD->setValueMatrix( mapData, _nrCols );
     // set column number to divide vector into rows
 
-    _RD->setInterval( Qt::XAxis, QwtInterval( _llx,_llx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
-    _RD->setInterval( Qt::YAxis, QwtInterval( _lly,_lly+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
+//    _RD->setInterval( Qt::XAxis, QwtInterval( _llx,_llx+_nrCols*_dx, QwtInterval::ExcludeMaximum ) );
+//    _RD->setInterval( Qt::YAxis, QwtInterval( _lly,_lly+_nrRows*_dx, QwtInterval::ExcludeMaximum ) );
+    _RD->setInterval( Qt::XAxis, QwtInterval( _llx,_llx+_nrCols*_dx, QwtInterval::IncludeBorders ) );
+    _RD->setInterval( Qt::YAxis, QwtInterval( _lly,_lly+_nrRows*_dx, QwtInterval::IncludeBorders ) );
     // use real coordinates
 
     return maxV;
@@ -220,9 +222,9 @@ void MainWindow::showTopMap()
     }
 
     // Display the QImage in the QGraphicsView
-    scene.clear();
-    scene.addPixmap(QPixmap::fromImage(image));
-
+  //  scene.clear();
+  //  scene.addPixmap(QPixmap::fromImage(image));
+//why this?
 
 }
 
@@ -230,19 +232,21 @@ void MainWindow::showTopMap()
 // find optimum display size
 void MainWindow::changeSize()
 {
-    double h = MPlot->height();
-    double w = MPlot->width();
+//    double h = MPlot->height();
+//    double w = MPlot->width();
 
-    if(_nrCols >= _nrRows ) {
-        MPlot->setAxisScale(QwtAxis::XBottom, _llx, _llx+_nrCols*_dx*w/h, _dx*10);
-        MPlot->setAxisScale(QwtAxis::YLeft, _lly, _lly+_nrCols*_dx, _dx*10);
-    } else {
-        MPlot->setAxisScale(QwtAxis::XBottom, _llx, _llx+_nrRows*_dx*w/h,_dx*10);
-        MPlot->setAxisScale(QwtAxis::YLeft, _lly, _lly+_nrRows*_dx, _dx*10);
-    }
+//    if(_nrCols >= _nrRows ) {
+//  double dist = std::min(_nrRows, _nrCols)*2;
+        //MPlot->setAxisScale(QwtAxis::XBottom, _llx, _llx+_nrCols*_dx*w/h, dist);
+        //MPlot->setAxisScale(QwtAxis::YLeft, _lly, _lly+_nrCols*_dx, dist);
+  //  } else {
+    //    MPlot->setAxisScale(QwtAxis::XBottom, _llx, _llx+_nrRows*_dx*w/h,_dx*10);
+    //    MPlot->setAxisScale(QwtAxis::YLeft, _lly, _lly+_nrRows*_dx, _dx*10);
+   // }
+
+    MPlot->setAxisAutoScale(QwtAxis::XBottom, true);
+    MPlot->setAxisAutoScale(QwtAxis::YLeft, true);
     MPlot->replot();
-
-
 }
 //---------------------------------------------------------------------------
 // slider for palette

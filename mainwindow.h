@@ -140,6 +140,7 @@ public:
     int baseMinMaxdistance;
     int topMinMaxdistance;
     QGraphicsScene scene;
+    QString AppPath;
 
 
   //  bool eventFilter(QObject *obj, QEvent *event);
