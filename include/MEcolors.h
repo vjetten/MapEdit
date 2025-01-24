@@ -43,13 +43,13 @@ class colorMap2: public QwtLinearColorMap
     }
 public:
     colorMap2():
-        QwtLinearColorMap(QColor("#ffff51"),QColor("#2c3898") )
+        QwtLinearColorMap(QColor("#ffffcc"),QColor("#253494") )
     {
-        addColorStop(0.00, QColor("#ffff51"));
-        addColorStop(0.25, QColor("#c7e55a"));
-        addColorStop(0.50, QColor("#32b1df"));
-        addColorStop(0.75, QColor("#3271ca"));
-        addColorStop(1.00, QColor("#2c3898"));
+        addColorStop(0.00, QColor("#ffffcc"));//#ffff51"));
+        addColorStop(0.25, QColor("#a1dab4"));//#c7e55a"));
+        addColorStop(0.50, QColor("#41b6c4"));//#32b1df"));
+        addColorStop(0.75, QColor("#2c7fb8"));//#3271ca"));
+        addColorStop(1.00, QColor("#253494"));//#2c3898"));
     }
 };
 //------------------------------------------
@@ -83,13 +83,18 @@ class colorMap4: public QwtLinearColorMap
     }
 public:
     colorMap4():
-        QwtLinearColorMap( QColor("#2b83ba"),QColor("#d7191c") )
+        QwtLinearColorMap( QColor("#733957"),QColor("#5C538B") )
     {
-        addColorStop(0.00, QColor("#2b83ba"));
-        addColorStop(0.25, QColor("#a4ddd9"));
-        addColorStop(0.50, QColor("#ffffef"));
-        addColorStop(0.75, QColor("#d3b03e"));
-        addColorStop(1.00, QColor("#d7191c"));
+        addColorStop(0.000, QColor("#733957"));
+        addColorStop(0.125, QColor("#874037"));
+        addColorStop(0.250, QColor("#A3672C"));
+        addColorStop(0.375, QColor("#C3A34B"));
+        addColorStop(0.500, QColor("#D6D893"));
+        addColorStop(0.625, QColor("#B4DEC6"));
+        addColorStop(0.750, QColor("#74BBCD"));
+        addColorStop(0.875, QColor("#4F88B9"));
+        addColorStop(0.100, QColor("#5C538B"));
+        //addColorStop(1.000, QColor("#723959"));
     }
 };
 //------------------------------------------
@@ -127,11 +132,11 @@ public:
     colorMap6():
         QwtLinearColorMap( QColor("#2b83ba"),QColor("#d7191c") )
     {
-        addColorStop(1.00, QColor("#d7191c"));
-        addColorStop(0.75, QColor("#fdae61"));
-        addColorStop(0.50, QColor("#ffffbf"));
-        addColorStop(0.25, QColor("#abdda4"));
-        addColorStop(0.00, QColor("#2b83ba"));
+        addColorStop(1.00, QColor("#d7191c")); //#d7191c"));
+        addColorStop(0.75, QColor("#fdae61")); //#fdae61"));
+        addColorStop(0.50, QColor("#ffffbf")); //#ffffbf"));
+        addColorStop(0.25, QColor("#abdda4")); //#abdda4"));
+        addColorStop(0.00, QColor("#4f92bb")); //#2b83ba"));
     }
 };
 //------------------------------------------
@@ -166,20 +171,20 @@ class colorMapRainbow: public QwtLinearColorMap
     }
 public:
     colorMapRainbow():
-        QwtLinearColorMap(  QColor("#6a2884"), QColor("#ff0000"))
+        QwtLinearColorMap(  QColor("#193cbc"), QColor("#ea594e"))
     {
-        addColorStop(0.000,QColor("#6a2884"));
-        addColorStop(0.091,QColor("#800cce"));
-        addColorStop(0.182,QColor("#1f0cce"));
-        addColorStop(0.273,QColor("#0c5bce"));
-        addColorStop(0.364,QColor("#0c99ce"));
-        addColorStop(0.455,QColor("#2ece0c"));
-        addColorStop(0.545,QColor("#bae806"));
-        addColorStop(0.636,QColor("#feff00"));
-        addColorStop(0.727,QColor("#ffcd00"));
-        addColorStop(0.818,QColor("#ff9a00"));
-        addColorStop(0.909,QColor("#ff6000"));
-        addColorStop(1.000,QColor("#ff0000"));
+        addColorStop(0.000,QColor("#193cbc"));//6a2884"));
+        addColorStop(0.167,QColor("#1473af"));//800cce"));
+        addColorStop(0.333,QColor("#589acf"));//1f0cce"));
+        addColorStop(0.500,QColor("#89c3ef"));//0c5bce"));
+        addColorStop(0.667,QColor("#ede65a"));//0c99ce"));
+        addColorStop(0.833,QColor("#e6b039"));//2ece0c"));
+        addColorStop(1.000,QColor("#ea594e"));//bae806"));
+        //addColorStop(0.636,QColor("#feff00"));
+        //addColorStop(0.727,QColor("#ffcd00"));
+        //addColorStop(0.818,QColor("#ff9a00"));
+       // addColorStop(0.909,QColor("#ff6000"));
+       // addColorStop(1.000,QColor("#ff0000"));
     }
 };
 //------------------------------------------

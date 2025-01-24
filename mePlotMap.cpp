@@ -176,6 +176,8 @@ void MainWindow::showBaseMap()
     interval = interval.normalized();
     leftAxis->setColorMap( interval, bpalette1);
     leftAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
+    leftAxis->setTitle("Base map");
+
 }
 //---------------------------------------------------------------------------
 // initialize map to be edited
@@ -196,12 +198,13 @@ void MainWindow::initTopMap()
     if (topRMap->valueScale != VS_SCALAR)
         dpalette->setMode(QwtLinearColorMap::FixedColors);
     drawMap->setColorMap(dpalette);
-    transparency->setValue(200);
-    setAlphaTop(200);
+    transparency->setValue(250);
+    setAlphaTop(250);
 
     interval = drawMap->data()->interval( Qt::ZAxis );
     rightAxis->setColorMap( interval, dpalette1);
     rightAxis->setScaleDiv(scaleEngine.divideScale( interval.minValue(), interval.maxValue(),10,5) );
+    rightAxis->setTitle("Edit map");
 }
 //---------------------------------------------------------------------------
 // display map to be edited
@@ -355,10 +358,10 @@ void MainWindow::changePalette(int nr)
             bpalette = new colorMap6();
             bpalette1 = new colorMap6();
             break;
-//        case(4):
-//            bpalette = new colorMap4();
-//            bpalette1 = new colorMap4();
-//            break;
+       // case(4):
+       //     bpalette = new colorMap4();
+       //     bpalette1 = new colorMap4();
+       //     break;
 //        case(5):
 //            bpalette = new colorMap7();
 //            bpalette1 = new colorMap7();
@@ -387,10 +390,10 @@ void MainWindow::changePalette(int nr)
             dpalette = new colorMap6();
             dpalette1 = new colorMap6();
             break;
-//        case(4):
-//            dpalette = new colorMap4();
-//            dpalette1 = new colorMap4();
-//            break;
+       // case(4):
+       //     dpalette = new colorMap4();
+       //     dpalette1 = new colorMap4();
+       //     break;
 //        case(5):
 //            dpalette = new colorMap7();
 //            dpalette1 = new colorMap7();

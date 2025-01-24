@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
         qDebug() << "Directory already exists: " << AppPath;
     }
 
-    setWindowTitle("MapEdit v3.41 (Qt6) - PCRaster map editor (13 June 2024)");
+    setWindowTitle("MapEdit v3.42 - PCRaster map editor (8 Nov 2024)");
 
     initOP(true);
 
