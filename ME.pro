@@ -67,8 +67,8 @@ INCLUDEPATH += C:\Qt\msys64\mingw64\lib
 #INCLUDEPATH += C:\Qt\msys64\mingw64\include\qwt-qt5
 #LIBS += c:/qt/msys64/mingw64/lib/libqwt-qt5.dll.a
 LIBS += c:/qt/msys64/mingw64/lib/libgdal.dll.a
-LIBS += C:/prgc/lisemgit/qwt/git/lib/libqwt.dll.a
-INCLUDEPATH += C:/prgc/lisemgit/qwt/git/src
+LIBS += C:/prgc/lisemgit/qwt/qwt-multiaxes/build/lib/libqwt.dll.a
+INCLUDEPATH += C:/prgc/lisemgit/qwt/qwt-multiaxes/src
 
 RESOURCES += resources/mapedit.qrc
 RC_ICONS = mapedit.ico

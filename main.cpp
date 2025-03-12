@@ -11,8 +11,16 @@ int main(int argc, char *argv[])
 
     Fixture fixture;
 
+    // Echo arguments to the console
+    QStringList arguments = QCoreApplication::arguments();
+    qDebug() << "Command-line arguments:";
+    for (int i = 0; i < arguments.size(); ++i) {
+        qDebug() << QString("arg[%1]: %2").arg(i).arg(arguments[i]);
+    }
+
     if (argc <= 1)
     {
+        printf("hoi\n");
         MainWindow w;
         w.show();
 
