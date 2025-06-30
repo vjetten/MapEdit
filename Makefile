@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -D_CRT_SECURE_NO_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -w -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -w -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -Iinclude -I/usr/include -I/usr/lib -I/usr/inlcude/qwt -I/usr/include/gdal -I/usr/local/qwt-6.4.0-ma/include -I../../../ProgramFiles/miniconda3/include/qt -I../../../ProgramFiles/miniconda3/include/qt/QtWidgets -I../../../ProgramFiles/miniconda3/include/qt/QtGui -I../../../ProgramFiles/miniconda3/include/qt/QtCore -Irelease/moc -I../../../ProgramFiles/miniconda3/include -Irelease/ui -I../../../ProgramFiles/miniconda3/mkspecs/linux-g++
+INCPATH       = -I. -Iinclude -I/usr/local/qwt-6.4.0-ma/include -I/usr/include/gdal -I../../../ProgramFiles/miniconda3/include/qt -I../../../ProgramFiles/miniconda3/include/qt/QtWidgets -I../../../ProgramFiles/miniconda3/include/qt/QtGui -I../../../ProgramFiles/miniconda3/include/qt/QtCore -Irelease/moc -I../../../ProgramFiles/miniconda3/include -Irelease/ui -I../../../ProgramFiles/miniconda3/mkspecs/linux-g++
 QMAKE         = /home/mc/ProgramFiles/miniconda3/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = mapedit1.0.0
 DISTDIR = /home/mc/Werk/NutShell/MapEdit/release/objs/mapedit1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/mc/ProgramFiles/miniconda3/lib
-LIBS          = $(SUBLIBS) -L/usr/local/qwt-6.4.0-ma/lib -lqwt -L/usr/lib/x86_64-linux-gnu -lgdal -lcurl -lstdc++ /home/mc/ProgramFiles/miniconda3/lib/libQt5Widgets.so /home/mc/ProgramFiles/miniconda3/lib/libQt5Gui.so /home/mc/ProgramFiles/miniconda3/lib/libQt5Core.so -L/home/mc/ProgramFiles/miniconda3/lib -lGL -lpthread   
+LIBS          = $(SUBLIBS) -lcurl -L/usr/lib/x86_64-linux-gnu -lgdal -L/usr/local/qwt-6.4.0-ma/lib -lqwt /home/mc/ProgramFiles/miniconda3/lib/libQt5Widgets.so /home/mc/ProgramFiles/miniconda3/lib/libQt5Gui.so /home/mc/ProgramFiles/miniconda3/lib/libQt5Core.so -L/home/mc/ProgramFiles/miniconda3/lib -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -1010,10 +1010,6 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -1044,10 +1040,6 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -1060,7 +1052,6 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -1082,7 +1073,6 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -1187,7 +1177,6 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -1289,18 +1278,7 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -1545,6 +1523,20 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		mainwindow.h \
 		include/csfmap.h \
@@ -1554,10 +1546,6 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -1566,15 +1554,11 @@ release/moc/moc_mainwindow.cpp: mainwindow.h \
 		MEoutput.h \
 		release/moc/moc_predefs.h \
 		../../../ProgramFiles/miniconda3/bin/moc
-	/home/mc/ProgramFiles/miniconda3/bin/moc $(DEFINES) --include /home/mc/Werk/NutShell/MapEdit/release/moc/moc_predefs.h -I/home/mc/ProgramFiles/miniconda3/mkspecs/linux-g++ -I/home/mc/Werk/NutShell/MapEdit -I/home/mc/Werk/NutShell/MapEdit/include -I/usr/include -I/usr/lib -I/usr/inlcude/qwt -I/usr/include/gdal -I/usr/local/qwt-6.4.0-ma/include -I/home/mc/ProgramFiles/miniconda3/include/qt -I/home/mc/ProgramFiles/miniconda3/include/qt/QtWidgets -I/home/mc/ProgramFiles/miniconda3/include/qt/QtGui -I/home/mc/ProgramFiles/miniconda3/include/qt/QtCore -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Q513/Tools/mingw730_64/x86_64-w64-mingw32/include mainwindow.h -o release/moc/moc_mainwindow.cpp
+	/home/mc/ProgramFiles/miniconda3/bin/moc $(DEFINES) --include /home/mc/Werk/NutShell/MapEdit/release/moc/moc_predefs.h -I/home/mc/ProgramFiles/miniconda3/mkspecs/linux-g++ -I/home/mc/Werk/NutShell/MapEdit -I/home/mc/Werk/NutShell/MapEdit/include -I/usr/local/qwt-6.4.0-ma/include -I/usr/include/gdal -I/home/mc/ProgramFiles/miniconda3/include/qt -I/home/mc/ProgramFiles/miniconda3/include/qt/QtWidgets -I/home/mc/ProgramFiles/miniconda3/include/qt/QtGui -I/home/mc/ProgramFiles/miniconda3/include/qt/QtCore -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Q513/Tools/mingw730_64/x86_64-w64-mingw32/include mainwindow.h -o release/moc/moc_mainwindow.cpp
 
 release/moc/moc_canvaspicker.cpp: canvaspicker.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_global.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -1604,10 +1588,6 @@ release/moc/moc_canvaspicker.cpp: canvaspicker.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -1620,7 +1600,6 @@ release/moc/moc_canvaspicker.cpp: canvaspicker.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -1638,18 +1617,11 @@ release/moc/moc_canvaspicker.cpp: canvaspicker.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/math.h \
-		/usr/include/ctype.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/raster.h \
 		include/array.h \
 		release/moc/moc_predefs.h \
 		../../../ProgramFiles/miniconda3/bin/moc
-	/home/mc/ProgramFiles/miniconda3/bin/moc $(DEFINES) --include /home/mc/Werk/NutShell/MapEdit/release/moc/moc_predefs.h -I/home/mc/ProgramFiles/miniconda3/mkspecs/linux-g++ -I/home/mc/Werk/NutShell/MapEdit -I/home/mc/Werk/NutShell/MapEdit/include -I/usr/include -I/usr/lib -I/usr/inlcude/qwt -I/usr/include/gdal -I/usr/local/qwt-6.4.0-ma/include -I/home/mc/ProgramFiles/miniconda3/include/qt -I/home/mc/ProgramFiles/miniconda3/include/qt/QtWidgets -I/home/mc/ProgramFiles/miniconda3/include/qt/QtGui -I/home/mc/ProgramFiles/miniconda3/include/qt/QtCore -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Q513/Tools/mingw730_64/x86_64-w64-mingw32/include canvaspicker.h -o release/moc/moc_canvaspicker.cpp
+	/home/mc/ProgramFiles/miniconda3/bin/moc $(DEFINES) --include /home/mc/Werk/NutShell/MapEdit/release/moc/moc_predefs.h -I/home/mc/ProgramFiles/miniconda3/mkspecs/linux-g++ -I/home/mc/Werk/NutShell/MapEdit -I/home/mc/Werk/NutShell/MapEdit/include -I/usr/local/qwt-6.4.0-ma/include -I/usr/include/gdal -I/home/mc/ProgramFiles/miniconda3/include/qt -I/home/mc/ProgramFiles/miniconda3/include/qt/QtWidgets -I/home/mc/ProgramFiles/miniconda3/include/qt/QtGui -I/home/mc/ProgramFiles/miniconda3/include/qt/QtCore -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Q513/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Q513/Tools/mingw730_64/x86_64-w64-mingw32/include canvaspicker.h -o release/moc/moc_canvaspicker.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1678,10 +1650,6 @@ release/objs/main.o: main.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -1712,10 +1680,6 @@ release/objs/main.o: main.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -1728,7 +1692,6 @@ release/objs/main.o: main.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -1750,7 +1713,6 @@ release/objs/main.o: main.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -1855,7 +1817,6 @@ release/objs/main.o: main.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -1957,18 +1918,7 @@ release/objs/main.o: main.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -2213,6 +2163,20 @@ release/objs/main.o: main.cpp mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QString \
@@ -2221,10 +2185,6 @@ release/objs/main.o: main.cpp mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -2241,10 +2201,6 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -2275,10 +2231,6 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -2291,7 +2243,6 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -2313,7 +2264,6 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -2418,7 +2368,6 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -2520,18 +2469,7 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -2776,6 +2714,20 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QString \
@@ -2784,10 +2736,6 @@ release/objs/mainwindow.o: mainwindow.cpp mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -2805,10 +2753,6 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -2839,10 +2783,6 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -2855,7 +2795,6 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -2877,7 +2816,6 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -2982,7 +2920,6 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -3084,18 +3021,7 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -3340,6 +3266,20 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QString \
@@ -3348,10 +3288,6 @@ release/objs/meEditMap.o: meEditMap.cpp mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -3367,10 +3303,6 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -3401,10 +3333,6 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -3417,7 +3345,6 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -3439,7 +3366,6 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -3544,7 +3470,6 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -3646,18 +3571,7 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -3902,6 +3816,20 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QString \
@@ -3910,10 +3838,6 @@ release/objs/mePlotMap.o: mePlotMap.cpp mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -3928,10 +3852,6 @@ release/objs/CsfMap.o: CsfMap.cpp include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstring.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qchar.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -3956,10 +3876,6 @@ release/objs/CsfMap.o: CsfMap.cpp include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qnamespace.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -3969,14 +3885,6 @@ release/objs/CsfMap.o: CsfMap.cpp include/csfmap.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/math.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/raster.h \
 		include/array.h \
 		include/error.h \
@@ -3986,7 +3894,6 @@ release/objs/CsfMap.o: CsfMap.cpp include/csfmap.h \
 		/usr/include/gdal/cpl_progress.h \
 		/usr/include/gdal/cpl_virtualmem.h \
 		/usr/include/gdal/cpl_vsi.h \
-		/usr/include/unistd.h \
 		/usr/include/gdal/cpl_minixml.h \
 		/usr/include/gdal/ogr_api.h \
 		/usr/include/gdal/ogr_core.h
@@ -3997,10 +3904,6 @@ release/objs/CsfRGBMap.o: CsfRGBMap.cpp include/CsfRGBMap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstring.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qchar.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -4025,10 +3928,6 @@ release/objs/CsfRGBMap.o: CsfRGBMap.cpp include/CsfRGBMap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qnamespace.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -4038,14 +3937,6 @@ release/objs/CsfRGBMap.o: CsfRGBMap.cpp include/CsfRGBMap.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/math.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/raster.h \
 		include/array.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/objs/CsfRGBMap.o CsfRGBMap.cpp
@@ -4056,26 +3947,10 @@ release/objs/fixture.o: fixture.cpp include/fixture.h \
 		/usr/include/gdal/gdal_version.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		/usr/include/gdal/cpl_error.h \
 		/usr/include/gdal/cpl_progress.h \
 		/usr/include/gdal/cpl_virtualmem.h \
 		/usr/include/gdal/cpl_vsi.h \
-		/usr/include/unistd.h \
 		/usr/include/gdal/cpl_minixml.h \
 		/usr/include/gdal/ogr_api.h \
 		/usr/include/gdal/ogr_core.h \
@@ -4098,10 +3973,6 @@ release/objs/io.o: io.cpp include/io.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstring.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qchar.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -4126,10 +3997,6 @@ release/objs/io.o: io.cpp include/io.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qnamespace.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -4139,14 +4006,6 @@ release/objs/io.o: io.cpp include/io.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/math.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/raster.h \
 		include/array.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QFileInfo \
@@ -4184,7 +4043,6 @@ release/objs/io.o: io.cpp include/io.h \
 		/usr/include/gdal/cpl_progress.h \
 		/usr/include/gdal/cpl_virtualmem.h \
 		/usr/include/gdal/cpl_vsi.h \
-		/usr/include/unistd.h \
 		/usr/include/gdal/cpl_minixml.h \
 		/usr/include/gdal/ogr_api.h \
 		/usr/include/gdal/ogr_core.h \
@@ -4222,10 +4080,6 @@ release/objs/error.o: error.cpp include/error.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstring.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qchar.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -4250,10 +4104,6 @@ release/objs/error.o: error.cpp include/error.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qnamespace.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -4266,10 +4116,6 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -4300,10 +4146,6 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -4316,7 +4158,6 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -4338,7 +4179,6 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -4443,7 +4283,6 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -4545,18 +4384,7 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -4801,6 +4629,20 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QString \
@@ -4809,10 +4651,6 @@ release/objs/canvaspicker.o: canvaspicker.cpp mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -4829,10 +4667,6 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCore \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QtCoreDepends \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qglobal.h \
-		/usr/include/assert.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig-bootstrapped.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qconfig.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qtcore-config.h \
@@ -4863,10 +4697,6 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearray.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qrefcount.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qarraydata.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringliteral.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringalgorithms.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringview.h \
@@ -4879,7 +4709,6 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qvector.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontainertools_impl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qpoint.h \
-		/usr/include/limits.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qbytearraylist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qstringlist.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qregexp.h \
@@ -4901,7 +4730,6 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qiodevice.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qlocale.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qshareddata.h \
-		/usr/include/stdio.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qset.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qcontiguouscache.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedpointer.h \
@@ -5006,7 +4834,6 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsemaphore.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsequentialanimationgroup.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsettings.h \
-		/usr/include/ctype.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsharedmemory.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignalmapper.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qsignaltransition.h \
@@ -5108,18 +4935,7 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qoffscreensurface.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengl.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/qt_windows.h \
-		/usr/include/GLES3/gl32.h \
-		/usr/include/GLES3/gl3platform.h \
-		/usr/include/KHR/khrplatform.h \
-		/usr/include/stdint.h \
-		/usr/include/inttypes.h \
-		/usr/include/GLES3/gl31.h \
-		/usr/include/GLES3/gl3.h \
-		/usr/include/GLES2/gl2.h \
-		/usr/include/GLES2/gl2platform.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopengles2ext.h \
-		/usr/include/GL/gl.h \
-		/usr/include/GL/glext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglext.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglbuffer.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtGui/qopenglcontext.h \
@@ -5364,6 +5180,20 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_abstract_scale_draw.h \
 		/usr/local/qwt-6.4.0-ma/include/qwt_symbol.h \
 		release/ui/ui_mainwindow.h \
+		../../../ProgramFiles/miniconda3/include/qt/QtGui/QIcon \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QButtonGroup \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QCheckBox \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QFrame \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QGridLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QHBoxLayout \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLabel \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QLineEdit \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QMenuBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QRadioButton \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSlider \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QSpacerItem \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolBar \
+		../../../ProgramFiles/miniconda3/include/qt/QtWidgets/QToolButton \
 		include/MEcolors.h \
 		include/csfmap.h \
 		../../../ProgramFiles/miniconda3/include/qt/QtCore/QString \
@@ -5372,10 +5202,6 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/math.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
 		include/raster.h \
 		include/array.h \
 		include/io.h \
@@ -5385,601 +5211,202 @@ release/objs/meScaler.o: meScaler.cpp mainwindow.h \
 		global.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/objs/meScaler.o meScaler.cpp
 
-release/objs/mopen.o: pcrlib/mopen.c /usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		include/csf.h \
+release/objs/mopen.o: pcrlib/mopen.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/math.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/mopen.o pcrlib/mopen.c
 
 release/objs/angle.o: pcrlib/angle.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/angle.o pcrlib/angle.c
 
 release/objs/dumconv.o: pcrlib/dumconv.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/dumconv.o pcrlib/dumconv.c
 
 release/objs/_getrow.o: pcrlib/_getrow.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/_getrow.o pcrlib/_getrow.c
 
 release/objs/_gsomece.o: pcrlib/_gsomece.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/_gsomece.o pcrlib/_gsomece.c
 
 release/objs/mperror.o: pcrlib/mperror.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/mperror.o pcrlib/mperror.c
 
 release/objs/pvalscal.o: pcrlib/pvalscal.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/pvalscal.o pcrlib/pvalscal.c
 
 release/objs/rrowcol.o: pcrlib/rrowcol.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rrowcol.o pcrlib/rrowcol.c
 
 release/objs/vsdef.o: pcrlib/vsdef.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/vsdef.o pcrlib/vsdef.c
 
 release/objs/attravai.o: pcrlib/attravai.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/attravai.o pcrlib/attravai.c
 
 release/objs/endian.o: pcrlib/endian.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/endian.o pcrlib/endian.c
 
 release/objs/getx0.o: pcrlib/getx0.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/getx0.o pcrlib/getx0.c
 
 release/objs/gvalscal.o: pcrlib/gvalscal.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gvalscal.o pcrlib/gvalscal.c
 
 release/objs/pgisfid.o: pcrlib/pgisfid.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/pgisfid.o pcrlib/pgisfid.c
 
 release/objs/rattrblk.o: pcrlib/rattrblk.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rattrblk.o pcrlib/rattrblk.c
 
 release/objs/ruseas.o: pcrlib/ruseas.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/ruseas.o pcrlib/ruseas.c
 
 release/objs/vsis.o: pcrlib/vsis.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/vsis.o pcrlib/vsis.c
 
 release/objs/attrsize.o: pcrlib/attrsize.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/attrsize.o pcrlib/attrsize.c
 
 release/objs/file.o: pcrlib/file.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/file.o pcrlib/file.c
 
 release/objs/gety0.o: pcrlib/gety0.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gety0.o pcrlib/gety0.c
 
 release/objs/gvartype.o: pcrlib/gvartype.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gvartype.o pcrlib/gvartype.c
 
 release/objs/pmaxval.o: pcrlib/pmaxval.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/pmaxval.o pcrlib/pmaxval.c
 
 release/objs/rcomp.o: pcrlib/rcomp.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rcomp.o pcrlib/rcomp.c
 
-release/objs/setangle.o: pcrlib/setangle.c /usr/include/math.h \
-		include/csf.h \
+release/objs/setangle.o: pcrlib/setangle.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/setangle.o pcrlib/setangle.c
 
 release/objs/vsvers.o: pcrlib/vsvers.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/vsvers.o pcrlib/vsvers.c
 
@@ -5987,453 +5414,150 @@ release/objs/filename.o: pcrlib/filename.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/filename.o pcrlib/filename.c
 
 release/objs/ggisfid.o: pcrlib/ggisfid.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/ggisfid.o pcrlib/ggisfid.c
 
 release/objs/gversion.o: pcrlib/gversion.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gversion.o pcrlib/gversion.c
 
 release/objs/pminval.o: pcrlib/pminval.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/pminval.o pcrlib/pminval.c
 
 release/objs/rcoords.o: pcrlib/rcoords.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rcoords.o pcrlib/rcoords.c
 
 release/objs/setmv.o: pcrlib/setmv.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/setmv.o pcrlib/setmv.c
 
 release/objs/wattrblk.o: pcrlib/wattrblk.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/wattrblk.o pcrlib/wattrblk.c
 
 release/objs/cellsize.o: pcrlib/cellsize.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/cellsize.o pcrlib/cellsize.c
 
 release/objs/gattrblk.o: pcrlib/gattrblk.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gattrblk.o pcrlib/gattrblk.c
 
 release/objs/gmaxval.o: pcrlib/gmaxval.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gmaxval.o pcrlib/gmaxval.c
 
 release/objs/ismv.o: pcrlib/ismv.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/ismv.o pcrlib/ismv.c
 
-release/objs/putallmv.o: pcrlib/putallmv.c /usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		include/csf.h \
+release/objs/putallmv.o: pcrlib/putallmv.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/putallmv.o pcrlib/putallmv.c
 
 release/objs/rdup2.o: pcrlib/rdup2.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rdup2.o pcrlib/rdup2.c
 
 release/objs/setvtmv.o: pcrlib/setvtmv.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/setvtmv.o pcrlib/setvtmv.c
 
 release/objs/gattridx.o: pcrlib/gattridx.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gattridx.o pcrlib/gattridx.c
 
 release/objs/gminval.o: pcrlib/gminval.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gminval.o pcrlib/gminval.c
 
 release/objs/kernlcsf.o: pcrlib/kernlcsf.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/kernlcsf.o pcrlib/kernlcsf.c
 
 release/objs/putattr.o: pcrlib/putattr.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/putattr.o pcrlib/putattr.c
 
 release/objs/strconst.o: pcrlib/strconst.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/strconst.o pcrlib/strconst.c
 
@@ -6441,357 +5565,118 @@ release/objs/create2.o: pcrlib/create2.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/create2.o pcrlib/create2.c
 
 release/objs/gcellrep.o: pcrlib/gcellrep.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gcellrep.o pcrlib/gcellrep.c
 
 release/objs/gnrcols.o: pcrlib/gnrcols.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gnrcols.o pcrlib/gnrcols.c
 
 release/objs/legend.o: pcrlib/legend.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/legend.o pcrlib/legend.c
 
 release/objs/_putcell.o: pcrlib/_putcell.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/_putcell.o pcrlib/_putcell.c
 
 release/objs/reseterr.o: pcrlib/reseterr.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/reseterr.o pcrlib/reseterr.c
 
-release/objs/strpad.o: pcrlib/strpad.c /usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		include/csf.h \
+release/objs/strpad.o: pcrlib/strpad.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/math.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/strpad.o pcrlib/strpad.c
 
 release/objs/csfglob.o: pcrlib/csfglob.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/csfglob.o pcrlib/csfglob.c
 
 release/objs/gdattype.o: pcrlib/gdattype.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gdattype.o pcrlib/gdattype.c
 
 release/objs/gnrrows.o: pcrlib/gnrrows.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gnrrows.o pcrlib/gnrrows.c
 
 release/objs/mclose.o: pcrlib/mclose.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/mclose.o pcrlib/mclose.c
 
 release/objs/putsomec.o: pcrlib/putsomec.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/putsomec.o pcrlib/putsomec.c
 
 release/objs/rextend.o: pcrlib/rextend.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rextend.o pcrlib/rextend.c
 
 release/objs/swapio.o: pcrlib/swapio.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/swapio.o pcrlib/swapio.c
 
 release/objs/csfsup.o: pcrlib/csfsup.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/csfsup.o pcrlib/csfsup.c
 
@@ -6799,288 +5684,96 @@ release/objs/getattr.o: pcrlib/getattr.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/getattr.o pcrlib/getattr.c
 
 release/objs/gproj.o: pcrlib/gproj.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gproj.o pcrlib/gproj.c
 
 release/objs/putx0.o: pcrlib/putx0.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/putx0.o pcrlib/putx0.c
 
 release/objs/rmalloc.o: pcrlib/rmalloc.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/rmalloc.o pcrlib/rmalloc.c
 
 release/objs/trackmm.o: pcrlib/trackmm.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/trackmm.o pcrlib/trackmm.c
 
 release/objs/delattr.o: pcrlib/delattr.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/delattr.o pcrlib/delattr.c
 
 release/objs/_getcell.o: pcrlib/_getcell.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/_getcell.o pcrlib/_getcell.c
 
 release/objs/gputproj.o: pcrlib/gputproj.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/gputproj.o pcrlib/gputproj.c
 
 release/objs/moreattr.o: pcrlib/moreattr.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/moreattr.o pcrlib/moreattr.c
 
 release/objs/puty0.o: pcrlib/puty0.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/puty0.o pcrlib/puty0.c
 
 release/objs/_rputrow.o: pcrlib/_rputrow.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/_rputrow.o pcrlib/_rputrow.c
 
 release/objs/vs2.o: pcrlib/vs2.c include/csf.h \
 		include/csftypes.h \
 		/usr/include/gdal/cpl_port.h \
 		/usr/include/gdal/cpl_config.h \
-		/usr/include/stdio.h \
-		/usr/include/stdlib.h \
-		/usr/include/alloca.h \
-		/usr/include/features.h \
-		/usr/include/features-time64.h \
-		/usr/include/stdc-predef.h \
-		/usr/include/math.h \
-		/usr/include/string.h \
-		/usr/include/strings.h \
-		/usr/include/ctype.h \
-		/usr/include/limits.h \
-		/usr/include/time.h \
-		/usr/include/errno.h \
-		/usr/include/locale.h \
-		/usr/include/stdint.h \
 		include/csfattr.h \
-		include/csfimpl.h \
-		/usr/include/assert.h
+		include/csfimpl.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o release/objs/vs2.o pcrlib/vs2.c
 
 release/objs/qrc_mapedit.o: release/rcc/qrc_mapedit.cpp 

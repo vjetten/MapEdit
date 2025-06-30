@@ -145,13 +145,11 @@ INCLUDEPATH += C:/prgc/lisemgit/qwt/qwt-multiaxes/src
 }
 
 unix {
-    INCLUDEPATH += /usr/include
-    INCLUDEPATH += /usr/inlcude/qwt
-    INCLUDEPATH += /usr/include/gdal
-    INCLUDEPATH += /usr/local/qwt-6.4.0-ma/include
-    LIBS += -L/usr/local/qwt-6.4.0-ma/lib -lqwt   
+    INCLUDEPATH += /usr/local/qwt-6.4.0-ma/include  
+    INCLUDEPATH += /usr/include/gdal 
     LIBS += -lcurl
     LIBS += -L/usr/lib/x86_64-linux-gnu -lgdal
+    LIBS += -L/usr/local/qwt-6.4.0-ma/lib -lqwt 
 }
 
 RESOURCES += resources/mapedit.qrc
