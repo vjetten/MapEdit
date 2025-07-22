@@ -6,6 +6,8 @@
 //---------------------------------------------------------------------------
 #define BGc "#eeeeee" // background grey for missing value in maps
 
+#define rgbB qRgba( 220,220,220,0 )
+
 //http://www.color-hex.com/color/
 //http://colorbrewer2.org/
 //http://www.colorschemer.com
@@ -18,7 +20,7 @@ class colorMap1: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
         return QwtLinearColorMap::rgb( interval, value );
     }
 public:
@@ -38,7 +40,7 @@ class colorMap2: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
         return QwtLinearColorMap::rgb( interval, value );
     }
 public:
@@ -58,7 +60,7 @@ class colorMap3: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
         return QwtLinearColorMap::rgb( interval, value );
     }
 public:
@@ -78,7 +80,7 @@ class colorMap4: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
         return QwtLinearColorMap::rgb( interval, value );
     }
 public:
@@ -103,7 +105,7 @@ class colorMap5: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
         return QwtLinearColorMap::rgb( interval, value );
     }
 public:
@@ -125,7 +127,7 @@ class colorMap6: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
         return QwtLinearColorMap::rgb( interval, value );
     }
 public:
@@ -165,7 +167,7 @@ class colorMapRainbow: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value < -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
 
         return QwtLinearColorMap::rgb( interval, value );
     }
@@ -193,7 +195,7 @@ class colorMapRandom: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value < -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
 
         return QwtLinearColorMap::rgb( interval, value );
     }
@@ -221,7 +223,7 @@ class colorMapGray: public QwtLinearColorMap
     virtual QRgb rgb( const QwtInterval &interval, double value ) const
     {
         if ( value <= -1e19 )
-            return qRgba( 220,220,220,0 );
+            return rgbB;
 
         return QwtLinearColorMap::rgb( interval, value );
     }
