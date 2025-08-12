@@ -1,4 +1,4 @@
-/release*
+release/*
 *.stash
 Makefile
 *.user
