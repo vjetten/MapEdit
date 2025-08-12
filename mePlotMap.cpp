@@ -221,7 +221,7 @@ void MainWindow::showTopMap()
         double value = topRMap->data[r][c];
         int color = std::min(std::max(0, (int) value), 255);
         //qDebug() << color << value;
-        image.setPixel(c, r, qRgb(color, color, color));
+        image.setPixel(c, r, qRgb(color, 0,0));//color, color));
     }
 
     // Display the QImage in the QGraphicsView

@@ -8,7 +8,7 @@
 CanvasPicker::CanvasPicker(QwtPlot *plot ):
     QObject( plot )
 {
-    plot->canvas()->installEventFilter( this );    
+    plot->canvas()->installEventFilter( this );
 }
 
 QwtPlot *CanvasPicker::plot()
@@ -140,8 +140,8 @@ void CanvasPicker::showinfo(int r, int c, int ri, int ci)
   //      return;
 
     QString txt;
-    QString txtcoor = QString("(%1,%2)=").arg(ri,9,'f',2,' ').arg(ci,9,'f',2,' ');
-    QString txtrc = QString("[%1,%2]=").arg(r,4,10,0,' ').arg(c,4,10,0,' ');
+    QString txtcoor = QString("(%1,%2)=").arg((double)ri,9,'f',2,' ').arg((double)ci,9,'f',2,' ');
+    QString txtrc = QString("[%1,%2]=").arg(r,4,10,' ').arg(c,4,10,' ');
     QString txtv;
 //qDebug() << txtcoor << txtrc;
     txtv = "Base[MV] - Edit[MV]";

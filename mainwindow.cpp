@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent, bool doBatch, QString names)
         qDebug() << "Directory already exists: " << AppPath;
     }
 
-    setWindowTitle("MapEdit v3.42 - PCRaster map editor (8 Nov 2024)");
+    setWindowTitle("MapEdit v3.5 - PCRaster map editor (250722)");
 
     initOP(true);
 
@@ -415,7 +415,7 @@ void MainWindow::openMapFile()
     if (files.count() > 1)
         PathNames << files[1];
 
-    // load the map(s)    
+    // load the map(s)
     if (processMaps() == 0)
         // set the window
         changeSize();
