@@ -34,7 +34,7 @@
 
 #include "ui_mainwindow.h"
 #include "MEcolors.h"
-#include "CsfMap.h"
+#include "csfmap.h"
 #include "io.h"
 #include "error.h"
 #include "canvaspicker.h"

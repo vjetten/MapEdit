@@ -30,7 +30,7 @@
 #include <gdal_priv.h>
 
 #include "csf.h"
-#include "CsfMap.h"
+#include "csfmap.h"
 #include "CsfRGBMap.h"
 #include "error.h"
 #include "QDebug"
