@@ -22,7 +22,7 @@
 **
 *************************************************************************/
 #include <cassert>
-#include "CsfMap.h"
+#include "csfmap.h"
 #include "error.h"
 #include <gdal.h>
 /*!

@@ -9,7 +9,7 @@
 #include <qwt_global.h>
 #include <qobject.h>
 #include <QString>
-#include "CsfMap.h"
+#include "csfmap.h"
 
 class QPoint;
 class QwtPlot;
